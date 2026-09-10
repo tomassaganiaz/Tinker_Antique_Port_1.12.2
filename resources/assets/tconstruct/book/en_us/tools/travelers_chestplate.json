@@ -1,0 +1,14 @@
+{
+  "tool": "travelers_chestplate",
+  "text": [
+    {"text": "The Travelers Chestplate is light body armor for explorers. It protects against damage and can be modified with traits like any tool."},
+    {"text": "\n"},
+    {"text": "Crafted from travelers plating in the Tool Station or Tool Forge."}
+  ],
+  "properties": [
+    "Chest armor",
+    "Material determines defense and toughness",
+    "Supports modifiers: Protection, Feather Falling, Double Jump",
+    "Repairable with plating material"
+  ]
+}

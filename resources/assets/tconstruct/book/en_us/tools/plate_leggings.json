@@ -1,0 +1,13 @@
+{
+  "tool": "plate_leggings",
+  "text": [
+    {"text": "The Plated Leggings protect the legs with balanced defense and mobility."},
+    {"text": "\n"},
+    {"text": "Forged from 7 plating units."}
+  ],
+  "properties": [
+    "Leg armor",
+    "Bamboo plating gives Spiky thorns",
+    "Haste (redstone) grants movement speed"
+  ]
+}

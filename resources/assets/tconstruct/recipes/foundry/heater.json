@@ -1,0 +1,28 @@
+{
+  "conditions": [
+    {
+      "type": "tconstruct:is_pulse_loaded",
+      "pulse_name": "TinkerScorched"
+    }
+  ],
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "AAA",
+    "ABA",
+    "AAA"
+  ],
+  "key": {
+    "A": {
+      "item": "tconstruct:block_scorched",
+      "data": 2
+    },
+    "B": {
+      "item": "minecraft:lava_bucket",
+      "data": 0
+    }
+  },
+  "result": {
+    "item": "tconstruct:heater",
+    "data": 0
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "title": "Foundry",
+  "text": [
+    {"text": "The Foundry is an improved smeltery made of scorched bricks. It only accepts blazing blood as fuel and never alloys metals, keeping them separated."},
+    {"text": "\n"},
+    {"text": "Tier 4+ metals and alloys (queensslime, hepatizon, manyullyn, knightslime, fiery, nicrosil, blood) can only be melted and alloyed here. The melter is a 1x1 early-game furnace for low-temp metals (<=550C)."}
+  ],
+  "properties": [
+    "Requires scorched bricks and blazing blood",
+    "No alloying (keeps metals separate) except Tier 4+ in foundry",
+    "Melter: 1x1, solid fuel, 4 ingots tank"
+  ]
+}

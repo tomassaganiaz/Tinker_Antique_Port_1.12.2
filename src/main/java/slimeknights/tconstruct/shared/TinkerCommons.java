@@ -1,0 +1,618 @@
+package slimeknights.tconstruct.shared;
+
+import com.google.common.eventbus.Subscribe;
+import net.minecraft.block.Block;
+import net.minecraft.init.Blocks;
+import net.minecraft.init.MobEffects;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.IRecipe;
+import net.minecraft.item.crafting.Ingredient;
+import net.minecraft.potion.PotionEffect;
+import net.minecraftforge.client.event.ModelRegistryEvent;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.crafting.CraftingHelper;
+import net.minecraftforge.event.RegistryEvent.Register;
+import net.minecraftforge.fml.common.SidedProxy;
+import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.oredict.OreIngredient;
+import net.minecraftforge.registries.IForgeRegistry;
+import org.apache.logging.log4j.Logger;
+import slimeknights.mantle.item.ItemBlockMeta;
+import slimeknights.mantle.item.ItemEdible;
+import slimeknights.mantle.item.ItemMetaDynamic;
+import slimeknights.mantle.pulsar.pulse.Pulse;
+import slimeknights.tconstruct.TConstruct;
+import slimeknights.tconstruct.common.CommonProxy;
+import slimeknights.tconstruct.common.TinkerPulse;
+import slimeknights.tconstruct.common.config.Config;
+import slimeknights.tconstruct.common.item.ItemTinkerBook;
+import slimeknights.tconstruct.library.ShapedFallbackRecipe;
+import slimeknights.tconstruct.library.TinkerRegistry;
+import slimeknights.tconstruct.library.Util;
+import slimeknights.tconstruct.plugin.quark.QuarkPlugin;
+import slimeknights.tconstruct.shared.block.BlockClearGlass;
+import slimeknights.tconstruct.shared.block.BlockClearStainedGlass;
+import slimeknights.tconstruct.shared.block.BlockCommonMetal;
+import slimeknights.tconstruct.shared.block.BlockObsidianPane;
+import slimeknights.tconstruct.shared.block.BlockCommonOre;
+import slimeknights.tconstruct.shared.block.BlockDecoGround;
+import slimeknights.tconstruct.shared.block.BlockDecoGroundSlab;
+import slimeknights.tconstruct.shared.block.BlockFirewood;
+import slimeknights.tconstruct.shared.block.BlockFirewoodSlab;
+import slimeknights.tconstruct.shared.block.BlockGlow;
+import slimeknights.tconstruct.shared.block.BlockMetal;
+import slimeknights.tconstruct.shared.block.BlockOre;
+import slimeknights.tconstruct.shared.block.BlockSlime;
+import slimeknights.tconstruct.shared.block.BlockSlimeCongealed;
+import slimeknights.tconstruct.shared.block.BlockSoil;
+import slimeknights.tconstruct.shared.item.ItemMetaDynamicTinkers;
+import slimeknights.tconstruct.shared.worldgen.NetherOreGenerator;
+import slimeknights.tconstruct.shared.worldgen.OverworldOreGenerator;
+
+/**
+ * Contains items and blocks and stuff that is shared by multiple pulses, but might be required individually
+ */
+@Pulse(id = TinkerCommons.PulseId, forced = true)
+public class TinkerCommons extends TinkerPulse {
+
+  public static final String PulseId = "TinkerCommons";
+  static final Logger log = Util.getLogger(PulseId);
+
+  @SidedProxy(clientSide = "slimeknights.tconstruct.shared.CommonsClientProxy", serverSide = "slimeknights.tconstruct.common.CommonProxy")
+  public static CommonProxy proxy;
+
+  public static BlockSoil blockSoil;
+  public static BlockCommonOre blockCommonOre;
+  public static BlockOre blockOre;
+  public static BlockCommonMetal blockCommonMetal;
+  public static BlockMetal blockMetal;
+  public static BlockFirewood blockFirewood;
+  public static BlockGlow blockGlow;
+  public static Block blockObsidianPane;
+
+  public static BlockDecoGround blockDecoGround;
+
+  public static BlockSlime blockSlime;
+  public static BlockSlimeCongealed blockSlimeCongealed;
+
+  public static BlockDecoGroundSlab slabDecoGround;
+  public static BlockFirewoodSlab slabFirewood;
+
+  // stairs
+  public static Block stairsMudBrick;
+  public static Block stairsFirewood;
+  public static Block stairsLavawood;
+  public static Block stairsNahuatl;
+  public static Block stairsBlazewood;
+
+  // glass
+  public static Block blockClearGlass;
+  public static BlockClearStainedGlass blockClearStainedGlass;
+
+  // block itemstacks
+  public static ItemStack grout;
+  public static ItemStack slimyMudGreen;
+  public static ItemStack slimyMudBlue;
+  public static ItemStack slimyMudMagma;
+  public static ItemStack graveyardSoil;
+  public static ItemStack consecratedSoil;
+  public static ItemStack netherGrout;
+
+  public static ItemStack mudBrickBlock;
+  
+  public static ItemStack oreCopper;
+  public static ItemStack oreTin;
+  public static ItemStack oreAluminum;
+  
+  public static ItemStack oreCobalt;
+  public static ItemStack oreArdite;
+  
+  public static ItemStack blockCopper;
+  public static ItemStack blockTin;
+  public static ItemStack blockAluminum;
+  public static ItemStack blockBronze;
+  public static ItemStack blockSteel;
+
+  public static ItemStack blockCobalt;
+  public static ItemStack blockArdite;
+  public static ItemStack blockManyullyn;
+  public static ItemStack blockPigIron;
+  public static ItemStack blockKnightSlime;
+  public static ItemStack blockSilkyJewel;
+  public static ItemStack blockAlubrass;
+  public static ItemStack blockAlumite;
+  public static ItemStack blockHepatizon;
+  public static ItemStack blockQueensslime;
+
+  public static ItemStack lavawood;
+  public static ItemStack firewood;
+  public static ItemStack nahuatlPlanks;
+  public static ItemStack blazewoodPlanks;
+
+  // Items
+  public static ItemTinkerBook book;
+  public static ItemMetaDynamic commonNuggets;
+  public static ItemMetaDynamic commonIngots;
+  public static ItemMetaDynamic nuggets;
+  public static ItemMetaDynamic ingots;
+  public static ItemMetaDynamic materials;
+  public static ItemEdible edibles;
+
+  // Common Nugget Itemstacks
+  public static ItemStack nuggetCopper;
+  public static ItemStack nuggetTin;
+  public static ItemStack nuggetAluminum;
+  public static ItemStack nuggetBronze;
+  public static ItemStack nuggetSteel;
+
+  // Common Ingot Itemstacks
+  public static ItemStack ingotCopper;
+  public static ItemStack ingotTin;
+  public static ItemStack ingotAluminum;
+  public static ItemStack ingotBronze;
+  public static ItemStack ingotSteel;
+  
+  // Nugget Itemstacks
+  public static ItemStack nuggetCobalt;
+  public static ItemStack nuggetArdite;
+  public static ItemStack nuggetManyullyn;
+  public static ItemStack nuggetPigIron;
+  public static ItemStack nuggetKnightSlime;
+  public static ItemStack nuggetAlubrass;
+  public static ItemStack nuggetAlumite;
+  public static ItemStack nuggetSlimesteel;
+  public static ItemStack nuggetAmethystBronze;
+  public static ItemStack nuggetRosegold;
+  public static ItemStack nuggetCinderslime;
+  public static ItemStack nuggetHepatizon;
+  public static ItemStack nuggetQueensslime;
+
+  // Ingot Itemstacks
+  public static ItemStack ingotCobalt;
+  public static ItemStack ingotArdite;
+  public static ItemStack ingotManyullyn;
+  public static ItemStack ingotPigIron;
+  public static ItemStack ingotKnightSlime;
+  public static ItemStack ingotAlubrass;
+  public static ItemStack ingotAlumite;
+  public static ItemStack ingotSlimesteel;
+  public static ItemStack ingotAmethystBronze;
+  public static ItemStack ingotRosegold;
+  public static ItemStack ingotCinderslime;
+  public static ItemStack ingotHepatizon;
+  public static ItemStack ingotQueensslime;
+
+  // Material Itemstacks
+  public static ItemStack searedBrick;
+  public static ItemStack mudBrick;
+  public static ItemStack driedBrick;
+
+  public static ItemStack matSlimeBallBlue;
+  public static ItemStack matSlimeBallPurple;
+  public static ItemStack matSlimeBallBlood;
+  public static ItemStack matSlimeBallMagma;
+  public static ItemStack matSlimeBallPink;
+  public static ItemStack matSlimeBallIchor;
+
+  public static ItemStack matSlimeCrystalGreen;
+  public static ItemStack matSlimeCrystalBlue;
+  public static ItemStack matSlimeCrystalMagma;
+
+  public static ItemStack matExpanderW;
+  public static ItemStack matExpanderH;
+  public static ItemStack matReinforcement;
+  public static ItemStack matReinforceIron;
+  public static ItemStack matReinforceGold;
+  public static ItemStack matReinforceCobalt;
+  public static ItemStack matReinforceSeared;
+  public static ItemStack matReinforceObsidian;
+  public static ItemStack matCreativeModifier;
+  public static ItemStack matSilkyCloth;
+  public static ItemStack matSilkyJewel;
+  public static ItemStack matNecroticBone;
+  public static ItemStack matMoss;
+  public static ItemStack matMendingMoss;
+  public static ItemStack matBloodyBone;
+  public static ItemStack matVenomousBone;
+  public static ItemStack matBlazingBone;
+  public static ItemStack matLavaCrystal;
+  // compuestos de TC3: cuero+slime, cuerda+obsidiana, cuero+diamante
+  // (nahuatl y blazewood usan el bloque de madera directo como material)
+  public static ItemStack matSlimeSkin;
+  public static ItemStack matDarkthread;
+  public static ItemStack matJeweledHide;
+  // escama de dragón: como en TC3, la suelta el dragón del End (compat: las de Ice and Fire valen igual)
+  public static ItemStack matDragonScale;
+  public static ItemStack matCheeseWet;
+  public static ItemStack matCheese;
+
+  // jerky
+  public static ItemStack jerkyBeef;
+  public static ItemStack jerkyChicken;
+  public static ItemStack jerkyPork;
+  public static ItemStack jerkyMutton;
+  public static ItemStack jerkyRabbit;
+
+  public static ItemStack jerkyFish;
+  public static ItemStack jerkySalmon;
+  public static ItemStack jerkyClownfish;
+  public static ItemStack jerkyPufferfish;
+
+  public static ItemStack slimedropGreen;
+  public static ItemStack slimedropBlue;
+  public static ItemStack slimedropPurple;
+  public static ItemStack slimedropBlood;
+  public static ItemStack slimedropMagma;
+
+  public static ItemStack jerkyMonster;
+
+  // Misc.
+  public static ItemStack bacon;
+
+  @SubscribeEvent
+  public void registerBlocks(Register<Block> event) {
+    IForgeRegistry<Block> registry = event.getRegistry();
+    boolean forced = Config.forceRegisterAll; // causes to always register all items
+
+    // Soils
+    blockSoil = registerBlock(registry, new BlockSoil(), "soil");
+
+    // Slime Blocks
+    // Quark plugin replaces this with one that works with the Quark colored slime feature
+    if(!TConstruct.pulseManager.isPulseLoaded(QuarkPlugin.PulseId)) {
+      blockSlime = registerBlock(registry, new BlockSlime(), "slime");
+    }
+    
+    blockSlimeCongealed = registerBlock(registry, new BlockSlimeCongealed(), "slime_congealed");
+
+    // Ores
+    if((isToolsLoaded() || isSmelteryLoaded() || forced) && Config.registerAllCommonMetals) {
+        blockCommonOre = registerBlock(registry, new BlockCommonOre(), "common_ore");
+      }
+    
+    blockOre = registerBlock(registry, new BlockOre(), "ore");
+
+    // Firewood
+    blockFirewood = registerBlock(registry, new BlockFirewood(), "firewood");
+    blockFirewood.setLightLevel(0.5f);
+    blockFirewood.setCreativeTab(TinkerRegistry.tabGeneral);
+
+    // Decorative Stuff
+    blockDecoGround = registerBlock(registry, new BlockDecoGround(), "deco_ground");
+
+    blockClearGlass = registerBlock(registry, new BlockClearGlass(), "clear_glass");
+    blockClearStainedGlass = registerBlock(registry, new BlockClearStainedGlass(), "clear_stained_glass");
+
+    // slabs
+    slabDecoGround = registerBlock(registry, new BlockDecoGroundSlab(), "deco_ground_slab");
+    slabFirewood = registerBlock(registry, new BlockFirewoodSlab(), "firewood_slab");
+
+    // stairs
+    stairsMudBrick = registerBlockStairsFrom(registry, blockDecoGround, BlockDecoGround.DecoGroundType.MUDBRICK, "mudbrick_stairs");
+    stairsFirewood = registerBlockStairsFrom(registry, blockFirewood, BlockFirewood.FirewoodType.FIREWOOD, "firewood_stairs");
+    stairsLavawood = registerBlockStairsFrom(registry, blockFirewood, BlockFirewood.FirewoodType.LAVAWOOD, "lavawood_stairs");
+    stairsNahuatl = registerBlockStairsFrom(registry, blockFirewood, BlockFirewood.FirewoodType.NAHUATL, "nahuatl_stairs");
+    stairsBlazewood = registerBlockStairsFrom(registry, blockFirewood, BlockFirewood.FirewoodType.BLAZEWOOD, "blazewood_stairs");
+
+    // Common ingots and nuggets, these can be disabled completely with a config option
+    if((isToolsLoaded() || isSmelteryLoaded() || forced) && Config.registerAllCommonMetals) {
+      blockCommonMetal = registerBlock(registry, new BlockCommonMetal(), "common_metal");
+    }
+    
+    // Ingots and nuggets
+    if(isToolsLoaded() || isSmelteryLoaded() || forced) {
+      blockMetal = registerBlock(registry, new BlockMetal(), "metal");
+    }
+
+    if(isToolsLoaded() || isGadgetsLoaded()) {
+      blockGlow = registerBlock(registry, new BlockGlow(), "glow");
+    }
+
+    blockObsidianPane = registerBlock(registry, new slimeknights.tconstruct.shared.block.BlockObsidianPane(), "obsidian_pane");
+  }
+
+  @SubscribeEvent
+  public void registerItems(Register<Item> event) {
+    IForgeRegistry<Item> registry = event.getRegistry();
+    boolean forced = Config.forceRegisterAll; // causes to always register all items
+
+    book = registerItem(registry, new ItemTinkerBook(), "book");
+
+    // Soils
+    blockSoil = registerEnumItemBlock(registry, blockSoil);
+
+    grout = new ItemStack(blockSoil, 1, BlockSoil.SoilTypes.GROUT.getMeta());
+    slimyMudGreen = new ItemStack(blockSoil, 1, BlockSoil.SoilTypes.SLIMY_MUD_GREEN.getMeta());
+    slimyMudBlue = new ItemStack(blockSoil, 1, BlockSoil.SoilTypes.SLIMY_MUD_BLUE.getMeta());
+    slimyMudMagma = new ItemStack(blockSoil, 1, BlockSoil.SoilTypes.SLIMY_MUD_MAGMA.getMeta());
+    graveyardSoil = new ItemStack(blockSoil, 1, BlockSoil.SoilTypes.GRAVEYARD.getMeta());
+    consecratedSoil = new ItemStack(blockSoil, 1, BlockSoil.SoilTypes.CONSECRATED.getMeta());
+    netherGrout = new ItemStack(blockSoil, 1, BlockSoil.SoilTypes.NETHER_GROUT.getMeta());
+
+    // Slime Blocks
+    blockSlime = registerItemBlockProp(registry, new ItemBlockMeta(blockSlime), BlockSlime.TYPE);
+    blockSlimeCongealed = registerItemBlockProp(registry, new ItemBlockMeta(blockSlimeCongealed), BlockSlime.TYPE);
+
+    // Ores
+    blockOre = registerEnumItemBlock(registry, blockOre);
+
+    oreCobalt = new ItemStack(blockOre, 1, BlockOre.OreTypes.COBALT.getMeta());
+    oreArdite = new ItemStack(blockOre, 1, BlockOre.OreTypes.ARDITE.getMeta());
+
+    // Firewood
+    blockFirewood = registerEnumItemBlock(registry, blockFirewood);
+
+    lavawood = new ItemStack(blockFirewood, 1, BlockFirewood.FirewoodType.LAVAWOOD.getMeta());
+    firewood = new ItemStack(blockFirewood, 1, BlockFirewood.FirewoodType.FIREWOOD.getMeta());
+    nahuatlPlanks = new ItemStack(blockFirewood, 1, BlockFirewood.FirewoodType.NAHUATL.getMeta());
+    blazewoodPlanks = new ItemStack(blockFirewood, 1, BlockFirewood.FirewoodType.BLAZEWOOD.getMeta());
+
+    // Decorative Stuff
+    blockDecoGround = registerEnumItemBlock(registry, blockDecoGround);
+
+    mudBrickBlock = new ItemStack(blockDecoGround, 1, BlockDecoGround.DecoGroundType.MUDBRICK.getMeta());
+
+    blockClearGlass = registerItemBlock(registry, blockClearGlass);
+    blockClearStainedGlass = registerEnumItemBlock(registry, blockClearStainedGlass);
+    if(blockObsidianPane != null) registerItemBlock(registry, blockObsidianPane);
+
+    // Slabs
+    slabDecoGround = registerEnumItemBlockSlab(registry, slabDecoGround);
+    slabFirewood = registerEnumItemBlockSlab(registry, slabFirewood);
+
+    // Stairs
+    stairsMudBrick = registerItemBlock(registry, stairsMudBrick);
+    stairsFirewood = registerItemBlock(registry, stairsFirewood);
+    stairsLavawood = registerItemBlock(registry, stairsLavawood);
+    stairsNahuatl = registerItemBlock(registry, stairsNahuatl);
+    stairsBlazewood = registerItemBlock(registry, stairsBlazewood);
+
+    // create the items. We can probably always create them since they handle themselves dynamically
+    nuggets = registerItem(registry, new ItemMetaDynamicTinkers(), "nuggets");
+    ingots = registerItem(registry, new ItemMetaDynamicTinkers(), "ingots");
+    materials = registerItem(registry, new ItemMetaDynamic(), "materials");
+    edibles = registerItem(registry, new ItemEdible(), "edible");
+    commonNuggets = registerItem(registry, new ItemMetaDynamicTinkers(), "common_nuggets");
+    commonIngots = registerItem(registry, new ItemMetaDynamicTinkers(), "common_ingots");
+    
+    nuggets.setCreativeTab(TinkerRegistry.tabGeneral);
+    ingots.setCreativeTab(TinkerRegistry.tabGeneral);
+    materials.setCreativeTab(TinkerRegistry.tabGeneral);
+    edibles.setCreativeTab(TinkerRegistry.tabGeneral);
+    commonNuggets.setCreativeTab(TinkerRegistry.tabGeneral);
+    commonIngots.setCreativeTab(TinkerRegistry.tabGeneral);
+
+    // Items that can always be present.. slimeballs
+    matSlimeBallBlue = edibles.addFood(1, 1, 1f, "slimeball_blue", new PotionEffect(MobEffects.SLOWNESS, 20 * 45, 2), new PotionEffect(MobEffects.JUMP_BOOST, 20 * 60, 2));
+    matSlimeBallPurple = edibles.addFood(2, 1, 2f, "slimeball_purple", new PotionEffect(MobEffects.UNLUCK, 20 * 45), new PotionEffect(MobEffects.LUCK, 20 * 60));
+    matSlimeBallBlood = edibles.addFood(3, 1, 1.5f, "slimeball_blood", new PotionEffect(MobEffects.POISON, 20 * 45, 2), new PotionEffect(MobEffects.HEALTH_BOOST, 20 * 60));
+    matSlimeBallMagma = edibles.addFood(4, 2, 1f, "slimeball_magma", new PotionEffect(MobEffects.WEAKNESS, 20 * 45), new PotionEffect(MobEffects.WITHER, 20 * 15), new PotionEffect(MobEffects.FIRE_RESISTANCE, 20 * 60));
+    matSlimeBallPink = edibles.addFood(5, 1, 1f, "slimeball_pink", new PotionEffect(MobEffects.NAUSEA, 20 * 10, 2)); // you mixed how many types of slime for this? its gross
+    matSlimeBallIchor = edibles.addFood(6, 2, 1f, "slimeball_ichor", new PotionEffect(MobEffects.FIRE_RESISTANCE, 20 * 60));
+
+    // All other items are either ingots or items for modifiers
+
+    if(isSmelteryLoaded() || forced) {
+      searedBrick = materials.addMeta(0, "seared_brick");
+      mudBrick = materials.addMeta(1, "mud_brick");
+    }
+    
+    // Common ores, these can be disabled completely with a config option
+    if(Config.registerAllCommonMetals) {
+        blockCommonOre = registerEnumItemBlock(registry, blockCommonOre);
+
+        oreCopper = new ItemStack(blockCommonOre, 1, BlockCommonOre.OreTypes.COPPER.getMeta());
+        oreTin = new ItemStack(blockCommonOre, 1, BlockCommonOre.OreTypes.TIN.getMeta());
+        oreAluminum = new ItemStack(blockCommonOre, 1, BlockCommonOre.OreTypes.ALUMINUM.getMeta());
+    }
+    
+    // Common Ingots and nuggets, these can be disabled completely with a config option
+    if((isToolsLoaded() || isSmelteryLoaded() || forced) && Config.registerAllCommonMetals) {
+        nuggetCopper = commonNuggets.addMeta(0, "copper");
+        ingotCopper = commonIngots.addMeta(0, "copper");
+
+        nuggetTin = commonNuggets.addMeta(1, "tin");
+        ingotTin = commonIngots.addMeta(1, "tin");
+
+        nuggetAluminum = commonNuggets.addMeta(2, "aluminum");
+        ingotAluminum = commonIngots.addMeta(2, "aluminum");
+
+        nuggetBronze = commonNuggets.addMeta(3, "bronze");
+        ingotBronze = commonIngots.addMeta(3, "bronze");
+
+        nuggetSteel = commonNuggets.addMeta(4, "steel");
+        ingotSteel = commonIngots.addMeta(4, "steel");
+        
+        blockCommonMetal = registerEnumItemBlock(registry, blockCommonMetal);
+
+        blockCopper = new ItemStack(blockCommonMetal, 1, BlockCommonMetal.MetalTypes.COPPER.getMeta());
+        blockTin = new ItemStack(blockCommonMetal, 1, BlockCommonMetal.MetalTypes.TIN.getMeta());
+        blockAluminum = new ItemStack(blockCommonMetal, 1, BlockCommonMetal.MetalTypes.ALUMINUM.getMeta());
+        blockBronze = new ItemStack(blockCommonMetal, 1, BlockCommonMetal.MetalTypes.BRONZE.getMeta());
+        blockSteel = new ItemStack(blockCommonMetal, 1, BlockCommonMetal.MetalTypes.STEEL.getMeta());
+    }
+
+    // Ingots and nuggets
+    if(isToolsLoaded() || isSmelteryLoaded() || forced) {
+      nuggetCobalt = nuggets.addMeta(0, "cobalt");
+      ingotCobalt = ingots.addMeta(0, "cobalt");
+
+      nuggetArdite = nuggets.addMeta(1, "ardite");
+      ingotArdite = ingots.addMeta(1, "ardite");
+
+      nuggetManyullyn = nuggets.addMeta(2, "manyullyn");
+      ingotManyullyn = ingots.addMeta(2, "manyullyn");
+
+      nuggetPigIron = nuggets.addMeta(4, "pigiron");
+      ingotPigIron = ingots.addMeta(4, "pigiron");
+
+      nuggetAlubrass = nuggets.addMeta(5, "alubrass");
+      ingotAlubrass = ingots.addMeta(5, "alubrass");
+      
+      nuggetAlumite = nuggets.addMeta(6, "alumite");
+      ingotAlumite = ingots.addMeta(6, "alumite");
+
+      nuggetSlimesteel = nuggets.addMeta(7, "slimesteel");
+      ingotSlimesteel = ingots.addMeta(7, "slimesteel");
+
+      nuggetAmethystBronze = nuggets.addMeta(8, "amethystbronze");
+      ingotAmethystBronze = ingots.addMeta(8, "amethystbronze");
+
+      nuggetRosegold = nuggets.addMeta(9, "rosegold");
+      ingotRosegold = ingots.addMeta(9, "rosegold");
+
+      nuggetCinderslime = nuggets.addMeta(10, "cinderslime");
+      ingotCinderslime = ingots.addMeta(10, "cinderslime");
+
+      nuggetHepatizon = nuggets.addMeta(11, "hepatizon");
+      ingotHepatizon = ingots.addMeta(11, "hepatizon");
+
+      nuggetQueensslime = nuggets.addMeta(12, "queensslime");
+      ingotQueensslime = ingots.addMeta(12, "queensslime");
+
+      blockMetal = registerEnumItemBlock(registry, blockMetal);
+
+      blockCobalt = new ItemStack(blockMetal, 1, BlockMetal.MetalTypes.COBALT.getMeta());
+      blockArdite = new ItemStack(blockMetal, 1, BlockMetal.MetalTypes.ARDITE.getMeta());
+      blockManyullyn = new ItemStack(blockMetal, 1, BlockMetal.MetalTypes.MANYULLYN.getMeta());
+      blockKnightSlime = new ItemStack(blockMetal, 1, BlockMetal.MetalTypes.KNIGHTSLIME.getMeta());
+      blockPigIron = new ItemStack(blockMetal, 1, BlockMetal.MetalTypes.PIGIRON.getMeta());
+      blockAlubrass = new ItemStack(blockMetal, 1, BlockMetal.MetalTypes.ALUBRASS.getMeta());
+      blockSilkyJewel = new ItemStack(blockMetal, 1, BlockMetal.MetalTypes.SILKY_JEWEL.getMeta());
+      blockAlumite = new ItemStack(blockMetal, 1, BlockMetal.MetalTypes.ALUMITE.getMeta());
+      blockHepatizon = new ItemStack(blockMetal, 1, BlockMetal.MetalTypes.HEPATIZON.getMeta());
+      blockQueensslime = new ItemStack(blockMetal, 1, BlockMetal.MetalTypes.QUEENSSLIME.getMeta());
+    }
+
+    // Materials
+    if(isToolsLoaded() || forced) {
+      bacon = edibles.addFood(0, 4, 0.6f, "bacon");
+
+      matSlimeCrystalGreen = materials.addMeta(9, "slimecrystal_green");
+      matSlimeCrystalBlue = materials.addMeta(10, "slimecrystal_blue");
+      matSlimeCrystalMagma = materials.addMeta(11, "slimecrystal_magma");
+      matExpanderW = materials.addMeta(12, "expander_w");
+      matExpanderH = materials.addMeta(13, "expander_h");
+      matReinforcement = materials.addMeta(14, "reinforcement");
+
+      matSilkyCloth = materials.addMeta(15, "silky_cloth");
+      matSilkyJewel = materials.addMeta(16, "silky_jewel");
+      matReinforceIron = materials.addMeta(32, "reinforcement_iron");
+      matReinforceGold = materials.addMeta(33, "reinforcement_gold");
+      matReinforceCobalt = materials.addMeta(34, "reinforcement_cobalt");
+      matReinforceSeared = materials.addMeta(35, "reinforcement_seared");
+      matReinforceObsidian = materials.addMeta(36, "reinforcement_obsidian");
+
+      matNecroticBone = materials.addMeta(17, "necrotic_bone");
+      matMoss = materials.addMeta(18, "moss");
+      matMendingMoss = materials.addMeta(19, "mending_moss");
+      matBloodyBone = materials.addMeta(20, "bloody_bone");
+      matVenomousBone = materials.addMeta(21, "venomous_bone");
+      matBlazingBone = materials.addMeta(22, "blazing_bone");
+      matLavaCrystal = materials.addMeta(23, "lava_crystal");
+
+      // compuestos de TC3 (tier 2-4): cada uno se obtiene en la smeltery y da un material
+      // (nahuatl y blazewood usan el bloque de madera directo, sin item base)
+      matSlimeSkin = materials.addMeta(24, "slime_skin");
+      matDarkthread = materials.addMeta(26, "darkthread");
+      matJeweledHide = materials.addMeta(27, "jeweled_hide");
+      matDragonScale = materials.addMeta(29, "dragon_scale");
+      // queso de TC3: leche colada en molde de lingote y secada en el secadero
+      matCheeseWet = materials.addMeta(30, "cheese_ingot_wet");
+      matCheese = materials.addMeta(31, "cheese_ingot");
+
+      matCreativeModifier = materials.addMeta(50, "creative_modifier");
+
+      ingotKnightSlime = ingots.addMeta(3, "knightslime");
+      nuggetKnightSlime = nuggets.addMeta(3, "knightslime");
+    }
+
+    if(isGadgetsLoaded() || forced) {
+      driedBrick = materials.addMeta(2, "dried_brick");
+
+      // Jerky
+      jerkyMonster = edibles.addFood(10, 4, 0.4f, "jerky_monster", false);
+      jerkyBeef = edibles.addFood(11, 8, 1f, "jerky_beef", false);
+      jerkyChicken = edibles.addFood(12, 6, 0.8f, "jerky_chicken", false);
+      jerkyPork = edibles.addFood(13, 8, 1f, "jerky_pork", false);
+      jerkyMutton = edibles.addFood(14, 6, 1f, "jerky_mutton", false);
+      jerkyRabbit = edibles.addFood(15, 5, 0.8f, "jerky_rabbit", false);
+
+      jerkyFish = edibles.addFood(20, 5, 0.8f, "jerky_fish", false);
+      jerkySalmon = edibles.addFood(21, 6, 1f, "jerky_salmon", false);
+      jerkyClownfish = edibles.addFood(22, 3, 0.8f, "jerky_clownfish", false);
+      jerkyPufferfish = edibles.addFood(23, 3, 0.8f, "jerky_pufferfish", false);
+
+      slimedropGreen = edibles.addFood(30, 1, 1f, "slimedrop_green", new PotionEffect(MobEffects.SPEED, 20 * 90, 2));
+      slimedropBlue = edibles.addFood(31, 3, 1f, "slimedrop_blue", new PotionEffect(MobEffects.JUMP_BOOST, 20 * 90, 2));
+      slimedropPurple = edibles.addFood(32, 3, 2f, "slimedrop_purple", new PotionEffect(MobEffects.LUCK, 20 * 90));
+      slimedropBlood = edibles.addFood(33, 3, 1.5f, "slimedrop_blood", new PotionEffect(MobEffects.HEALTH_BOOST, 20 * 90));
+      slimedropMagma = edibles.addFood(34, 6, 1f, "slimedrop_magma", new PotionEffect(MobEffects.FIRE_RESISTANCE, 20 * 90));
+    }
+  }
+
+  @SubscribeEvent
+  public void registerRecipes(Register<IRecipe> event) {
+    // replace the vanilla slimeblock recipe with one that does not conflict with our slimeblocks
+    CraftingHelper.ShapedPrimer primer = CraftingHelper.parseShaped("###", "###", "###", '#', "slimeball");
+    Ingredient[] ignore = new Ingredient[] {
+        Config.matchVanillaSlimeblock ? new OreIngredient("slimeballGreen") : Ingredient.fromStacks(matSlimeBallPink.copy()),
+        new OreIngredient("slimeballBlue"),
+        new OreIngredient("slimeballPurple"),
+        new OreIngredient("slimeballBlood"),
+        new OreIngredient("slimeballMagma")
+    };
+    // if enabled, mixing slimeballs gives you pink
+    ItemStack output = Config.matchVanillaSlimeblock ? new ItemStack(blockSlime, 1, BlockSlime.SlimeType.PINK.meta) : new ItemStack(Blocks.SLIME_BLOCK);
+    ShapedFallbackRecipe recipe = new ShapedFallbackRecipe(Util.getResource("slime_blocks"), output, primer, ignore, 9);
+    recipe.setRegistryName("minecraft:slime");
+    event.getRegistry().register(recipe);
+  }
+
+  @SubscribeEvent
+  public void registerModels(ModelRegistryEvent event) {
+    proxy.registerModels();
+  }
+
+  @Subscribe
+  public void preInit(FMLPreInitializationEvent event) {
+    proxy.preInit();
+  }
+
+  @Subscribe
+  public void init(FMLInitializationEvent event) {
+    registerSmeltingRecipes();
+    proxy.init();
+
+    if(Config.genCobalt || Config.genArdite) {
+      GameRegistry.registerWorldGenerator(NetherOreGenerator.INSTANCE, 0);
+    }
+    if(Config.registerAllCommonMetals && (Config.genCopper || Config.genTin || Config.genAluminum)) {
+      GameRegistry.registerWorldGenerator(OverworldOreGenerator.INSTANCE, 0);
+    }
+
+    MinecraftForge.EVENT_BUS.register(new AchievementEvents());
+    MinecraftForge.EVENT_BUS.register(new BlockEvents());
+    MinecraftForge.EVENT_BUS.register(new PlayerDataEvents());
+  }
+
+  // POST-INITIALIZATION
+  @Subscribe
+  public void postInit(FMLPostInitializationEvent event) {
+    TinkerRegistry.tabGeneral.setDisplayIcon(matSlimeBallBlue);
+  }
+
+  private void registerSmeltingRecipes() {
+    GameRegistry.addSmelting(graveyardSoil, consecratedSoil, 0.1f);
+
+    if(!isSmelteryLoaded()) {
+      // compat recipe if the smeltery is not available for melting
+      GameRegistry.addSmelting(Blocks.GLASS, new ItemStack(blockClearGlass), 0.1f);
+    }
+  }
+}

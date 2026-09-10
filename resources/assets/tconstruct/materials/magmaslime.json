@@ -1,0 +1,9 @@
+{
+    "type": "multicolor",
+    "suffix": "slime_base",
+    "parameters": {
+        "dark": "a8673b",
+        "mid": "ff8c49",
+        "bright": "ff9d3d"
+    }
+}

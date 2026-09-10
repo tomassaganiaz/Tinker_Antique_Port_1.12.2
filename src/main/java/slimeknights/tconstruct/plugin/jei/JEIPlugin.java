@@ -1,0 +1,355 @@
+package slimeknights.tconstruct.plugin.jei;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
+import mezz.jei.api.IGuiHelper;
+import mezz.jei.api.IJeiHelpers;
+import mezz.jei.api.IJeiRuntime;
+import mezz.jei.api.IModPlugin;
+import mezz.jei.api.IModRegistry;
+import mezz.jei.api.IRecipeRegistry;
+import mezz.jei.api.ISubtypeRegistry;
+import mezz.jei.api.gui.IAdvancedGuiHandler;
+import mezz.jei.api.gui.ICraftingGridHelper;
+import mezz.jei.api.ingredients.IIngredientBlacklist;
+import mezz.jei.api.recipe.IRecipeCategoryRegistration;
+import mezz.jei.api.recipe.VanillaRecipeCategoryUid;
+import net.minecraft.client.gui.inventory.GuiContainer;
+import net.minecraft.init.Blocks;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraftforge.fluids.Fluid;
+import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.FluidUtil;
+import slimeknights.tconstruct.TConstruct;
+import slimeknights.tconstruct.common.config.Config;
+import slimeknights.tconstruct.gadgets.TinkerGadgets;
+import slimeknights.tconstruct.library.DryingRecipe;
+import slimeknights.tconstruct.library.EntityMeltingRecipe;
+import slimeknights.tconstruct.library.MaterialIntegration;
+import slimeknights.tconstruct.library.SeveringRecipe;
+import slimeknights.tconstruct.library.TinkerRegistry;
+import slimeknights.tconstruct.library.fluid.FluidColored;
+import slimeknights.tconstruct.library.materials.Material;
+import slimeknights.tconstruct.library.smeltery.AlloyRecipe;
+import slimeknights.tconstruct.library.smeltery.MeltingRecipe;
+import slimeknights.tconstruct.library.tinkering.PartMaterialType;
+import slimeknights.tconstruct.library.tools.IToolPart;
+import slimeknights.tconstruct.library.tools.ToolCore;
+import slimeknights.tconstruct.foundry.TinkerScorched;
+import slimeknights.tconstruct.plugin.jei.alloy.AlloyRecipeCategory;
+import slimeknights.tconstruct.plugin.jei.alloy.AlloyRecipeChecker;
+import slimeknights.tconstruct.plugin.jei.alloy.AlloyRecipeHandler;
+import slimeknights.tconstruct.plugin.jei.casting.*;
+import slimeknights.tconstruct.plugin.jei.foundry.FoundryRecipeCategory;
+import slimeknights.tconstruct.plugin.jei.foundry.FoundryRecipeChecker;
+import slimeknights.tconstruct.plugin.jei.foundry.FoundryRecipeHandler;
+import slimeknights.tconstruct.plugin.jei.melter.MelterRecipeCategory;
+import slimeknights.tconstruct.plugin.jei.melter.MelterRecipeChecker;
+import slimeknights.tconstruct.plugin.jei.melter.MelterRecipeHandler;
+import slimeknights.tconstruct.plugin.jei.drying.DryingRecipeCategory;
+import slimeknights.tconstruct.plugin.jei.drying.DryingRecipeChecker;
+import slimeknights.tconstruct.plugin.jei.drying.DryingRecipeHandler;
+import slimeknights.tconstruct.plugin.jei.entitymelting.EntityMeltingRecipeCategory;
+import slimeknights.tconstruct.plugin.jei.entitymelting.EntityMeltingRecipeChecker;
+import slimeknights.tconstruct.plugin.jei.entitymelting.EntityMeltingRecipeHandler;
+import slimeknights.tconstruct.plugin.jei.interpreter.PatternSubtypeInterpreter;
+import slimeknights.tconstruct.plugin.jei.interpreter.TableSubtypeInterpreter;
+import slimeknights.tconstruct.plugin.jei.interpreter.ToolPartSubtypeInterpreter;
+import slimeknights.tconstruct.plugin.jei.interpreter.ToolSubtypeInterpreter;
+import slimeknights.tconstruct.plugin.jei.material.*;
+import slimeknights.tconstruct.plugin.jei.severing.SeveringRecipeCategory;
+import slimeknights.tconstruct.plugin.jei.severing.SeveringRecipeChecker;
+import slimeknights.tconstruct.plugin.jei.severing.SeveringRecipeHandler;
+import slimeknights.tconstruct.plugin.jei.smelting.SmeltingRecipeCategory;
+import slimeknights.tconstruct.plugin.jei.smelting.SmeltingRecipeChecker;
+import slimeknights.tconstruct.plugin.jei.smelting.SmeltingRecipeHandler;
+import slimeknights.tconstruct.plugin.jei.table.TableRecipeHandler;
+import slimeknights.tconstruct.shared.TinkerCommons;
+import slimeknights.tconstruct.shared.block.BlockTable;
+import slimeknights.tconstruct.smeltery.TinkerSmeltery;
+import slimeknights.tconstruct.smeltery.block.BlockCasting;
+import slimeknights.tconstruct.smeltery.client.GuiSmeltery;
+import slimeknights.tconstruct.smeltery.client.GuiTinkerTank;
+import slimeknights.tconstruct.smeltery.client.IGuiLiquidTank;
+import slimeknights.tconstruct.tools.TinkerTools;
+import slimeknights.tconstruct.tools.common.TableRecipeFactory.TableRecipe;
+import slimeknights.tconstruct.tools.common.block.BlockToolTable;
+import slimeknights.tconstruct.tools.melee.TinkerMeleeWeapons;
+
+@mezz.jei.api.JEIPlugin
+public class JEIPlugin implements IModPlugin {
+  public static IJeiHelpers jeiHelpers;
+  // crafting grid slots, integer constants from the default crafting grid implementation
+  private static final int craftOutputSlot = 0;
+  private static final int craftInputSlot1 = 1;
+
+  public static ICraftingGridHelper craftingGridHelper;
+  public static IRecipeRegistry recipeRegistry;
+
+  public static CastingRecipeCategory castingCategory;
+  public static CastingBasinRecipeCategory castingBasinCategory;
+
+  @Override
+  public void registerItemSubtypes(ISubtypeRegistry registry) {
+    TableSubtypeInterpreter tableInterpreter = new TableSubtypeInterpreter();
+    PatternSubtypeInterpreter patternInterpreter = new PatternSubtypeInterpreter();
+
+    // drying racks and item racks
+    if(TConstruct.pulseManager.isPulseLoaded(TinkerGadgets.PulseId)) {
+      registry.registerSubtypeInterpreter(Item.getItemFromBlock(TinkerGadgets.rack), tableInterpreter);
+    }
+
+    // tools
+    if(TConstruct.pulseManager.isPulseLoaded(TinkerTools.PulseId)) {
+      // tool tables
+      registry.registerSubtypeInterpreter(Item.getItemFromBlock(TinkerTools.toolTables), tableInterpreter);
+      registry.registerSubtypeInterpreter(Item.getItemFromBlock(TinkerTools.toolForge), tableInterpreter);
+
+      // tool parts
+      ToolPartSubtypeInterpreter toolPartInterpreter = new ToolPartSubtypeInterpreter();
+      for(IToolPart part : TinkerRegistry.getToolParts()) {
+        if(part instanceof Item) {
+          registry.registerSubtypeInterpreter((Item)part, toolPartInterpreter);
+        }
+      }
+
+      // tool
+      ToolSubtypeInterpreter toolInterpreter = new ToolSubtypeInterpreter();
+      for(ToolCore tool : TinkerRegistry.getTools()) {
+        registry.registerSubtypeInterpreter(tool, toolInterpreter);
+      }
+
+      // tool patterns
+      registry.registerSubtypeInterpreter(TinkerTools.pattern, patternInterpreter);
+    }
+
+    // casts
+    if(TConstruct.pulseManager.isPulseLoaded(TinkerSmeltery.PulseId)) {
+      registry.registerSubtypeInterpreter(TinkerSmeltery.cast, patternInterpreter);
+      if(Config.claycasts) {
+        registry.registerSubtypeInterpreter(TinkerSmeltery.clayCast, patternInterpreter);
+      }
+    }
+  }
+
+  @Override
+  public void registerCategories(IRecipeCategoryRegistration registry) {
+    final IJeiHelpers jeiHelpers = registry.getJeiHelpers();
+    final IGuiHelper guiHelper = jeiHelpers.getGuiHelper();
+
+    // Smeltery
+    if(TConstruct.pulseManager.isPulseLoaded(TinkerSmeltery.PulseId)) {
+      castingCategory = new CastingRecipeCategory(guiHelper);
+      castingBasinCategory = new CastingBasinRecipeCategory(guiHelper);
+
+      registry.addRecipeCategories(new SmeltingRecipeCategory(guiHelper), new AlloyRecipeCategory(guiHelper), castingCategory, castingBasinCategory, new EntityMeltingRecipeCategory(guiHelper));
+      if(TConstruct.pulseManager.isPulseLoaded(TinkerScorched.PulseId)) {
+        registry.addRecipeCategories(new FoundryRecipeCategory(guiHelper), new MelterRecipeCategory(guiHelper));
+      }
+    }
+
+    if(TConstruct.pulseManager.isPulseLoaded(TinkerGadgets.PulseId)) {
+      registry.addRecipeCategories(new DryingRecipeCategory(guiHelper));
+    }
+
+    if(TConstruct.pulseManager.isPulseLoaded(TinkerTools.PulseId)) {
+      registry.addRecipeCategories(new SeveringRecipeCategory(guiHelper));
+      registry.addRecipeCategories(new HarvestCategory(guiHelper));
+      registry.addRecipeCategories(new RangedCategory(guiHelper));
+      registry.addRecipeCategories(new ProjectileCategory(guiHelper));
+      registry.addRecipeCategories(new ArmorCategory(guiHelper));
+    }
+  }
+
+  @Override
+  public void register(@Nonnull IModRegistry registry) {
+    jeiHelpers = registry.getJeiHelpers();
+    IGuiHelper guiHelper = jeiHelpers.getGuiHelper();
+    IIngredientBlacklist blacklist = registry.getJeiHelpers().getIngredientBlacklist();
+
+    // crafting helper used by the shaped table wrapper
+    craftingGridHelper = guiHelper.createCraftingGridHelper(craftInputSlot1, craftOutputSlot);
+
+    // its a pain to hide this using getSubItems because how ItemEdible is coded, so just hide from JEI
+    blacklist.addIngredientToBlacklist(TinkerCommons.matSlimeBallPink);
+    // NewToolStation: hide old PartBuilder system (TC3 parity) — keep compat but hide from JEI
+    if(TConstruct.pulseManager.isPulseLoaded(TinkerTools.PulseId)) {
+      try {
+        for(IToolPart part : TinkerRegistry.getToolParts()) {
+          if(part instanceof Item) blacklist.addIngredientToBlacklist(new ItemStack((Item)part));
+        }
+        blacklist.addIngredientToBlacklist(new ItemStack(TinkerTools.pattern));
+        blacklist.addIngredientToBlacklist(new ItemStack(Item.getItemFromBlock(TinkerTools.toolTables), 1, 1)); // PartBuilder
+        blacklist.addIngredientToBlacklist(new ItemStack(Item.getItemFromBlock(TinkerTools.toolTables), 1, 2)); // StencilTable
+      } catch(Exception e) {}
+    }
+
+    if(TConstruct.pulseManager.isPulseLoaded(TinkerTools.PulseId)) {
+      registry.handleRecipes(TableRecipe.class, new TableRecipeHandler(), VanillaRecipeCategoryUid.CRAFTING);
+
+      // crafting table shiftclicking
+      registry.getRecipeTransferRegistry().addRecipeTransferHandler(new CraftingStationRecipeTransferInfo());
+
+      // add our crafting table to the list with the vanilla crafting table
+      registry.addRecipeCatalyst(new ItemStack(TinkerTools.toolTables, 1, BlockToolTable.TableTypes.CraftingStation.meta), VanillaRecipeCategoryUid.CRAFTING);
+      try { registry.addRecipeCatalyst(new ItemStack(TinkerTools.newToolStation), VanillaRecipeCategoryUid.CRAFTING); } catch(Exception e) {}
+    }
+
+    // Smeltery
+    if(TConstruct.pulseManager.isPulseLoaded(TinkerSmeltery.PulseId)) {
+      registry.handleRecipes(AlloyRecipe.class, new AlloyRecipeHandler(), AlloyRecipeCategory.CATEGORY);
+
+      registry.handleRecipes(MeltingRecipe.class, new SmeltingRecipeHandler(), SmeltingRecipeCategory.CATEGORY);
+
+      registry.handleRecipes(EntityMeltingRecipe.class, new EntityMeltingRecipeHandler(), EntityMeltingRecipeCategory.CATEGORY);
+
+      registry.handleRecipes(CastingRecipeWrapper.class, new CastingRecipeHandler(), CastingRecipeCategory.CATEGORY);
+      registry.handleRecipes(CastingRecipeWrapper.class, new CastingRecipeHandler(), CastingBasinRecipeCategory.CATEGORY);
+
+      registry.addRecipeCatalyst(new ItemStack(TinkerSmeltery.smelteryController), SmeltingRecipeCategory.CATEGORY, AlloyRecipeCategory.CATEGORY, EntityMeltingRecipeCategory.CATEGORY);
+      registry.addRecipeCatalyst(new ItemStack(TinkerSmeltery.castingBlock, 1, BlockCasting.CastingType.TABLE.meta), CastingRecipeCategory.CATEGORY);
+      registry.addRecipeCatalyst(new ItemStack(TinkerSmeltery.castingBlock, 1, BlockCasting.CastingType.BASIN.meta), CastingBasinRecipeCategory.CATEGORY);
+      // add the seared furnace to the list with the vanilla furnace
+      // note that this is just the smelting one, fuel is not relevant
+      registry.addRecipeCatalyst(new ItemStack(TinkerSmeltery.searedFurnaceController), VanillaRecipeCategoryUid.SMELTING);
+
+      // melting recipes
+      registry.addRecipes(SmeltingRecipeChecker.getSmeltingRecipesSet(), SmeltingRecipeCategory.CATEGORY);
+      registry.addRecipes(EntityMeltingRecipeChecker.getEntityMeltingRecipes(), EntityMeltingRecipeCategory.CATEGORY);
+      // alloys
+      registry.addRecipes(AlloyRecipeChecker.getAlloyRecipes(), AlloyRecipeCategory.CATEGORY);
+      if(TConstruct.pulseManager.isPulseLoaded(TinkerScorched.PulseId)) {
+        registry.addRecipeCatalyst(new ItemStack(TinkerScorched.foundryController), FoundryRecipeCategory.CATEGORY);
+        registry.addRecipeCatalyst(new ItemStack(TinkerScorched.melter), MelterRecipeCategory.CATEGORY);
+        registry.addRecipes(FoundryRecipeChecker.getFoundryRecipes().stream().map(slimeknights.tconstruct.plugin.jei.smelting.SmeltingRecipeWrapper::new).collect(java.util.stream.Collectors.toSet()), FoundryRecipeCategory.CATEGORY);
+        registry.addRecipes(MelterRecipeChecker.getMelterRecipes().stream().map(slimeknights.tconstruct.plugin.jei.smelting.SmeltingRecipeWrapper::new).collect(java.util.stream.Collectors.toSet()), MelterRecipeCategory.CATEGORY);
+      }
+
+      // casting
+      registry.addRecipes(CastingRecipeChecker.getCastingRecipes(), CastingRecipeCategory.CATEGORY);
+      registry.addRecipes(CastingBasinRecipeChecker.getCastingRecipes(), CastingBasinRecipeCategory.CATEGORY);
+
+      // liquid recipe lookup for smeltery and tinker tank
+      registry.addAdvancedGuiHandlers(new TinkerGuiTankHandler<>(GuiTinkerTank.class), new TinkerGuiTankHandler<>(GuiSmeltery.class));
+
+      // hide unused fluids from JEI
+      for(MaterialIntegration integration : TinkerRegistry.getMaterialIntegrations()) {
+        // if it has a fluid and that fluid is one of ours, hide it
+        if(!integration.isIntegrated() && integration.fluid instanceof FluidColored) {
+          FluidStack stack = new FluidStack(integration.fluid, Fluid.BUCKET_VOLUME);
+          blacklist.addIngredientToBlacklist(stack);
+          blacklist.addIngredientToBlacklist(FluidUtil.getFilledBucket(stack));
+        }
+      }
+    }
+
+    // drying rack
+    if(TConstruct.pulseManager.isPulseLoaded(TinkerGadgets.PulseId)) {
+      registry.handleRecipes(DryingRecipe.class, new DryingRecipeHandler(), DryingRecipeCategory.CATEGORY);
+
+      registry.addRecipes(DryingRecipeChecker.getDryingRecipes(), DryingRecipeCategory.CATEGORY);
+
+      registry.addRecipeCatalyst(BlockTable.createItemstack(TinkerGadgets.rack, 1, Blocks.WOODEN_SLAB, 0), DryingRecipeCategory.CATEGORY);
+    }
+
+    // severing
+    if(TConstruct.pulseManager.isPulseLoaded(TinkerTools.PulseId)) {
+      registry.handleRecipes(SeveringRecipe.class, new SeveringRecipeHandler(), SeveringRecipeCategory.CATEGORY);
+
+      registry.addRecipes(SeveringRecipeChecker.getSeveringRecipes(), SeveringRecipeCategory.CATEGORY);
+
+      int added = 0;
+      for(Material head : TinkerRegistry.getAllMaterials()) {
+    	List<PartMaterialType> reqs = TinkerMeleeWeapons.cleaver.getRequiredComponents();
+        List<Material> mats = new ArrayList<>(reqs.size());
+
+        for(int i = 0; i < reqs.size(); i++) {
+          // todo: check for applicability with stats
+          mats.add(head);
+        }
+
+        ItemStack tool = TinkerMeleeWeapons.cleaver.buildItem(mats);
+        // only valid ones
+        if(TinkerMeleeWeapons.cleaver.hasValidMaterials(tool)) {
+          registry.addRecipeCatalyst(tool, SeveringRecipeCategory.CATEGORY);
+          if(++added > 10)
+          	break;
+        }
+      }      
+    }
+
+    // Integrate Tinker's JEI
+    if (TConstruct.pulseManager.isPulseLoaded(TinkerTools.PulseId)) {
+      List<MaterialWrapper> materialWrappers = TinkerRegistry.getAllMaterials().stream()
+              .filter(material -> !material.isHidden() && material.hasItems() && !material.getAllStats().isEmpty())
+              .map(MaterialWrapper::new).collect(Collectors.toList());
+
+      HarvestCategory harvestCategory = new HarvestCategory(guiHelper);
+      List<MaterialWrapper> harvestWrapper = materialWrappers.stream()
+              .filter(materialWrapper -> Reference.HARVEST_TYPES.stream().anyMatch(type -> materialWrapper.getMaterial().hasStats(type)))
+              .collect(Collectors.toList());
+      registry.addRecipes(harvestWrapper, harvestCategory.getUid());
+      registry.addRecipeCatalyst(new ItemStack(TinkerTools.toolForge, 1), harvestCategory.getUid());
+      registry.addRecipeCatalyst(new ItemStack(TinkerTools.toolTables, 1, 3), harvestCategory.getUid());
+      try { registry.addRecipeCatalyst(new ItemStack(TinkerTools.newToolStation), harvestCategory.getUid()); } catch(Exception e) {}
+
+      RangedCategory rangedCategory = new RangedCategory(guiHelper);
+      List<MaterialWrapper> rangedWrapper = materialWrappers.stream()
+              .filter(materialWrapper -> Reference.RANGED_TYPES.stream().anyMatch(type -> materialWrapper.getMaterial().hasStats(type)))
+              .collect(Collectors.toList());
+      registry.addRecipes(rangedWrapper, rangedCategory.getUid());
+      registry.addRecipeCatalyst(new ItemStack(TinkerTools.toolForge, 1), rangedCategory.getUid());
+      registry.addRecipeCatalyst(new ItemStack(TinkerTools.toolTables, 1, 3), rangedCategory.getUid());
+      try { registry.addRecipeCatalyst(new ItemStack(TinkerTools.newToolStation), rangedCategory.getUid()); } catch(Exception e) {}
+
+      ProjectileCategory projectileCategory = new ProjectileCategory(guiHelper);
+      List<MaterialWrapper> projectileWrapper = materialWrappers.stream()
+              .filter(materialWrapper -> Reference.PROJECTILE_TYPES.stream().anyMatch(type -> materialWrapper.getMaterial().hasStats(type)))
+              .collect(Collectors.toList());
+      registry.addRecipes(projectileWrapper, projectileCategory.getUid());
+      registry.addRecipeCatalyst(new ItemStack(TinkerTools.toolForge, 1), projectileCategory.getUid());
+      registry.addRecipeCatalyst(new ItemStack(TinkerTools.toolTables, 1, 3), projectileCategory.getUid());
+      try { registry.addRecipeCatalyst(new ItemStack(TinkerTools.newToolStation), projectileCategory.getUid()); } catch(Exception e) {}
+
+      ArmorCategory armorCategory = new ArmorCategory(guiHelper);
+      List<MaterialWrapper> armorWrapper = materialWrappers.stream()
+              .filter(materialWrapper -> Reference.ARMOR_TYPES.stream().anyMatch(type -> materialWrapper.getMaterial().hasStats(type)))
+              .collect(Collectors.toList());
+      registry.addRecipes(armorWrapper, armorCategory.getUid());
+      registry.addRecipeCatalyst(new ItemStack(TinkerTools.toolForge, 1), armorCategory.getUid());
+      registry.addRecipeCatalyst(new ItemStack(TinkerTools.toolTables, 1, 3), armorCategory.getUid());
+      try { registry.addRecipeCatalyst(new ItemStack(TinkerTools.newToolStation), armorCategory.getUid()); } catch(Exception e) {}
+    }
+  }
+  
+  @Override
+  public void onRuntimeAvailable(@Nonnull IJeiRuntime jeiRuntime) {
+    recipeRegistry = jeiRuntime.getRecipeRegistry();
+  }
+
+  private static class TinkerGuiTankHandler<T extends GuiContainer & IGuiLiquidTank> implements IAdvancedGuiHandler<T> {
+    private Class<T> clazz;
+
+    public TinkerGuiTankHandler(Class<T> clazz) {
+      this.clazz = clazz;
+    }
+
+    @Nonnull
+    @Override
+    public Class<T> getGuiContainerClass() {
+      return clazz;
+    }
+
+    @Nullable
+    @Override
+    public Object getIngredientUnderMouse(T guiContainer, int mouseX, int mouseY) {
+      return guiContainer.getFluidStackAtPosition(mouseX, mouseY);
+    }
+  }
+}

@@ -1,0 +1,7 @@
+{
+    "parent": "block/cube_all",
+    "textures": {
+        "all": "tconstruct:blocks/foundry/controller/alloyer_side",
+        "particle": "tconstruct:blocks/foundry/controller/alloyer_side"
+    }
+}

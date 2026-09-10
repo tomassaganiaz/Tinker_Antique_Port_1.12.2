@@ -1,0 +1,14 @@
+{
+  "tool": "plate_helmet",
+  "text": [
+    {"text": "The Plated Helmet is head armor forged from plates. It protects against damage and can be modified with traits like any tool."},
+    {"text": "\n"},
+    {"text": "Crafted from a single plating in the Tool Station or Tool Forge."}
+  ],
+  "properties": [
+    "Head armor",
+    "Material determines defense and toughness",
+    "Supports modifiers: Protection, Feather Falling, Double Jump",
+    "Repairable with plating material"
+  ]
+}

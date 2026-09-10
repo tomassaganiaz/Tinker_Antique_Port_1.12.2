@@ -1,0 +1,14 @@
+{
+  "tool": "plate_chestplate",
+  "text": [
+    {"text": "The Plated Chestplate is the core of plate armor, offering the highest defense of the set."},
+    {"text": "\n"},
+    {"text": "Requires 8 plating units, forged in the Tool Forge."}
+  ],
+  "properties": [
+    "Chest armor, highest defense",
+    "Toughness reduces strong hits",
+    "Knockback resistance per material",
+    "Modifiers: Protection variants, Reinforced"
+  ]
+}

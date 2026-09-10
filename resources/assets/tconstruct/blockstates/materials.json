@@ -1,0 +1,34 @@
+{
+    "forge_marker": 1,
+    "defaults": {
+        "transform": "forge:default-item",
+        "model": "forge:item-layer"
+    },
+    "variants": {
+        "seared_brick": [{ "textures": { "layer0": "tconstruct:items/materials/seared_brick" }}],
+        "mud_brick": [{ "textures": { "layer0": "tconstruct:items/materials/mud_brick" }}],
+        "dried_brick": [{ "textures": { "layer0": "tconstruct:items/materials/dried_brick" }}],
+        "slimecrystal_green": [{ "textures": { "layer0": "tconstruct:items/materials/slimecrystal_green" }}],
+        "slimecrystal_blue": [{ "textures": { "layer0": "tconstruct:items/materials/slimecrystal_blue" }}],
+        "slimecrystal_magma": [{ "textures": { "layer0": "tconstruct:items/materials/slimecrystal_magma" }}],
+        "expander_w": [{ "textures": { "layer0": "tconstruct:items/materials/expander_w" }}],
+        "expander_h": [{ "textures": { "layer0": "tconstruct:items/materials/expander_h" }}],
+        "reinforcement": [{ "textures": { "layer0": "tconstruct:items/materials/reinforcement" }}],
+        "silky_cloth": [{ "textures": { "layer0": "tconstruct:items/materials/silky_cloth" }}],
+        "silky_jewel": [{ "textures": { "layer0": "tconstruct:items/materials/silky_jewel" }}],
+        "necrotic_bone": [{ "textures": { "layer0": "tconstruct:items/materials/necrotic_bone" }}],
+        "moss": [{ "textures": { "layer0": "tconstruct:items/materials/moss" }}],
+        "mending_moss": [{ "textures": { "layer0": "tconstruct:items/materials/mending_moss" }}],
+        "bloody_bone": [{ "textures": { "layer0": "tconstruct:items/materials/bloody_bone" }}],
+        "venomous_bone": [{ "textures": { "layer0": "tconstruct:items/materials/venomous_bone" }}],
+        "blazing_bone": [{ "textures": { "layer0": "tconstruct:items/materials/blazing_bone" }}],
+        "lava_crystal": [{ "textures": { "layer0": "tconstruct:items/materials/lava_crystal" }}],
+        "slime_skin": [{ "textures": { "layer0": "tconstruct:items/materials/slime_skin" }}],
+        "darkthread": [{ "textures": { "layer0": "tconstruct:items/materials/darkthread" }}],
+        "jeweled_hide": [{ "textures": { "layer0": "tconstruct:items/materials/jeweled_hide" }}],
+        "dragon_scale": [{ "textures": { "layer0": "tconstruct:items/materials/dragon_scale" }}],
+        "cheese_ingot_wet": [{ "textures": { "layer0": "tconstruct:items/materials/cheese_ingot_wet" }}],
+        "cheese_ingot": [{ "textures": { "layer0": "tconstruct:items/materials/cheese_ingot" }}],
+        "creative_modifier": [{ "textures": { "layer0": "tconstruct:items/skull_char_gold" }}]
+    }
+}

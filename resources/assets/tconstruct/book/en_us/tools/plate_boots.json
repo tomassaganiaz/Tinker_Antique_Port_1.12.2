@@ -1,0 +1,14 @@
+{
+  "tool": "plate_boots",
+  "text": [
+    {"text": "The Plated Boots protect the feet and enable mobility modifiers like Feather Falling and Double Jump."},
+    {"text": "\n"},
+    {"text": "Requires 4 plating units, crafted in the Tool Station."}
+  ],
+  "properties": [
+    "Feet armor",
+    "Feather Falling reduces fall damage 12% per level",
+    "Double Jump (slime) gives mid-air jump",
+    "Bouncy traits supported"
+  ]
+}

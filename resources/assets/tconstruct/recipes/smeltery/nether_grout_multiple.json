@@ -1,0 +1,48 @@
+{
+    "conditions": [
+        {
+            "type": "tconstruct:is_pulse_loaded",
+            "pulse_name": "TinkerScorched"
+        }
+    ],
+    "type": "forge:ore_shapeless",
+    "group": "tconstruct:nether_grout",
+    "ingredients": [
+        {
+            "item": "minecraft:magma"
+        },
+        {
+            "item": "minecraft:soul_sand"
+        },
+        {
+            "item": "minecraft:soul_sand"
+        },
+        {
+            "item": "minecraft:soul_sand"
+        },
+        {
+            "item": "minecraft:soul_sand"
+        },
+        {
+            "type": "forge:ore_dict",
+            "ore": "gravel"
+        },
+        {
+            "type": "forge:ore_dict",
+            "ore": "gravel"
+        },
+        {
+            "type": "forge:ore_dict",
+            "ore": "gravel"
+        },
+        {
+            "type": "forge:ore_dict",
+            "ore": "gravel"
+        }
+    ],
+    "result": {
+        "item": "tconstruct:soil",
+        "count": 8,
+        "data": 6
+    }
+}

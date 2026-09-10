@@ -1,0 +1,58 @@
+{
+  "forge_marker": 1,
+  "defaults": {
+    "model": "tconstruct:foundry/tank"
+  },
+  "variants": {
+    "type": {
+      "tank": {
+        "textures": {
+          "side": "tconstruct:blocks/foundry/tank/fuel_tank",
+          "top": "tconstruct:blocks/foundry/tank/tank_top"
+        }
+      },
+      "gauge": {
+        "textures": {
+          "side": "tconstruct:blocks/smeltery/scorched_gauge_side",
+          "top": "tconstruct:blocks/smeltery/scorched_window_top"
+        }
+      },
+      "window": {
+        "textures": {
+          "side": "tconstruct:blocks/smeltery/scorched_window_side",
+          "top": "tconstruct:blocks/smeltery/scorched_window_top"
+        }
+      }
+    },
+    "has_knob": {
+      "true": {
+        "submodel": {
+          "knob": {
+            "model": "tconstruct:tank_knob",
+            "textures": {
+              "top": "tconstruct:blocks/foundry/tank/tank_top",
+              "side": "tconstruct:blocks/foundry/tank/fuel_tank"
+            },
+            "transform": {
+              "translation": [
+                0,
+                1,
+                0
+              ]
+            }
+          }
+        }
+      },
+      "false": {}
+    },
+    "tank": {
+      "model": "tconstruct:foundry/tank"
+    },
+    "gauge": {
+      "model": "tconstruct:foundry/gauge"
+    },
+    "window": {
+      "model": "tconstruct:foundry/window"
+    }
+  }
+}

@@ -1,0 +1,29 @@
+{
+    "conditions": [
+        {
+            "type": "tconstruct:is_pulse_loaded",
+            "pulse_name": "TinkerScorched"
+        }
+    ],
+    "type": "forge:ore_shaped",
+    "group": "tconstruct:scorched_block",
+    "pattern": [
+        "AAA",
+        "ABA",
+        "AAA"
+    ],
+    "key": {
+        "A": {
+            "item": "tconstruct:scorched_brick",
+            "data": 0
+        },
+        "B": {
+            "item": "tconstruct:scorched_tank",
+            "data": 2
+        }
+    },
+    "result": {
+        "item": "tconstruct:scorched_tank",
+        "data": 0
+    }
+}

@@ -1,0 +1,14 @@
+{
+  "tool": "slime_armor_boots",
+  "text": [
+    {"text": "The Slime Boots are bouncy foot armor made from slimy plating. They protect against damage and soften falls, and can be modified with traits like any tool."},
+    {"text": "\n"},
+    {"text": "Crafted from slime plating in the Tool Station or Tool Forge."}
+  ],
+  "properties": [
+    "Feet armor",
+    "Material determines defense and toughness",
+    "Supports modifiers: Protection, Feather Falling, Double Jump",
+    "Repairable with plating material"
+  ]
+}

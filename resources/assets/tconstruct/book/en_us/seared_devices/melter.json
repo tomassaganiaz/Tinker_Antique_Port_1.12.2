@@ -1,0 +1,13 @@
+{
+  "title": "Melter",
+  "text": [
+    {"text": "The Melter is a single-block furnace that melts one item at a time using solid fuel. It holds 4 ingots and only works for low-temp materials (<=550C)."},
+    {"text": "\n"},
+    {"text": "Use it early game before building a full smeltery or foundry."}
+  ],
+  "properties": [
+    "1x1 block, solid fuel (coal)",
+    "Tank 576mb (4 ingots)",
+    "Temp limit 550C"
+  ]
+}

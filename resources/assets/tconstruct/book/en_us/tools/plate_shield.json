@@ -1,0 +1,14 @@
+{
+  "tool": "plate_shield",
+  "text": [
+    {"text": "The Plated Shield blocks attacks with the durability of its plating material."},
+    {"text": "\n"},
+    {"text": "Forged from 6 plating units, effective as offhand shield."}
+  ],
+  "properties": [
+    "Shield, blocks damage",
+    "Durability factor 18",
+    "Supports Protection modifiers",
+    "Repairable with plating"
+  ]
+}

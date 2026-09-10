@@ -1,0 +1,191 @@
+package slimeknights.tconstruct.tools.common.tileentity;
+
+import javax.annotation.Nonnull;
+
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.gui.inventory.GuiContainer;
+import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.inventory.Container;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.NonNullList;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.oredict.OreDictionary;
+import slimeknights.mantle.common.IInventoryGui;
+import slimeknights.tconstruct.library.smeltery.ICast;
+import slimeknights.tconstruct.library.tools.IPattern;
+import slimeknights.tconstruct.library.tools.Pattern;
+import slimeknights.tconstruct.tools.common.block.BlockToolTable;
+import slimeknights.tconstruct.tools.common.block.BlockToolTable.TableTypes;
+import slimeknights.tconstruct.tools.common.client.GuiPatternChest;
+import slimeknights.tconstruct.tools.common.inventory.ContainerPatternChest;
+
+public class TilePatternChest extends TileTinkerChest implements IInventoryGui {
+
+  protected final NonNullList<ItemStack> casts = OreDictionary.getOres("cast");
+  protected final NonNullList<ItemStack> patterns = OreDictionary.getOres("pattern");
+
+  public TilePatternChest() {
+    super("gui.patternchest.name", MAX_INVENTORY, 1);
+  }
+
+  @Override
+  public Container createContainer(InventoryPlayer inventoryplayer, World world, BlockPos pos) {
+    return new ContainerPatternChest(inventoryplayer, this);
+  }
+
+  @Override
+  @SideOnly(Side.CLIENT)
+  public GuiContainer createGui(InventoryPlayer inventoryplayer, World world, BlockPos pos) {
+    return new GuiPatternChest(inventoryplayer, world, pos, this);
+  }
+
+  @Override
+  public void setInventorySlotContents(int slot, ItemStack itemstack) {
+	super.setInventorySlotContents(slot, itemstack);
+	boolean isCastChest = this.isCastChest();
+    IBlockState state = world.getBlockState(pos);
+    if(state.getProperties().containsKey(BlockToolTable.TABLES)) {
+      boolean blockInWorldIsCastChest = state.getValue(BlockToolTable.TABLES) == TableTypes.CastChest;
+      if(isCastChest != blockInWorldIsCastChest) {
+        setState(isCastChest, world, pos);
+      }
+    }
+  }
+  
+  public static void setState(boolean isCast, World worldIn, BlockPos pos) {
+    IBlockState iblockstate = worldIn.getBlockState(pos);
+    TileEntity tileentity = worldIn.getTileEntity(pos);
+
+    if (isCast) {
+      worldIn.setBlockState(pos, iblockstate.withProperty(BlockToolTable.TABLES, TableTypes.CastChest), 3);
+    }
+    else {
+      worldIn.setBlockState(pos, iblockstate.withProperty(BlockToolTable.TABLES, TableTypes.PatternChest), 3);
+    }
+
+
+    if (tileentity != null) {
+      tileentity.validate();
+      worldIn.setTileEntity(pos, tileentity);
+    }
+  }
+  
+  // we only allow one type (cast/pattern) and only one of each toolpart
+  @Override
+  public boolean isItemValidForSlot(int slot, @Nonnull ItemStack itemstack) {
+    if(itemstack.isEmpty() || !(isPattern(itemstack) || isCast(itemstack))) {
+      return false;
+    }
+    Item part = Pattern.getPartFromTag(itemstack);
+    boolean hasContents = false;
+    for(int i = 0; i < getSizeInventory(); i++) {
+      if(isStackInSlot(i)) {
+        hasContents = true;
+        break;
+      }
+    }
+
+    // empty chest accepts everything
+    if(!hasContents) {
+      return true;
+    }
+    // otherwise check that only same goes into the same chest
+    else {
+      boolean castChest = isCastChest();
+
+      // if cast chest only accept casts.
+      if(castChest && !isCast(itemstack)) {
+        return false;
+      }
+      // and only patterns go into pattern chests
+      else if(!castChest && (!isPattern(itemstack) || isCast(itemstack))) {
+        return false;
+      }
+    }
+
+    // now it's ensured that only patterns go in pattern chests, and only casts in cast chests
+    // next find out if the cast already is present in the chest
+
+    // not a part cast? go by nbt
+    if(part == null) {
+      for(int i = 0; i < getSizeInventory(); i++) {
+        ItemStack inv = getStackInSlot(i);
+        if(inv.isEmpty()) {
+          continue;
+        }
+
+        // is it exactly the same item?
+        if(ItemStack.areItemsEqual(itemstack, inv) && ItemStack.areItemStackTagsEqual(itemstack, inv)) {
+          return false;
+        }
+      }
+      return true;
+    }
+
+    // part cast, go by item returned
+    for(int i = 0; i < getSizeInventory(); i++) {
+      Item slotPart = Pattern.getPartFromTag(getStackInSlot(i));
+      // duplicate, already present
+      if(slotPart != null) {
+        // only the same item (== cast or pattern)
+        if(getStackInSlot(i).getItem() != itemstack.getItem()) {
+          return false;
+        }
+        // no duplicate parts
+        if(slotPart == part) {
+          return false;
+        }
+      }
+    }
+
+    return true;
+  }
+
+  @Nonnull
+  @Override
+  public String getName() {
+    // do we hold casts instead of patterns?
+    if(isCastChest()) {
+      return "gui.castchest.name";
+    }
+    return super.getName();
+  }
+
+  public boolean isCastChest() {
+    // do we hold casts instead of patterns?
+    for(int i = 0; i < getSizeInventory(); i++) {
+      if(isCast(getStackInSlot(i))) {
+        return true;
+      }
+    }
+    return false;
+  }
+  
+  public boolean isCast(ItemStack stack) { 
+	if (stack.getItem() instanceof ICast)
+      return true;
+	  
+
+    for (ItemStack target : casts)
+      if (OreDictionary.itemMatches(target, stack, false))
+        return true;
+
+    return false;
+  }
+  
+  public boolean isPattern(ItemStack stack) {
+	if (stack.getItem() instanceof IPattern)
+	  return true;
+	
+	for (ItemStack target : patterns)
+	  if (OreDictionary.itemMatches(target, stack, false))
+	    return true;
+
+	return false;	  
+  }
+}

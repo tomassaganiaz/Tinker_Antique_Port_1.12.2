@@ -1,0 +1,28 @@
+{
+    "conditions": [
+        {
+            "type": "tconstruct:is_pulse_loaded",
+            "pulse_name": "TinkerScorched"
+        }
+    ],
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        " B ",
+        "BXB",
+        " B "
+    ],
+    "key": {
+        "B": {
+            "item": "tconstruct:scorched_brick",
+            "data": 0
+        },
+        "X": {
+            "item": "minecraft:quartz",
+            "data": 0
+        }
+    },
+    "result": {
+        "item": "tconstruct:scorched_tank",
+        "data": 2
+    }
+}

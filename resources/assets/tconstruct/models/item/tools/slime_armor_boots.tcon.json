@@ -1,0 +1,7 @@
+﻿{
+    "parent": "tconstruct:tool",
+    "textures": {
+        "layer0": "tconstruct:items/armor/slime_armor_boots",
+        "layer1": "tconstruct:items/armor/maille"
+    }
+}

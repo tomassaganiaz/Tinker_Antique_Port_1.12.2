@@ -1,0 +1,24 @@
+{
+    "conditions": [
+        {
+            "type": "tconstruct:is_pulse_loaded",
+            "pulse_name": "TinkerScorched"
+        }
+    ],
+    "type": "minecraft:crafting_shaped",
+    "group": "tconstruct:scorched_block",
+    "pattern": [
+        "AA",
+        "AA"
+    ],
+    "key": {
+        "A": {
+            "item": "tconstruct:block_scorched",
+            "data": 2
+        }
+    },
+    "result": {
+        "item": "tconstruct:block_scorched",
+        "data": 0
+    }
+}

@@ -1,0 +1,19 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "A  ",
+        "AA ",
+        "AAA"
+    ],
+    "key": {
+        "A": {
+            "item": "tconstruct:firewood",
+            "data": 2
+        }
+    },
+    "result": {
+        "item": "tconstruct:nahuatl_stairs",
+        "count": 4,
+        "data": 0
+    }
+}

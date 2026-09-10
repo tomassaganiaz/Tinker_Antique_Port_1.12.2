@@ -1,0 +1,28 @@
+{
+    "conditions": [
+        {
+            "type": "tconstruct:is_pulse_loaded",
+            "pulse_name": "TinkerScorched"
+        }
+    ],
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "AAA",
+        "AOA",
+        "AAA"
+    ],
+    "key": {
+        "A": {
+            "item": "tconstruct:scorched_brick",
+            "data": 0
+        },
+        "O": {
+            "item": "minecraft:obsidian",
+            "data": 0
+        }
+    },
+    "result": {
+        "item": "tconstruct:foundry_controller",
+        "data": 0
+    }
+}

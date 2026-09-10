@@ -1,0 +1,9 @@
+{
+    "conditions": [{ "type": "tconstruct:is_pulse_loaded", "pulse_name": "TinkerScorched" }],
+    "type": "minecraft:crafting_shaped",
+    "pattern": ["A A"," A "],
+    "key": {
+        "A": { "item": "tconstruct:block_scorched", "data": 2 }
+    },
+    "result": { "item": "tconstruct:scorched_faucet", "data": 0, "count": 3 }
+}

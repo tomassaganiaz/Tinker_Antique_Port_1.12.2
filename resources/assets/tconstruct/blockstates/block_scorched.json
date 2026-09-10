@@ -1,0 +1,33 @@
+{
+    "forge_marker": 1,
+    "defaults": {
+        "transform": "forge:default-block",
+        "model": "cube_all",
+        "textures": {
+            "all": "tconstruct:blocks/smeltery/scorched_brick",
+            "particle": "#all"
+        }
+    },
+	"variants": {
+        "type": {
+            "stone": {
+                "textures": { "all": "tconstruct:blocks/smeltery/scorched_stone" }
+            },
+            "brick": {
+                "textures": { "all": "tconstruct:blocks/foundry/scorched/bricks" }
+            },
+            "brick_cracked": {
+                "textures": { "all": "tconstruct:blocks/smeltery/scorched_brick_cracked" }
+            },
+            "brick_fancy": {
+                "textures": { "all": "tconstruct:blocks/smeltery/scorched_brick_fancy" }
+            },
+            "brick_square": {
+                "textures": { "all": "tconstruct:blocks/smeltery/scorched_brick_square" }
+            },
+            "road": {
+                "textures": { "all": "tconstruct:blocks/smeltery/scorched_road" }
+            }
+        }
+    }
+}

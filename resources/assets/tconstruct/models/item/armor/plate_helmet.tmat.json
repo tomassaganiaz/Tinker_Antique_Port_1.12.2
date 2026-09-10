@@ -1,0 +1,6 @@
+﻿{
+  "parent": "tconstruct:tinker",
+  "textures": {
+    "layer0": "tconstruct:items/armor/plate_helmet"
+  }
+}

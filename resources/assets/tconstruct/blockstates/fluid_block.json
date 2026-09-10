@@ -1,0 +1,137 @@
+{
+    "forge_marker": 1,
+    "defaults": {
+        "model": "forge:fluid"
+    },
+    "variants": {
+        "stone": [{
+            "custom": { "fluid": "stone" }
+        }],
+        "obsidian": [{
+            "custom": { "fluid": "obsidian" }
+        }],
+        "iron": [{
+            "custom": { "fluid": "iron" }
+        }],
+        "gold": [{
+            "custom": { "fluid": "gold" }
+        }],
+        "pigiron": [{
+            "custom": { "fluid": "pigiron" }
+        }],
+        "cobalt": [{
+            "custom": { "fluid": "cobalt" }
+        }],
+        "ardite": [{
+            "custom": { "fluid": "ardite" }
+        }],
+        "manyullyn": [{
+            "custom": { "fluid": "manyullyn" }
+        }],
+        "knightslime": [{
+            "custom": { "fluid": "knightslime" }
+        }],
+        "emerald": [{
+            "custom": { "fluid": "emerald" }
+        }],
+        "diamond": [{
+            "custom": { "fluid": "diamond" }
+        }],
+        "glass": [{
+            "custom": { "fluid": "glass" }
+        }],
+        "venom": [{
+            "custom": { "fluid": "venom" }
+        }],
+        "blood": [{
+            "custom": { "fluid": "blood" }
+        }],
+        "blazing_blood": [{
+            "custom": { "fluid": "blazing_blood" }
+        }],
+        "milk": [{
+            "custom": { "fluid": "milk" }
+        }],
+        "greenslime": [{
+            "custom": { "fluid": "greenslime" }
+        }],
+        "blueslime": [{
+            "custom": { "fluid": "blueslime" }
+        }],
+        "purpleslime": [{
+            "custom": { "fluid": "purpleslime" }
+        }],
+        "brass": [{
+            "custom": { "fluid": "brass" }
+        }],
+        "copper": [{
+            "custom": { "fluid": "copper" }
+        }],
+        "tin": [{
+            "custom": { "fluid": "tin" }
+        }],
+        "bronze": [{
+            "custom": { "fluid": "bronze" }
+        }],
+        "zinc": [{
+            "custom": { "fluid": "zinc" }
+        }],
+        "lead": [{
+            "custom": { "fluid": "lead" }
+        }],
+        "nickel": [{
+            "custom": { "fluid": "nickel" }
+        }],
+        "silver": [{
+            "custom": { "fluid": "silver" }
+        }],
+        "electrum": [{
+            "custom": { "fluid": "electrum" }
+        }],
+        "steel": [{
+            "custom": { "fluid": "steel" }
+        }],
+        "aluminum": [{
+            "custom": { "fluid": "aluminum" }
+        }],
+        "alubrass": [{
+            "custom": { "fluid": "alubrass" }
+        }],
+        "alumite": [{
+            "custom": { "fluid": "alumite" }
+        }],
+        "dirt": [{
+            "custom": { "fluid": "dirt" }
+        }],
+        "clay": [{
+            "custom": { "fluid": "clay" }
+        }],
+        "notmilk": [{
+            "custom": { "fluid":  "notmilk" }
+        }],
+        "quartz": [{
+            "custom": { "fluid": "quartz" }
+        }],
+        "netherite": [{
+            "custom": { "fluid": "netherite" }
+        }],
+        "scorched_stone": [{
+            "custom": { "fluid": "scorched_stone" }
+        }],
+        "blazing_bone": [{
+            "custom": { "fluid": "blazing_bone" }
+        }],
+        "amethyst": [{
+            "custom": { "fluid": "amethyst" }
+        }],
+        "magma": [{
+            "custom": { "fluid": "magma" }
+        }],
+        "honey": [{
+            "custom": { "fluid": "honey" }
+        }],
+        "scrap": [{
+            "custom": { "fluid": "scrap" }
+        }]
+    }
+}

@@ -1,0 +1,9 @@
+{
+    "parent": "block/cube_bottom_top",
+    "textures": {
+        "side": "tconstruct:blocks/foundry/controller/foundry_active",
+        "top": "tconstruct:blocks/foundry/melter_top",
+        "bottom": "tconstruct:blocks/foundry/melter_side",
+        "particle": "tconstruct:blocks/foundry/controller/foundry_active"
+    }
+}

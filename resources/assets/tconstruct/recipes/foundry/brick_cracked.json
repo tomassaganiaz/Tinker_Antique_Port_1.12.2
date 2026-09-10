@@ -1,0 +1,20 @@
+{
+    "conditions": [
+        {
+            "type": "tconstruct:is_pulse_loaded",
+            "pulse_name": "TinkerScorched"
+        }
+    ],
+    "type": "minecraft:crafting_shapeless",
+    "group": "tconstruct:scorched_block",
+    "ingredients": [
+        {
+            "item": "tconstruct:block_scorched",
+            "data": 2
+        }
+    ],
+    "result": {
+        "item": "tconstruct:block_scorched",
+        "data": 3
+    }
+}

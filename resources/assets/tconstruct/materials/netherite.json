@@ -1,0 +1,30 @@
+{
+    "type": "metal",
+    "suffix": "metal_base",
+    "parameters": {
+        "color": "443a3b",
+        "shinyness": 0.8,
+        "brightness": 0.4,
+        "hueshift": 0
+    },
+    "stats": {
+        "head": {
+            "durability": 900,
+            "mining_speed": 8.0,
+            "melee_attack": 4.0,
+            "mining_tier": "cobalt"
+        },
+        "handle": {
+            "durability": 100,
+            "modifier": 1.2
+        },
+        "extra": {
+            "durability": 200
+        },
+        "armor": {
+            "durability": 440,
+            "defense": 3.0,
+            "toughness": 3.0
+        }
+    }
+}

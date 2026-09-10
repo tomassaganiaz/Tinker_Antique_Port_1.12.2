@@ -1,0 +1,12 @@
+{
+    "forge_marker": 1,
+    "defaults": {
+        "transform": "forge:default-block"
+    },
+    "variants": {
+        "type": {
+            "table": { "model": "tconstruct:foundry/casting/table" },
+            "basin": { "model": "tconstruct:foundry/casting/basin" }
+        }
+    }
+}
