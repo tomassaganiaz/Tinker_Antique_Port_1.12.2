@@ -15,10 +15,10 @@ public class ModNetherite extends ToolModifier {
     NBTTagCompound tag = TagUtil.getToolTag(rootCompound);
     boolean isArmor = tag.hasKey(Tags.DEFENSE);
     if(isArmor) {
-      tag.setFloat(Tags.DEFENSE, tag.getFloat(Tags.DEFENSE) + 1.0f);
-      tag.setFloat(Tags.TOUGHNESS, tag.getFloat(Tags.TOUGHNESS) + 2.0f);
+      tag.setFloat(Tags.DEFENSE, tag.getFloat(Tags.DEFENSE) + 2.0f);
+      tag.setFloat(Tags.TOUGHNESS, tag.getFloat(Tags.TOUGHNESS) + 1.0f);
     } else {
-      tag.setFloat(Tags.ATTACK, tag.getFloat(Tags.ATTACK) + 2.0f);
+      tag.setFloat(Tags.ATTACK, tag.getFloat(Tags.ATTACK) + 1.0f);
     }
     TagUtil.setToolTag(rootCompound, tag);
   }

@@ -154,7 +154,12 @@ public class TinkerArmor extends AbstractToolPulse {
     modZooming = regMod(new ModZooming(), "glass", "paneGlass");
     modThorns = regMod(new ModThorns(), "blockCactus", "cactus");
     modStrength = regMod(new ModStrength(), "blazePowder", "blazeRod");
-    modRevitalizing = regMod(new ModRevitalizing(), "appleGold", "blockGold");
+    modRevitalizing = regMod(new ModRevitalizing());
+    if(slimeknights.tconstruct.smeltery.TinkerSmeltery.diamondApple != null) {
+      modRevitalizing.addItem(slimeknights.tconstruct.smeltery.TinkerSmeltery.diamondApple, 2, 1);
+    }
+    modRevitalizing.addItem("appleDiamond", 2, 1);
+    modRevitalizing.addItem("diamondApple", 2, 1);
     modShulking = regMod(new ModShulking(), "blockShulker", "shulkerShell");
     modKnockbackResistance = regMod(new ModKnockbackResistance(), "blockAnvil", "anvil");
   }

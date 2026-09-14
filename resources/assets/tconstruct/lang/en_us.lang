@@ -1306,7 +1306,7 @@ modifier.shulking.desc=This shell is my home. Increases resistance while sneakin
 modifier.knockback_resistance.name=Knockback Resistance
 modifier.knockback_resistance.desc=A weighty subject. Anvils are heavy, so it should keep you from being knocked back, right? – 50% Max 1
 modifier.netherite.name=Netherite
-modifier.netherite.desc=Refined! Harness the power of ancient metal, making the tool stronger and immune to external damage such as fire. Weapons +2 dmg, Armor +1 armor +2 toughness – Max 1
+modifier.netherite.desc=Refined! Harness the power of ancient metal, making the tool stronger and immune to external damage such as fire. Weapons +1 dmg, Armor +2 armor +1 toughness – Max 1
 stat.armor.knockbackResistance.name=Knockback Resistance
 stat.armor.knockbackResistance.desc=Reduces knockback taken.
 # Fix 8 materiales underscore + typos
