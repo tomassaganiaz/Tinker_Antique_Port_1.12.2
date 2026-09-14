@@ -264,7 +264,7 @@ public class TinkerArmor extends AbstractToolPulse {
       {TinkerMaterials.pigiron, 23, 1,3,4,1},
       {TinkerMaterials.steel, 29, 2,5,7,2, 2f},
       {TinkerMaterials.slimesteel, 40, 2,5,6,2},
-      {TinkerMaterials.cinderslime, 32, 2,5,6,2},
+      {TinkerMaterials.cinderslime, 42, 2,5,6,2},
       {TinkerMaterials.alubrass, 9, 2,3,4,2},
       {TinkerMaterials.alumite, 28, 2,5,6,2},
       {TinkerMaterials.copper, 13, 1,2,3,1},

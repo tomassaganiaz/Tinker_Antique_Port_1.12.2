@@ -254,6 +254,7 @@ public final class TinkerMaterials {
     wood.addItem("plankWood", 1, Material.VALUE_Ingot);
     wood.addItem("logWood", 1, Material.VALUE_Ingot * 4);
     wood.addTrait(ecological);
+    wood.addTrait(ecological, ArmorMaterialStats.TYPE_CHESTPLATE);
 
     stone.setCraftable(true);
     stone.addItemIngot("cobblestone");
@@ -261,6 +262,7 @@ public final class TinkerMaterials {
     stone.setRepresentativeItem(new ItemStack(Blocks.COBBLESTONE));
     stone.addTrait(cheapskate, HEAD);
     stone.addTrait(cheap);
+    stone.addTrait(cheap, ArmorMaterialStats.TYPE_HELMET);
 
     flint.setCraftable(true);
     flint.addItem(Items.FLINT, 1, Material.VALUE_Ingot);
@@ -273,6 +275,8 @@ public final class TinkerMaterials {
     cactus.setRepresentativeItem(new ItemStack(Blocks.CACTUS));
     cactus.addTrait(prickly, HEAD);
     cactus.addTrait(spiky);
+    cactus.addTrait(spiky, ArmorMaterialStats.TYPE_HELMET);
+    cactus.addTrait(spiky, ArmorMaterialStats.TYPE_CHESTPLATE);
 
     obsidian.setFluid(TinkerFluids.obsidian);
     obsidian.setCraftable(true);
@@ -280,6 +284,8 @@ public final class TinkerMaterials {
     obsidian.addItemIngot("obsidian");
     obsidian.setRepresentativeItem(new ItemStack(Blocks.OBSIDIAN));
     obsidian.addTrait(duritos);
+    obsidian.addTrait(heavy, ArmorMaterialStats.TYPE_HELMET);
+    obsidian.addTrait(heavy, ArmorMaterialStats.TYPE_CHESTPLATE);
 
     prismarine.setCraftable(true);
     prismarine.addItem("gemPrismarine", 1, Material.VALUE_Fragment);
@@ -313,6 +319,8 @@ public final class TinkerMaterials {
     bone.addTrait(splintering, HEAD);
     bone.addTrait(splitting, SHAFT);
     bone.addTrait(fractured);
+    bone.addTrait(fractured, ArmorMaterialStats.TYPE_HELMET);
+    bone.addTrait(spiky, ArmorMaterialStats.TYPE_CHESTPLATE);
 
     paper.setCraftable(true);
     paper.addItem("paper", 1, Material.VALUE_Fragment);
@@ -335,6 +343,7 @@ public final class TinkerMaterials {
     chorus.addItem(new ItemStack(Items.CHORUS_FRUIT_POPPED), 1, Material.VALUE_Ingot);
     chorus.setRepresentativeItem(new ItemStack(Items.CHORUS_FRUIT_POPPED));
     chorus.addTrait(enderference);
+    chorus.addTrait(enderference, ArmorMaterialStats.TYPE_HELMET);
 
     wool.setCraftable(true);
     wool.addItem(new ItemStack(Blocks.WOOL, 1, OreDictionary.WILDCARD_VALUE), 1, Material.VALUE_Ingot);
@@ -438,7 +447,8 @@ public final class TinkerMaterials {
     // Armor dual: amethyst_bronze crystalstrike -> crystalArmor, slimesteel overslime -> overshield
     slimesteel.addItemIngot("ingotSlimesteel");
     slimesteel.addTrait(dense);
-    slimesteel.addTrait(overshield, ArmorMaterialStats.TYPE_CHESTPLATE);
+    slimesteel.addTrait(dense, ArmorMaterialStats.TYPE_CHESTPLATE);
+    slimesteel.addTrait(dense, ArmorMaterialStats.TYPE_HELMET);
     slimesteel.setRepresentativeItem(TinkerCommons.ingotSlimesteel);
     cinderslime.addItemIngot("ingotCinderslime");
     cinderslime.addTrait(flammable);
