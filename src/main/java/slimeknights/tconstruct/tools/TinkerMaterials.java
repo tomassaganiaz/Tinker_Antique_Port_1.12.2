@@ -112,8 +112,9 @@ public final class TinkerMaterials {
   public static final Material invar          = mat("invar", 0xb8b8a8);
   public static final Material pewter         = mat("pewter", 0x9aa3a8);
   public static final Material nicrosil       = mat("nicrosil", 0x8c93a8);
+  public static final Material necronium      = mat("necronium", 0x1a1a2e);
 
-  // Materiales de compat que sí tienen lingote en mods instalados (Twilight Forest, Ice and Fire)
+  // Materiales de compat que sí tienen lingote en mods instalados (Twilight Forest, Ice and Fire, NuclearCraft)
   public static final Material ironwood       = mat("ironwood", 0x8b6b4a);
   public static final Material steeleaf       = mat("steeleaf", 0x6b8f4a);
   public static final Material fiery          = mat("fiery", 0xd4622a);
@@ -200,6 +201,15 @@ public final class TinkerMaterials {
   public static final Material slimeleaf_blue   = mat("slimeleaf_blue", 0x74c8c7);
   public static final Material slimeleaf_orange = mat("slimeleaf_orange", 0xff960d);
   public static final Material slimeleaf_purple = mat("slimeleaf_purple", 0xc873c8);
+  public static final Material leaves = mat("leaves", 0x1d730c);
+  public static final Material venombone = mat("venombone", 0xc70000);
+  public static final Material whitestone = mat("whitestone", 0xe0d890);
+  public static final Material skyslimeVine = mat("skyslimeVine", 0x74c8c7);
+  public static final Material earthslime = mat("earthslime", 0x82c873);
+  public static final Material skyslime = mat("skyslime", 0x74c8c7);
+  public static final Material slimeball = mat("slimeball", 0x82c873);
+  public static final Material magma = mat("magma", 0xff960d);
+  public static final Material enderslimeVine = mat("enderslimeVine", 0xc873c8);
 
   private static Material mat(String name, int color) {
     // make materials hidden by default, integration will make them visible if integrated
@@ -405,12 +415,16 @@ public final class TinkerMaterials {
 
     // Aleaciones de TC3 (tier 3). Sin insumos de crafteo: se obtienen colando piezas desde la smeltery.
     // Rasgos: TC3 da overcast+overslime (slimesteel), enhanced (rose gold) y crumbling (amethyst bronze).
+    slimesteel.addItemIngot("ingotSlimesteel");
     slimesteel.addTrait(dense);
     slimesteel.setRepresentativeItem(TinkerCommons.ingotSlimesteel);
+    cinderslime.addItemIngot("ingotCinderslime");
     cinderslime.addTrait(flammable);
     cinderslime.setRepresentativeItem(TinkerCommons.ingotCinderslime);
+    rosegold.addItemIngot("ingotRosegold");
     rosegold.addTrait(established);
     rosegold.setRepresentativeItem(TinkerCommons.ingotRosegold);
+    amethystbronze.addItemIngot("ingotAmethystBronze");
     amethystbronze.addTrait(crumbling, HEAD);
     amethystbronze.setRepresentativeItem(TinkerCommons.ingotAmethystBronze);
 
@@ -419,6 +433,11 @@ public final class TinkerMaterials {
     invar.addTrait(stiff);
     pewter.addTrait(heavy);
     nicrosil.addTrait(duritos);
+    necronium.setCraftable(true);
+    necronium.addItem("ingotUranium", 1, Material.VALUE_Ingot);
+    necronium.setRepresentativeItem("ingotUranium");
+    necronium.addTrait(heavy);
+    necronium.addTrait(duritos);
 
     // Materiales de mods: crafteables desde los lingotes que ya aportan
     ironwood.addCommonItems("Ironwood");
@@ -700,6 +719,15 @@ public final class TinkerMaterials {
     safeAdd(slimeleaf_blue, new ItemStack(TinkerWorld.slimeLeaves, 1, BlockSlimeGrass.FoliageType.BLUE.getMeta()), Material.VALUE_Shard, true);
     safeAdd(slimeleaf_orange, new ItemStack(TinkerWorld.slimeLeaves, 1, BlockSlimeGrass.FoliageType.ORANGE.getMeta()), Material.VALUE_Shard, true);
     safeAdd(slimeleaf_purple, new ItemStack(TinkerWorld.slimeLeaves, 1, BlockSlimeGrass.FoliageType.PURPLE.getMeta()), Material.VALUE_Shard, true);
+    leaves.setCraftable(true); leaves.addItem("treeLeaves", 1, Material.VALUE_Shard); leaves.setRepresentativeItem(Blocks.LEAVES);
+    venombone.setCraftable(true); venombone.addItemIngot("boneBloodied"); venombone.setRepresentativeItem(TinkerCommons.matBloodyBone);
+    whitestone.setCraftable(true); whitestone.addItemIngot("endstone"); whitestone.setRepresentativeItem(Blocks.END_STONE);
+    skyslimeVine.setCraftable(true); safeAdd(skyslimeVine, new ItemStack(TinkerWorld.slimeVineBlue1), Material.VALUE_Ingot, true);
+    earthslime.setCraftable(true); earthslime.addItemIngot("slimecrystalGreen");
+    skyslime.setCraftable(true); skyslime.addItemIngot("slimecrystalBlue");
+    slimeball.setCraftable(true); slimeball.addItemIngot("slimecrystalGreen");
+    magma.setCraftable(true); magma.addItemIngot("slimecrystalMagma");
+    enderslimeVine.setCraftable(true); safeAdd(enderslimeVine, new ItemStack(TinkerWorld.slimeVinePurple1), Material.VALUE_Ingot, true);
   }
 
   /**
@@ -938,6 +966,11 @@ public final class TinkerMaterials {
                                     new HeadMaterialStats(816, 6.00f, 3.16f, COBALT),
                                     new HandleMaterialStats(1.15f, 140),
                                     new ExtraMaterialStats(160));
+
+    TinkerRegistry.addMaterialStats(necronium,
+                                    new HeadMaterialStats(357, 4.0f, 2.75f, DIAMOND),
+                                    new HandleMaterialStats(1.0f, 80),
+                                    new ExtraMaterialStats(80));
 
     // Materiales de mods instalados (TC3: Head(512, 6.5, IRON, 2), Head(200, 8, DIAMOND, 3), Head(1024, 8, NETHERITE, 3.5))
     TinkerRegistry.addMaterialStats(ironwood,

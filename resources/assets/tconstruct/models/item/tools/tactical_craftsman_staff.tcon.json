@@ -1,0 +1,8 @@
+{
+    "textures": {
+        "layer0": "tconstruct:items/tactical_craftsman_staff/shard",
+        "layer1": "tconstruct:items/tactical_craftsman_staff/tough_rod",
+        "layer2": "tconstruct:items/tactical_craftsman_staff/rod",
+        "broken1": "tconstruct:items/tactical_craftsman_staff/broken_shard"
+    }
+}

@@ -10,6 +10,7 @@ import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.NonNullList;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
@@ -105,13 +106,13 @@ public abstract class ArmorCore extends ToolCore {
     float defense = tag.getFloat(Tags.DEFENSE);
     float toughness = tag.getFloat(Tags.TOUGHNESS);
     float speed = tag.getFloat(Tags.MOVEMENT_SPEED);
-    float protection = tag.getFloat(Tags.PROTECTION);
-    if(defense > 0 || protection > 0) {
-      float totalDef = defense + protection;
-      multimap.put(SharedMonsterAttributes.ARMOR.getName(), new AttributeModifier(ARMOR_MODIFIERS[idx], "Armor modifier", totalDef, 0));
+    if(defense > 0) {
+      multimap.put(SharedMonsterAttributes.ARMOR.getName(), new AttributeModifier(ARMOR_MODIFIERS[idx], "Armor modifier", defense, 0));
     }
     if(toughness > 0) multimap.put(SharedMonsterAttributes.ARMOR_TOUGHNESS.getName(), new AttributeModifier(ARMOR_MODIFIERS[idx], "Armor toughness", toughness, 0));
     if(speed != 0) multimap.put(SharedMonsterAttributes.MOVEMENT_SPEED.getName(), new AttributeModifier(ARMOR_MODIFIERS[idx], "Armor speed", speed, 2));
+    float knockback = tag.getFloat(Tags.KNOCKBACK_RESISTANCE);
+    if(knockback > 0) multimap.put(SharedMonsterAttributes.KNOCKBACK_RESISTANCE.getName(), new AttributeModifier(ARMOR_MODIFIERS[idx], "Armor knockback", Math.min(1f, knockback), 0));
     return multimap;
   }
 
@@ -139,18 +140,37 @@ public abstract class ArmorCore extends ToolCore {
     return new int[]{0};
   }
 
+  @Override
+  public int getItemEnchantability(ItemStack stack) {
+    return 10;
+  }
+
+  @Override
+  public boolean getIsRepairable(ItemStack toRepair, ItemStack repair) {
+    if(toRepair.isEmpty() || repair.isEmpty() || !toRepair.hasTagCompound()) {
+      return false;
+    }
+    java.util.List<Material> materials = TinkerUtil.getMaterialsFromTagList(
+        TagUtil.getBaseMaterialsTagList(toRepair));
+    if(materials.isEmpty()) {
+      return false;
+    }
+    NonNullList<ItemStack> repairItems = NonNullList.withSize(1, repair.copy());
+    return materials.get(0).matches(repairItems).isPresent();
+  }
+
   @Nonnull
   @Override
   public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, @Nonnull EnumHand handIn) {
     ItemStack itemstack = playerIn.getHeldItem(handIn);
     EntityEquipmentSlot slot = this.armorType;
     ItemStack current = playerIn.getItemStackFromSlot(slot);
+    ItemStack equipped = itemstack.splitStack(1);
     if(current.isEmpty()) {
-      playerIn.setItemStackToSlot(slot, itemstack.copy());
-      itemstack.setCount(0);
+      playerIn.setItemStackToSlot(slot, equipped);
     }
     else {
-      playerIn.setItemStackToSlot(slot, itemstack.copy());
+      playerIn.setItemStackToSlot(slot, equipped);
       playerIn.setHeldItem(handIn, current);
     }
     playerIn.playSound(net.minecraft.init.SoundEvents.ITEM_ARMOR_EQUIP_GENERIC, 1f, 1f);

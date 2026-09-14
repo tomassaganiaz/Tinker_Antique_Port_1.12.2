@@ -1,0 +1,10 @@
+{
+  "type": "forge:ore_shapeless",
+  "ingredients": [
+    { "item": "minecraft:iron_ingot" },
+    { "item": "minecraft:iron_ingot" },
+    { "ore": "ingotCobalt" },
+    { "ore": "slimecrystalBlue" }
+  ],
+  "result": { "item": "tconstruct:ingot", "data": 999, "count": 1 }
+}

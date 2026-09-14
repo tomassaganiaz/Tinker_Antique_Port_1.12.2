@@ -2,7 +2,9 @@
 
 > **Objetivo**: Port fiel de la armadura de placas de Tinkers’ Construct 3 (1.20.1) sobre 1.12.2, usando solo modificaciones en `TinkersAntique-1.12/` (regla dorada: `TinkersConstruct-1.20.1/` read-only).
 
-**Fecha**: 2026-09-03 · **Fork**: `TinkersAntique-1.12` · **Referencia**: `TinkersConstruct-1.20.1` · **Build**: `gradlew build` **SUCCESS** (18 tasks, 1m23s)
+**Fecha**: 2026-09-11 · **Fork**: `TinkersAntique-1.12` · **Referencia**: `TinkersConstruct-1.20.1` · **Build**: `gradlew.bat build --offline` **SUCCESS** (18 tasks, 1m10s)
+
+> **Actualizacion 2026-09-11**: el port compila y el flujo basico de placas funciona. Se corrigio el desgaste de `plate_shield` mientras bloquea y el equipamiento desde una pila ahora consume solo una pieza. Este documento separa lo verificado de lo que aun falta para parity completa.
 
 ---
 
@@ -10,7 +12,7 @@
 
 | Dimensión | % Implementado | Estado |
 |-----------|----------------|--------|
-| **Núcleo armadura (stats/NBT/items)** | **97%** | knockbackResistance añadido, falta BROKEN swap |
+| **Núcleo armadura (stats/NBT/items)** | **99%** | desgaste de escudo, equipamiento desde pila y reparación vanilla corregidos; falta estado roto visual |
 | **Metales comunes** | **100%** | 16/16 con plating (nickel añadido) |
 | **Aleaciones** | **100%** | Todas con stats (slimesteel, hepatizon, etc.) |
 | **Materiales Nether/End/Slime** | **98%** | Cobalt/ardite/manyullyn + knockback ok, dragonscale+bamboo añadidos |
@@ -19,13 +21,13 @@
 | **Traits (espinas, velocidad, etc.)** | **70%** | `bamboo→spiky` hook, `haste→movementSpeed` en ArmorCore |
 | **Render / Texturas PNG** | **65%** | PNGs copiados, modelo `item/generated` básico, falta multicapa teñida |
 | **Integración (JEI/Libro/Station GUI)** | **85%** | ToolStation/Forge ok + JEI `armor` + **libro `plate_helmet/chest/leggings/boots` + `LayerTinkerArmor`** |
-| **Global ponderado** | **100%** | **Parity TC3 1.12.2** |
+| **Global ponderado** | **80% funcional** | Base jugable, pero quedan gaps de compatibilidad vanilla, variantes de modificadores y validacion en cliente |
 
-> **Progreso**: 52% → 78% → 85% → 96% → **100%** tras `plate_shield` + `durabilityFactor` JEI.
+> **Historial**: 52% → 78% → 85% → 96% durante el port. El estado actual se mantiene en **80% funcional** hasta cerrar los faltantes de compatibilidad y validacion en cliente.
 
 ---
 
-## 1. Núcleo — 97%
+## 1. Núcleo — 98%
 
 ### Implementado
 - `ArmorMaterialStats.java` — 5 tipos `plating_helmet/chest/leggings/boots/shield`, campos `durability/defense/toughness/knockbackResistance` (+ `formatKnockbackResistance`), `getLocalizedInfo/Desc`.
@@ -37,10 +39,37 @@
 - `TinkerArmor` — `plating_helmet/chest/leggings/boots` costes `5/8/7/4`, `registerArmorMaterialStats()` → `TinkerRegistry.addMaterialStats` con `knockbackResistance`, incluye `bamboo (6,1/2/3/1)` y `dragonscale (12,2/5/6/2,0.5f)` faltantes, `TinkerMaterials.bamboo→spiky` trait.
 - `ArmorClientProxy` — `ModelLoader` inventory 8 items.
 
-### Falta (3%)
+### Faltantes pendientes
 - `BROKEN` swap textura `_broken` (modelo ignora `BROKEN`, solo tooltip).
 - Escudo `plating_shield` sin `ItemArmor` (no slot en 1.12).
 - `durabilityFactor` vs absoluto: TC3 `MAX_DAMAGE_ARRAY* factor`, fork `factor*11/16/15/13` (correcto pero no expone factor para JEI).
+
+### Correcciones verificadas 2026-09-11
+- `ArmorEventHandler` desgasta `ItemPlateShield` cuando el jugador esta bloqueando y recibe daño.
+- `ArmorCore.onItemRightClick` separa una unidad de la pila con `splitStack(1)` antes de equiparla.
+- `ArmorCore.getIsRepairable` reconoce el item de reparación del material de la placa principal.
+- `gradlew.bat build --offline` termina correctamente; el analizador de errores no reporta errores en las clases modificadas.
+
+### Reporte de partes faltantes
+
+| Area | Faltante actual | Impacto | Prioridad |
+|------|-----------------|---------|-----------|
+| Estado roto | No existe intercambio visual a textura/modelo `_broken`; el objeto queda identificado principalmente por NBT/tooltip. | Medio: el jugador no ve una variante rota clara. | P1 |
+| Reparacion vanilla | ✅ `getIsRepairable` reconoce el material principal; siguen pendientes encantabilidad, ArmorStand y shift-click completo por no ser `ItemArmor`. | Medio: integracion vanilla incompleta. | P1 |
+| Escudo | `ItemPlateShield` no ocupa slot de armadura y solo recibe desgaste desde el evento de bloqueo. No comparte todos los hooks de una pieza `ArmorCore`. | Medio: comportamiento distinto al de TC3, aunque el bloqueo basico funciona. | P1 |
+| Recetas de sets | Placas de `plate`, `slime` y `travelers` reutilizan tipos de parte; hay riesgo de recetas ambiguas si se habilitan todos los sets en la misma estacion. | Alto: puede producir resultados inesperados. | P1 |
+| Modificadores especificos | Revisar parity real de `ProjectileProtection`, `BlastProtection`, `FireProtection`, `MagicProtection` y `FeatherFalling` frente a los hooks de daño de 1.12.2. | Alto: balance y reduccion de daño. | P1 |
+| Doble salto | Existe `ModDoubleJump`, pero debe limitarse a un salto adicional por caida y verificarse el reset en suelo/caida. | Medio: puede permitir saltos repetidos. | P2 |
+| Render por slot | Verificar que `LayerTinkerArmor` oculte las partes no correspondientes de `ModelBiped` y que el maille alfa use blending correcto. | Medio: artefactos visuales. | P2 |
+| Render de entidades | La capa esta principalmente integrada para jugadores; faltan mobs y soportes si el renderer no agrega la capa generica. | Bajo/medio: armadura invisible en algunas entidades. | P2 |
+| Materiales no portables | `horn`, `turtle`, `nautilus`, `phantom`, `jadeite` e `ichorskin` dependen de items, mods o sistemas ausentes en 1.12.2. | Bajo para el juego base; no son portables 1:1. | P3 |
+| Validacion en cliente | Falta una prueba `runClient` con set completo, daño, bloqueo, rotura, JEI, libro y render. | Alto para afirmar parity jugable. | P1 |
+
+### Fuera de alcance o no portables 1:1
+
+- `Trim materials` y decoracion de recortes de 1.20.1 no tienen equivalente nativo en este flujo 1.12.2.
+- `ArmorStand` y algunas rutas de equipamiento vanilla requieren adaptar `ToolCore`; no deben marcarse como resueltas solo porque existe el dispenser.
+- Los materiales cuyo ingrediente no existe en el modpack deben permanecer como `N/A` o compatibilidad opcional, no como faltantes de placas base.
 
 ---
 
@@ -94,7 +123,7 @@
 
 ---
 
-## 4. Render / Texturas — 90% (Layer implementada)
+## 4. Render / Texturas — 85% (Layer implementada)
 
 | Item | Origen 1.20.1 | Destino 1.12 | Estado |
 |------|---------------|--------------|--------|
@@ -105,7 +134,7 @@
 
 ---
 
-## 5. Integración — 90% (JEI + libro)
+## 5. Integración — 85% (JEI + libro)
 
 | Integración | Estado |
 |-------------|--------|

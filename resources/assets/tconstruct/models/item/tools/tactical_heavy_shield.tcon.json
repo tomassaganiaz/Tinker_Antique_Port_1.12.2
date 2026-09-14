@@ -1,0 +1,8 @@
+{
+    "textures": {
+        "layer0": "tconstruct:items/tactical_heavy_shield/head",
+        "layer1": "tconstruct:items/tactical_heavy_shield/plate",
+        "layer2": "tconstruct:items/tactical_heavy_shield/handle",
+        "broken1": "tconstruct:items/tactical_heavy_shield/broken_head"
+    }
+}

@@ -43,6 +43,7 @@ public final class Tags {
   public static final String TOUGHNESS = "Toughness";
   public static final String KNOCKBACK_RESISTANCE = "KnockbackResistance";
   public static final String PROTECTION = "Protection";
+  public static final String MELEE_PROTECTION = "MeleeProtection";
   public static final String PROJECTILE_PROTECTION = "ProjectileProtection";
   public static final String BLAST_PROTECTION = "BlastProtection";
   public static final String FIRE_PROTECTION = "FireProtection";

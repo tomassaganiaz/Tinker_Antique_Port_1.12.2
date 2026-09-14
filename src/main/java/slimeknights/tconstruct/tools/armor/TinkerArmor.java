@@ -3,6 +3,7 @@ package slimeknights.tconstruct.tools.armor;
 import com.google.common.eventbus.Subscribe;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.event.RegistryEvent.Register;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -27,8 +28,10 @@ import slimeknights.tconstruct.tools.modifiers.ModDoubleJump;
 import slimeknights.tconstruct.tools.modifiers.ModFeatherFalling;
 import slimeknights.tconstruct.tools.modifiers.ModFireProtection;
 import slimeknights.tconstruct.tools.modifiers.ModMagicProtection;
+import slimeknights.tconstruct.tools.modifiers.ModMeleeProtection;
 import slimeknights.tconstruct.tools.modifiers.ModProjectileProtection;
 import slimeknights.tconstruct.tools.modifiers.ModProtection;
+import slimeknights.tconstruct.tools.modifiers.ReinforcementRecipeMatch;
 import slimeknights.tconstruct.tools.modifiers.ModKnockbackResistance;
 import slimeknights.tconstruct.tools.modifiers.ModRevitalizing;
 import slimeknights.tconstruct.tools.modifiers.ModShulking;
@@ -63,6 +66,14 @@ public class TinkerArmor extends AbstractToolPulse {
   public static ToolPart plateBoots;
   public static ToolPart plateShield;
   public static ToolPart maille;
+  public static ToolPart slimePlateHelmet;
+  public static ToolPart slimePlateChestplate;
+  public static ToolPart slimePlateLeggings;
+  public static ToolPart slimePlateBoots;
+  public static ToolPart travelersPlateHelmet;
+  public static ToolPart travelersPlateChestplate;
+  public static ToolPart travelersPlateLeggings;
+  public static ToolPart travelersPlateBoots;
 
   public static ArmorCore helmet;
   public static ArmorCore chestplate;
@@ -83,6 +94,7 @@ public class TinkerArmor extends AbstractToolPulse {
   public static ModBlastProtection modBlastProtection;
   public static ModFireProtection modFireProtection;
   public static ModMagicProtection modMagicProtection;
+  public static ModMeleeProtection modMeleeProtection;
   public static ModThorns modThorns;
   public static ModStrength modStrength;
   public static ModRevitalizing modRevitalizing;
@@ -112,11 +124,23 @@ public class TinkerArmor extends AbstractToolPulse {
     }
     if(shield != null) TinkerRegistry.registerTool(shield);
     if(travelersShield != null) TinkerRegistry.registerTool(travelersShield);
-    modProtection = regMod(new ModProtection(), "blockGold", "ingotGold");
+    modProtection = regMod(new ModProtection());
+    modProtection.addRecipeMatch(new ReinforcementRecipeMatch(
+      new ItemStack(slimeknights.tconstruct.shared.TinkerCommons.matReinforcement.getItem(), 2, slimeknights.tconstruct.shared.TinkerCommons.matReinforcement.getMetadata()),
+      new ItemStack(slimeknights.tconstruct.shared.TinkerCommons.matReinforceCobalt.getItem(), 2, slimeknights.tconstruct.shared.TinkerCommons.matReinforceCobalt.getMetadata()),
+      new ItemStack(slimeknights.tconstruct.shared.TinkerCommons.matReinforceGold.getItem(), 2, slimeknights.tconstruct.shared.TinkerCommons.matReinforceGold.getMetadata()),
+      new ItemStack(slimeknights.tconstruct.shared.TinkerCommons.matReinforceObsidian.getItem(), 2, slimeknights.tconstruct.shared.TinkerCommons.matReinforceObsidian.getMetadata()),
+      new ItemStack(slimeknights.tconstruct.shared.TinkerCommons.matReinforceSeared.getItem(), 2, slimeknights.tconstruct.shared.TinkerCommons.matReinforceSeared.getMetadata())));
     modProjectileProtection = regMod(new ModProjectileProtection(), "blockWool", "wool");
+    modProjectileProtection.addItem(slimeknights.tconstruct.shared.TinkerCommons.matReinforcement, 2, 1);
     modBlastProtection = regMod(new ModBlastProtection(), "blockObsidian", "obsidian");
+    modBlastProtection.addItem(slimeknights.tconstruct.shared.TinkerCommons.matReinforceObsidian, 2, 1);
     modFireProtection = regMod(new ModFireProtection(), "blockMagma", "dustBlaze");
+    modFireProtection.addItem(slimeknights.tconstruct.shared.TinkerCommons.matReinforceSeared, 2, 1);
     modMagicProtection = regMod(new ModMagicProtection(), "gemEmerald", "blockEmerald");
+    modMagicProtection.addItem(slimeknights.tconstruct.shared.TinkerCommons.matReinforceGold, 2, 1);
+    modMeleeProtection = regMod(new ModMeleeProtection());
+    modMeleeProtection.addItem(slimeknights.tconstruct.shared.TinkerCommons.matReinforceCobalt, 2, 1);
     modFeatherFalling = regMod(new ModFeatherFalling(), "feather", "blockWool");
     modDoubleJump = regMod(new ModDoubleJump(), "slimeball", "blockSlime");
     modTwin = regMod(new ModTwin(), "slimeball", "blockSlime");
@@ -168,6 +192,14 @@ public class TinkerArmor extends AbstractToolPulse {
         {"plating_boots", Material.VALUE_Ingot * 4},
         {"plating_shield", Material.VALUE_Ingot * 6},
         {"maille", Material.VALUE_Ingot * 2},
+        {"slime_plating_helmet", Material.VALUE_Ingot * 5},
+        {"slime_plating_chestplate", Material.VALUE_Ingot * 8},
+        {"slime_plating_leggings", Material.VALUE_Ingot * 7},
+        {"slime_plating_boots", Material.VALUE_Ingot * 4},
+        {"travelers_plating_helmet", Material.VALUE_Ingot * 5},
+        {"travelers_plating_chestplate", Material.VALUE_Ingot * 8},
+        {"travelers_plating_leggings", Material.VALUE_Ingot * 7},
+        {"travelers_plating_boots", Material.VALUE_Ingot * 4},
     };
     ToolPart[] out = new ToolPart[parts.length];
     for(int i = 0; i < parts.length; i++) {
@@ -179,6 +211,14 @@ public class TinkerArmor extends AbstractToolPulse {
     plateBoots = out[3];
     plateShield = out[4];
     maille = out[5];
+    slimePlateHelmet = out[6];
+    slimePlateChestplate = out[7];
+    slimePlateLeggings = out[8];
+    slimePlateBoots = out[9];
+    travelersPlateHelmet = out[10];
+    travelersPlateChestplate = out[11];
+    travelersPlateLeggings = out[12];
+    travelersPlateBoots = out[13];
   }
 
   @Override
@@ -188,14 +228,14 @@ public class TinkerArmor extends AbstractToolPulse {
     leggings = registerTool(registry, new ItemArmorPlateLeggings(new PartMaterialType(plateLeggings, ArmorMaterialStats.TYPE_LEGGINGS), new PartMaterialType(maille, ArmorMaterialStats.TYPE_MAILLE)), "plate_leggings");
     boots = registerTool(registry, new ItemArmorPlateBoots(new PartMaterialType(plateBoots, ArmorMaterialStats.TYPE_BOOTS), new PartMaterialType(maille, ArmorMaterialStats.TYPE_MAILLE)), "plate_boots");
     shield = registerTool(registry, new ItemPlateShield(new PartMaterialType(plateShield, ArmorMaterialStats.TYPE_SHIELD)), "plate_shield");
-    slimeHelmet = registerTool(registry, new ItemArmorPlateHelmet(new PartMaterialType(plateHelmet, ArmorMaterialStats.TYPE_HELMET), new PartMaterialType(maille, ArmorMaterialStats.TYPE_MAILLE)), "slime_helmet");
-    slimeChestplate = registerTool(registry, new ItemArmorPlateChestplate(new PartMaterialType(plateChestplate, ArmorMaterialStats.TYPE_CHESTPLATE), new PartMaterialType(maille, ArmorMaterialStats.TYPE_MAILLE)), "slime_chestplate");
-    slimeLeggings = registerTool(registry, new ItemArmorPlateLeggings(new PartMaterialType(plateLeggings, ArmorMaterialStats.TYPE_LEGGINGS), new PartMaterialType(maille, ArmorMaterialStats.TYPE_MAILLE)), "slime_leggings");
-    slimeArmorBoots = registerTool(registry, new ItemArmorPlateBoots(new PartMaterialType(plateBoots, ArmorMaterialStats.TYPE_BOOTS), new PartMaterialType(maille, ArmorMaterialStats.TYPE_MAILLE)), "slime_armor_boots");
-    travelersHelmet = registerTool(registry, new ItemArmorPlateHelmet(new PartMaterialType(plateHelmet, ArmorMaterialStats.TYPE_HELMET), new PartMaterialType(maille, ArmorMaterialStats.TYPE_MAILLE)), "travelers_helmet");
-    travelersChestplate = registerTool(registry, new ItemArmorPlateChestplate(new PartMaterialType(plateChestplate, ArmorMaterialStats.TYPE_CHESTPLATE), new PartMaterialType(maille, ArmorMaterialStats.TYPE_MAILLE)), "travelers_chestplate");
-    travelersLeggings = registerTool(registry, new ItemArmorPlateLeggings(new PartMaterialType(plateLeggings, ArmorMaterialStats.TYPE_LEGGINGS), new PartMaterialType(maille, ArmorMaterialStats.TYPE_MAILLE)), "travelers_leggings");
-    travelersBoots = registerTool(registry, new ItemArmorPlateBoots(new PartMaterialType(plateBoots, ArmorMaterialStats.TYPE_BOOTS), new PartMaterialType(maille, ArmorMaterialStats.TYPE_MAILLE)), "travelers_boots");
+    slimeHelmet = registerTool(registry, new ItemArmorPlateHelmet(new PartMaterialType(slimePlateHelmet, ArmorMaterialStats.TYPE_HELMET), new PartMaterialType(maille, ArmorMaterialStats.TYPE_MAILLE)), "slime_helmet");
+    slimeChestplate = registerTool(registry, new ItemArmorPlateChestplate(new PartMaterialType(slimePlateChestplate, ArmorMaterialStats.TYPE_CHESTPLATE), new PartMaterialType(maille, ArmorMaterialStats.TYPE_MAILLE)), "slime_chestplate");
+    slimeLeggings = registerTool(registry, new ItemArmorPlateLeggings(new PartMaterialType(slimePlateLeggings, ArmorMaterialStats.TYPE_LEGGINGS), new PartMaterialType(maille, ArmorMaterialStats.TYPE_MAILLE)), "slime_leggings");
+    slimeArmorBoots = registerTool(registry, new ItemArmorPlateBoots(new PartMaterialType(slimePlateBoots, ArmorMaterialStats.TYPE_BOOTS), new PartMaterialType(maille, ArmorMaterialStats.TYPE_MAILLE)), "slime_armor_boots");
+    travelersHelmet = registerTool(registry, new ItemArmorPlateHelmet(new PartMaterialType(travelersPlateHelmet, ArmorMaterialStats.TYPE_HELMET), new PartMaterialType(maille, ArmorMaterialStats.TYPE_MAILLE)), "travelers_helmet");
+    travelersChestplate = registerTool(registry, new ItemArmorPlateChestplate(new PartMaterialType(travelersPlateChestplate, ArmorMaterialStats.TYPE_CHESTPLATE), new PartMaterialType(maille, ArmorMaterialStats.TYPE_MAILLE)), "travelers_chestplate");
+    travelersLeggings = registerTool(registry, new ItemArmorPlateLeggings(new PartMaterialType(travelersPlateLeggings, ArmorMaterialStats.TYPE_LEGGINGS), new PartMaterialType(maille, ArmorMaterialStats.TYPE_MAILLE)), "travelers_leggings");
+    travelersBoots = registerTool(registry, new ItemArmorPlateBoots(new PartMaterialType(travelersPlateBoots, ArmorMaterialStats.TYPE_BOOTS), new PartMaterialType(maille, ArmorMaterialStats.TYPE_MAILLE)), "travelers_boots");
     travelersShield = registerTool(registry, new ItemPlateShield(new PartMaterialType(plateShield, ArmorMaterialStats.TYPE_SHIELD)), "travelers_shield");
   }
 
@@ -250,6 +290,7 @@ public class TinkerArmor extends AbstractToolPulse {
       {TinkerMaterials.invar, 24, 1,3,5,2},
       {TinkerMaterials.pewter, 16, 2,5,7,2},
       {TinkerMaterials.nicrosil, 28, 2,5,7,2},
+      {TinkerMaterials.necronium, 18, 2,3,4,2, 0.5f},
       {TinkerMaterials.blazingbone, 18, 1,3,4,2},
       {TinkerMaterials.ancient, 25, 2,4,6,2},
       {TinkerMaterials.netherite, 40, 3,6,8,3, 3f},

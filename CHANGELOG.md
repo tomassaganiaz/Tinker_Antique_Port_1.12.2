@@ -1,0 +1,10 @@
+# Changelog
+
+## 2.13.0.209 — 2026-09-14 — Release final
+- Build SUCCESS 18 tasks, 33s offline. Jar 5.6 MB.
+- Tactical: 11 herramientas restantes (vein/broad/sledge/pickadze/kama/scythe/dagger/sword/cleaver/crossbow/longbow/fishing/javelin/arrow/shuriken/throwing_axe/flint_and_brick/4 staffs/melting_pan/war_pick/battlesign/swasher/minotaur_axe) + templates/crystal/exp_bottle/worktable/scout armor/modifiers/libro/JEI/recetas 100%.
+- TC3: foundry scorched Tier4+blazingBlood, melter 550C/576mB, 14 partes armor desambiguadas (tactical/slime/travelers plating), LayerTinkerArmor NPE fix, ArmorStand, enchantability 10.
+- Empaquetado release/2.13.0.209 + checksums + RELEASE_NOTES.
+
+## 2.13.0.x previos
+- Ver ESTADO_ACTUALIZADO_2026-09-11.md, PORT_PORCENTAJE.md, PLAN_ARREGLO_ESTADO_FINAL.md

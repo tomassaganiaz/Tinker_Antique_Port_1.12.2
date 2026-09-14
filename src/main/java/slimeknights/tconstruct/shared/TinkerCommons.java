@@ -38,7 +38,6 @@ import slimeknights.tconstruct.plugin.quark.QuarkPlugin;
 import slimeknights.tconstruct.shared.block.BlockClearGlass;
 import slimeknights.tconstruct.shared.block.BlockClearStainedGlass;
 import slimeknights.tconstruct.shared.block.BlockCommonMetal;
-import slimeknights.tconstruct.shared.block.BlockObsidianPane;
 import slimeknights.tconstruct.shared.block.BlockCommonOre;
 import slimeknights.tconstruct.shared.block.BlockDecoGround;
 import slimeknights.tconstruct.shared.block.BlockDecoGroundSlab;
@@ -73,7 +72,6 @@ public class TinkerCommons extends TinkerPulse {
   public static BlockMetal blockMetal;
   public static BlockFirewood blockFirewood;
   public static BlockGlow blockGlow;
-  public static Block blockObsidianPane;
 
   public static BlockDecoGround blockDecoGround;
 
@@ -312,8 +310,6 @@ public class TinkerCommons extends TinkerPulse {
     if(isToolsLoaded() || isGadgetsLoaded()) {
       blockGlow = registerBlock(registry, new BlockGlow(), "glow");
     }
-
-    blockObsidianPane = registerBlock(registry, new slimeknights.tconstruct.shared.block.BlockObsidianPane(), "obsidian_pane");
   }
 
   @SubscribeEvent
@@ -359,7 +355,6 @@ public class TinkerCommons extends TinkerPulse {
 
     blockClearGlass = registerItemBlock(registry, blockClearGlass);
     blockClearStainedGlass = registerEnumItemBlock(registry, blockClearStainedGlass);
-    if(blockObsidianPane != null) registerItemBlock(registry, blockObsidianPane);
 
     // Slabs
     slabDecoGround = registerEnumItemBlockSlab(registry, slabDecoGround);
@@ -475,6 +470,11 @@ public class TinkerCommons extends TinkerPulse {
       nuggetQueensslime = nuggets.addMeta(12, "queensslime");
       ingotQueensslime = ingots.addMeta(12, "queensslime");
 
+      matReinforceSeared = materials.addMeta(32, "reinforcement_seared");
+      matReinforceCobalt = materials.addMeta(33, "reinforcement_cobalt");
+      matReinforceGold = materials.addMeta(34, "reinforcement_gold");
+      matReinforceObsidian = materials.addMeta(35, "reinforcement_obsidian");
+
       blockMetal = registerEnumItemBlock(registry, blockMetal);
 
       blockCobalt = new ItemStack(blockMetal, 1, BlockMetal.MetalTypes.COBALT.getMeta());
@@ -502,11 +502,6 @@ public class TinkerCommons extends TinkerPulse {
 
       matSilkyCloth = materials.addMeta(15, "silky_cloth");
       matSilkyJewel = materials.addMeta(16, "silky_jewel");
-      matReinforceIron = materials.addMeta(32, "reinforcement_iron");
-      matReinforceGold = materials.addMeta(33, "reinforcement_gold");
-      matReinforceCobalt = materials.addMeta(34, "reinforcement_cobalt");
-      matReinforceSeared = materials.addMeta(35, "reinforcement_seared");
-      matReinforceObsidian = materials.addMeta(36, "reinforcement_obsidian");
 
       matNecroticBone = materials.addMeta(17, "necrotic_bone");
       matMoss = materials.addMeta(18, "moss");

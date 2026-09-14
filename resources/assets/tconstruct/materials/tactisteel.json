@@ -1,0 +1,10 @@
+{
+    "type": "metal",
+    "suffix": "metal_base",
+    "parameters": {
+        "color": "d4a76a",
+        "shinyness": 0.3,
+        "brightness": 0.15,
+        "hueshift": 0.05
+    }
+}

@@ -1,11 +1,5 @@
 {
-  "forge_marker": 1,
-  "defaults": {
-    "transform": "forge:default-block",
-    "model": "cube_all"
-  },
   "variants": {
-    "normal": [{ "textures": { "all": "tconstruct:blocks/obsidian_pane" } }],
-    "inventory": [{ "textures": { "all": "tconstruct:blocks/obsidian_pane" } }]
+    "normal": { "model": "tconstruct:obsidian_pane" }
   }
 }

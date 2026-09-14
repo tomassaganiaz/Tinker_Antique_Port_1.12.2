@@ -1,0 +1,25 @@
+{
+  "tactical_alloy": {
+    "color": "4a90e2",
+    "head": { "durability": 620, "miningspeed": 7.2, "attack": 5.8, "harvestlevel": 3 },
+    "handle": { "modifier": 1.15, "durability": 80 },
+    "extra": { "durability": 100 },
+    "traits": ["lightweight", "magnetic"]
+  },
+  "tactisteel": {
+    "color": "d4a76a",
+    "head": { "durability": 780, "miningspeed": 6.5, "attack": 6.2, "harvestlevel": 4 },
+    "handle": { "modifier": 0.95, "durability": 120 },
+    "extra": { "durability": 140 },
+    "traits": ["heavy", "dense"]
+  },
+  "tools": {
+    "tactical_nunchaku": { "damagePotential": 0.52, "attackSpeed": 2.1, "parts": ["toughToolRod","toughToolRod","toughBinding"], "trait": "tactical_combo" },
+    "tactical_swift_shield": { "damagePotential": 0.38, "attackSpeed": 1.4, "parts": ["panHead","largePlate"], "action": "BLOCK" },
+    "tactical_heavy_shield": { "damagePotential": 0.62, "attackSpeed": 0.85, "parts": ["signHead","largePlate","toughToolRod"] },
+    "tactical_spear": { "damagePotential": 0.85, "attackSpeed": 1.1, "parts": ["arrowHead","toughToolRod","handGuard"] },
+    "tactical_doppelhander": { "damagePotential": 1.1, "attackSpeed": 0.75, "parts": ["swordBlade","toughBinding","largePlate","toughToolRod"], "aoe": true },
+    "tactical_maraca": { "damagePotential": 0.7, "attackSpeed": 1.8, "parts": ["largePlate","toughBinding","toolRod"] },
+    "tactical_craftsman_staff": { "damagePotential": 0.35, "attackSpeed": 1.2, "parts": ["shard","toughToolRod","toolRod"], "classes": ["pickaxe","axe","shovel","sword"] }
+  }
+}

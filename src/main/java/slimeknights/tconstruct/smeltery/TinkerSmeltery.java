@@ -609,12 +609,7 @@ public class TinkerSmeltery extends TinkerPulse {
     TinkerRegistry.registerTableCasting(new CastingRecipe(new ItemStack(Blocks.GLASS_PANE), null, TinkerFluids.glass, Material.VALUE_Glass * 6 / 16, 50));
     TinkerRegistry.registerBasinCasting(new CastingRecipe(new ItemStack(TinkerCommons.blockClearGlass), null, TinkerFluids.glass, Material.VALUE_Glass, 120));
 
-    // obsidian pane: 5s (100 ticks) in Casting Table, 288 mB obsidian -> 1 pane
-    if(TinkerCommons.blockObsidianPane != null) {
-      TinkerRegistry.registerTableCasting(new CastingRecipe(new ItemStack(TinkerCommons.blockObsidianPane, 1), null, TinkerFluids.obsidian, Material.VALUE_Ingot * 2, 100));
-    } else {
-      TinkerRegistry.log.warn("blockObsidianPane is null, skipping obsidian pane casting recipe");
-    }
+    // obsidian pane removed per user request
     
     // bone melting and casting
     TinkerRegistry.registerMelting(new ItemStack(Items.DYE, 1, 15), TinkerFluids.calcium, Material.VALUE_Ingot / 3);
@@ -661,13 +656,7 @@ public class TinkerSmeltery extends TinkerPulse {
       TinkerRegistry.registerBasinCasting(new CastingRecipe(new ItemStack(TinkerCommons.blockSlimeCongealed, 1, BlockSlime.SlimeType.PURPLE.meta), null, TinkerFluids.purpleSlime, Material.VALUE_SlimeBall * 4, 100));
     }
     
-    // 5-tier reinforcement plates (Casting Table: fluid + searedBrick -> plate)
-    // JEI times: iron 3s, cobalt 3s, gold 2s, seared 4s, obsidian 11s -> ticks 60,60,40,80,220
-    TinkerRegistry.registerTableCasting(new CastingRecipe(TinkerCommons.matReinforceIron, RecipeMatch.of(TinkerCommons.searedBrick, 1), new FluidStack(TinkerFluids.iron, Material.VALUE_Ingot), 60, true, false));
-    TinkerRegistry.registerTableCasting(new CastingRecipe(TinkerCommons.matReinforceGold, RecipeMatch.of(TinkerCommons.searedBrick, 1), new FluidStack(TinkerFluids.gold, Material.VALUE_Ingot), 40, true, false));
-    TinkerRegistry.registerTableCasting(new CastingRecipe(TinkerCommons.matReinforceCobalt, RecipeMatch.of(TinkerCommons.searedBrick, 1), new FluidStack(TinkerFluids.cobalt, Material.VALUE_Ingot), 60, true, false));
-    TinkerRegistry.registerTableCasting(new CastingRecipe(TinkerCommons.matReinforceSeared, RecipeMatch.of(TinkerCommons.searedBrick, 1), new FluidStack(TinkerFluids.searedStone, Material.VALUE_Ingot), 80, true, false));
-    TinkerRegistry.registerTableCasting(new CastingRecipe(TinkerCommons.matReinforceObsidian, RecipeMatch.of(TinkerCommons.searedBrick, 1), new FluidStack(TinkerFluids.obsidian, Material.VALUE_Ingot * 2), 220, true, false));
+
 
     // steel casting (configurable)
     if(Config.steelAlloy && Config.registerAllCommonMetals) {

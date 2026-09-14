@@ -7,17 +7,19 @@
     ],
     "type": "forge:ore_shaped",
     "pattern": [
-        "AAA",
         "ABA",
-        "AAA"
+        "BCB",
+        "ABA"
     ],
     "key": {
         "A": {
-            "type": "forge:ore_dict",
-            "ore": "obsidian"
+            "item": "minecraft:iron_block"
         },
         "B": {
-            "item": "#REINFORCEMENT_CENTER"
+            "item": "minecraft:obsidian"
+        },
+        "C": {
+            "item": "minecraft:gold_block"
         }
     },
     "result": {

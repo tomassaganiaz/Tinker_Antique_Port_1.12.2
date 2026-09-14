@@ -1,0 +1,8 @@
+{
+    "textures": {
+        "layer0": "tconstruct:items/tactical_maraca/bell",
+        "layer1": "tconstruct:items/tactical_maraca/binding",
+        "layer2": "tconstruct:items/tactical_maraca/handle",
+        "broken1": "tconstruct:items/tactical_maraca/broken_bell"
+    }
+}

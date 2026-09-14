@@ -65,7 +65,7 @@ public class ArmorClientProxy extends CommonProxy {
   }
 
   private void registerArmorPartModels() {
-    for(slimeknights.tconstruct.library.tools.IToolPart part : new slimeknights.tconstruct.library.tools.IToolPart[]{TinkerArmor.plateHelmet, TinkerArmor.plateChestplate, TinkerArmor.plateLeggings, TinkerArmor.plateBoots, TinkerArmor.plateShield, TinkerArmor.maille}) {
+    for(slimeknights.tconstruct.library.tools.IToolPart part : new slimeknights.tconstruct.library.tools.IToolPart[]{TinkerArmor.plateHelmet, TinkerArmor.plateChestplate, TinkerArmor.plateLeggings, TinkerArmor.plateBoots, TinkerArmor.plateShield, TinkerArmor.maille, TinkerArmor.slimePlateHelmet, TinkerArmor.slimePlateChestplate, TinkerArmor.slimePlateLeggings, TinkerArmor.slimePlateBoots, TinkerArmor.travelersPlateHelmet, TinkerArmor.travelersPlateChestplate, TinkerArmor.travelersPlateLeggings, TinkerArmor.travelersPlateBoots}) {
       if(part != null) ModelRegisterUtil.registerPartModel((slimeknights.tconstruct.library.tools.ToolPart)part);
     }
   }

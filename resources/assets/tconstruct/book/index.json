@@ -57,5 +57,15 @@
         "id": "tconstruct:smeltery_controller"
       }
     }
+  },
+  {
+    "name": "tactical",
+    "data": "sections/tactical.json",
+    "module": "TinkerTactical",
+    "icon": {
+      "item": {
+        "id": "tconstruct:tactical_spear"
+      }
+    }
   }
 ]

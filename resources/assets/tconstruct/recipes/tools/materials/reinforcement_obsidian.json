@@ -1,0 +1,31 @@
+{
+    "conditions": [
+        {
+            "type": "tconstruct:is_pulse_loaded",
+            "pulse_name": "TinkerTools"
+        }
+    ],
+    "type": "forge:ore_shaped",
+    "pattern": [
+        "ABA",
+        "BCB",
+        "ABA"
+    ],
+    "key": {
+        "A": {
+            "item": "tconstruct:firewood",
+            "data": 2
+        },
+        "B": {
+            "item": "minecraft:obsidian"
+        },
+        "C": {
+            "item": "tconstruct:cast_custom",
+            "data": 0
+        }
+    },
+    "result": {
+        "item": "tconstruct:materials",
+        "data": 35
+    }
+}

@@ -9,6 +9,8 @@ import java.util.UUID;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.attributes.IAttributeInstance;
+import net.minecraft.entity.item.EntityArmorStand;
+import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.event.entity.living.LivingFallEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
@@ -17,6 +19,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import slimeknights.tconstruct.library.utils.TagUtil;
 import slimeknights.tconstruct.library.utils.Tags;
 import slimeknights.tconstruct.tools.armor.item.ArmorCore;
+import slimeknights.tconstruct.tools.armor.item.ItemPlateShield;
 
 public class ArmorEventHandler {
 
@@ -50,6 +53,8 @@ public class ArmorEventHandler {
     for(ItemStack s : p.getArmorInventoryList()) {
       if(!(s.getItem() instanceof ArmorCore) || !s.hasTagCompound()) continue;
       NBTTagCompound tag = TagUtil.getToolTag(s);
+      red += tag.getFloat(Tags.PROTECTION) * 0.10f;
+      if(isDirectMeleeDamage(src)) red += tag.getFloat(Tags.MELEE_PROTECTION) * 0.10f;
       if(src.isFireDamage()) red += tag.getFloat(Tags.FIRE_PROTECTION) * 0.10f;
       if(src.isMagicDamage()) red += tag.getFloat(Tags.MAGIC_PROTECTION) * 0.10f;
       if(src.isProjectile()) red += tag.getFloat(Tags.PROJECTILE_PROTECTION) * 0.10f;
@@ -107,7 +112,21 @@ public class ArmorEventHandler {
           slimeknights.tconstruct.library.utils.ToolHelper.damageTool(s, 1, p);
         }
       }
+      ItemStack active = p.getActiveItemStack();
+      if(p.isActiveItemStackBlocking() && active.getItem() instanceof ItemPlateShield && active.hasTagCompound()) {
+        slimeknights.tconstruct.library.utils.ToolHelper.damageTool(active, 1, p);
+      }
     }
+  }
+
+  private boolean isDirectMeleeDamage(DamageSource source) {
+    return source.getImmediateSource() instanceof net.minecraft.entity.EntityLivingBase
+        && source.getImmediateSource() == source.getTrueSource()
+        && !source.isProjectile()
+        && !source.isExplosion()
+        && !source.isFireDamage()
+        && !source.isMagicDamage()
+        && !"fall".equals(source.getDamageType());
   }
 
   @SubscribeEvent
@@ -161,5 +180,21 @@ public class ArmorEventHandler {
       }
     }
     return false;
+  }
+
+  @SubscribeEvent
+  public void onInteractArmorStand(PlayerInteractEvent.EntityInteract event) {
+    if(!(event.getTarget() instanceof EntityArmorStand)) return;
+    EntityArmorStand stand = (EntityArmorStand) event.getTarget();
+    ItemStack held = event.getEntityPlayer().getHeldItem(event.getHand());
+    if(held.isEmpty() || !(held.getItem() instanceof ArmorCore)) return;
+    ArmorCore armor = (ArmorCore) held.getItem();
+    net.minecraft.inventory.EntityEquipmentSlot slot = armor.armorType;
+    ItemStack existing = stand.getItemStackFromSlot(slot);
+    if(!existing.isEmpty()) return;
+    if(event.getWorld().isRemote) return;
+    ItemStack toEquip = held.splitStack(1);
+    stand.setItemStackToSlot(slot, toEquip);
+    event.setCanceled(true);
   }
 }

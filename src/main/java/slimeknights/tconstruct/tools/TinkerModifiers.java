@@ -174,12 +174,6 @@ public class TinkerModifiers extends AbstractToolPulse {
     modNecrotic.addItem("boneWithered");
 
     modReinforced = registerModifier(new ModReinforced());
-    modReinforced.addItem(TinkerCommons.matReinforcement, 1, 1);
-    modReinforced.addItem(TinkerCommons.matReinforceIron, 1, 1);
-    modReinforced.addItem(TinkerCommons.matReinforceGold, 1, 1);
-    modReinforced.addItem(TinkerCommons.matReinforceCobalt, 1, 1);
-    modReinforced.addItem(TinkerCommons.matReinforceSeared, 1, 1);
-    modReinforced.addItem(TinkerCommons.matReinforceObsidian, 1, 1);
 
     modSharpness = registerModifier(new ModSharpness(72));
     modSharpness.addItem("gemQuartz");

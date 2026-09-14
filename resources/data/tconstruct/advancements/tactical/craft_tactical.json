@@ -1,0 +1,14 @@
+{
+  "display": {
+    "icon": { "item": "tconstruct:tactical_spear" },
+    "title": { "translate": "advancement.tactical.craft" },
+    "description": { "translate": "advancement.tactical.craft.desc" },
+    "frame_type": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "craft_tactical": { "trigger": "minecraft:impossible" }
+  }
+}

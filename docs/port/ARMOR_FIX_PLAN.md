@@ -1,6 +1,6 @@
 # Plan de Arreglo — Sistema de Armaduras (1.12.2)
 
-> Estado: **COMPLETADO P0–P5** · `gradlew build` SUCCESS 18 tasks cada fase · Sin contenido borrado (solo `TraitTwin` muerta + imports muertos).
+> Estado: **P0 cerrado; P1-P4 parcialmente pendientes** · `gradlew.bat build --offline` SUCCESS · Este documento refleja los faltantes funcionales restantes y no solo la compilacion.
 
 ## P0 — Crashes (hacer primero)
 
@@ -15,10 +15,10 @@
 
 | # | Error | Fix |
 |---|-------|-----|
-| P1-1 | `ArmorCore extends ToolCore` no es `ItemArmor`: sin dispenser, sin ArmorStand, sin shift-click equip, sin encantabilidad | Mantener `ToolCore` pero añadir: `ArmorDispenserBehavior` en `preInit`, `isValidArmor` ya ok, `getEnchantability/canApplyAtEnchantingTable` delegando a material, `getIsRepairable` vía `PartMaterialType` |
+| P1-1 | `ArmorCore extends ToolCore` no es `ItemArmor`: sin ArmorStand, sin shift-click equip completo y sin encantabilidad | 🟡 Parcial: `ArmorDispenserBehavior`, `isValidArmor` y `getIsRepairable` por material ya funcionan; quedan ArmorStand, shift-click y encantabilidad |
 | P1-2 | Armadura no recibe daño al ser golpeado | Override `damageArmor(EntityLivingBase,ItemStack,DamageSource,int,slot)` → `ToolHelper.damageTool` + `setDamage`; hoy solo `setDamage` manual, nunca se llama |
-| P1-3 | `onItemRightClick` rompe stack | `ArmorCore.java:118-128`: `setCount(0)` sin `shrink(1)` + sin swap si slot ocupado → perder item. Usar patrón vanilla: intercambiar `current`↔mano |
-| P1-4 | Escudo fuera del sistema | `ItemPlateShield extends ToolCore` (no `ArmorCore`): eventos lo ignoran, sin `blocking` NBT. Hacerlo `extends ArmorCore` con `armorType=null`-safe o incluirlo en `ArmorEventHandler` + `getAttributeModifiers` |
+| P1-3 | `onItemRightClick` rompe stack | ✅ Corregido: `ArmorCore` usa `splitStack(1)` y conserva el resto de la pila; el intercambio con el slot ocupado se mantiene |
+| P1-4 | Escudo fuera del sistema | 🟡 Parcial: `ItemPlateShield` sigue siendo `ToolCore`, pero `ArmorEventHandler` ya lo desgasta mientras bloquea; faltan hooks vanilla compartidos y una decision de integracion con `ArmorCore` |
 
 ## P2 — Stats/NBT
 
