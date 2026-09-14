@@ -106,5 +106,17 @@
   {
     "type": "modifier",
     "data": "modifiers/incognito.json"
+  },
+  {
+    "type": "modifier",
+    "data": "modifiers/thorns.json"
+  },
+  {
+    "type": "modifier",
+    "data": "modifiers/revitalizing.json"
+  },
+  {
+    "type": "modifier",
+    "data": "modifiers/netherite.json"
   }
 ]

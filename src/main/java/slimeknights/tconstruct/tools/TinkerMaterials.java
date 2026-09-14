@@ -769,6 +769,7 @@ public final class TinkerMaterials {
     slimeball.setCraftable(true); slimeball.addItemIngot("slimecrystalGreen");
     magma.setCraftable(true); magma.addItemIngot("slimecrystalMagma");
     enderslimeVine.setCraftable(true); safeAdd(enderslimeVine, new ItemStack(TinkerWorld.slimeVinePurple1), Material.VALUE_Ingot, true);
+    for(Material m : new Material[]{slimesteel, cinderslime, amethystbronze, rosegold, queensslime, hepatizon, blazingbone, ancient, netherite, scrap, constantan, invar, pewter, nicrosil, necronium, slime, blueslime, knightslime, magmaslime, steel, bronze, copper, tin, aluminum, lead, silver, electrum, nickel, alubrass, alumite, obsidian, searedstone, scorchedstone}) if(m != null && m.hasItems()) m.setVisible();
   }
 
   /**

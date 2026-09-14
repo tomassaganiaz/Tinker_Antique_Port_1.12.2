@@ -1,0 +1,20 @@
+{
+  "modifier": "netherite",
+  "text": [
+    {
+      "text": "Refined! Harness the power of ancient metal, making the tool stronger and immune to external damage such as fire."
+    }
+  ],
+  "effects": [
+    "Tools: +1 attack damage",
+    "Armor: +2 defense, +1 toughness",
+    "Max level 1",
+    "Apply with Netherite ingot (ingotNetherite) in Tool Forge",
+    "Also grants fire immunity flavor (use with Protection mods for full resist)"
+  ],
+  "demoTool": [
+    "tconstruct:pickaxe",
+    "tconstruct:plate_chestplate",
+    "tconstruct:broadsword"
+  ]
+}

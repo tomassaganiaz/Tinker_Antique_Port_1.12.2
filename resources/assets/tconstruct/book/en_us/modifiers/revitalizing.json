@@ -1,0 +1,19 @@
+{
+  "modifier": "revitalizing",
+  "text": [
+    {
+      "text": "Can feel the energy flowing. Strengthens the heart, granting more hearts. Apply with 2 Diamond Apples (apple + 2 molten diamonds via casting table)."
+    }
+  ],
+  "effects": [
+    "+1 heart (2 HP) per level while worn",
+    "Stacks with multiple armor pieces",
+    "Max level 3 = +3 hearts",
+    "Recipe: 2x Diamond Apple (TinkerSmeltery.diamond_apple) per level in Tool Forge"
+  ],
+  "demoTool": [
+    "tconstruct:plate_chestplate",
+    "tconstruct:slime_chestplate",
+    "tconstruct:travelers_chestplate"
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "modifier": "thorns",
+  "text": [
+    {
+      "text": "Quite metal! Harness the power of the guardian, causing attackers to sometimes take damage. Apply with cactus blocks."
+    }
+  ],
+  "effects": [
+    "15% chance per level to deal 1-4 thorns damage to attacker",
+    "Max level 3",
+    "Works on armor: attackers take damage when hitting you",
+    "Requires cactus blocks in the Tool Forge"
+  ],
+  "demoTool": [
+    "tconstruct:plate_chestplate",
+    "tconstruct:plate_boots",
+    "tconstruct:plate_helmet"
+  ]
+}
