@@ -26,6 +26,7 @@ import slimeknights.mantle.pulsar.pulse.Pulse;
 import slimeknights.mantle.util.RecipeMatch;
 import slimeknights.tconstruct.library.TinkerRegistry;
 import slimeknights.tconstruct.library.Util;
+import slimeknights.tconstruct.library.materials.ArmorMaterialStats;
 import slimeknights.tconstruct.library.materials.ArrowShaftMaterialStats;
 import slimeknights.tconstruct.library.materials.BowMaterialStats;
 import slimeknights.tconstruct.library.materials.BowStringMaterialStats;
@@ -342,15 +343,25 @@ public final class TinkerMaterials {
     slime.setCraftable(true);
     slime.addItemIngot("slimecrystalGreen");
     slime.addTrait(slimeyGreen);
+    slime.addTrait(overshield, ArmorMaterialStats.TYPE_CHESTPLATE);
+    slime.addTrait(overshield, ArmorMaterialStats.TYPE_HELMET);
 
     blueslime.setCraftable(true);
     blueslime.addItemIngot("slimecrystalBlue");
     blueslime.addTrait(slimeyBlue);
+    blueslime.addTrait(overshield, ArmorMaterialStats.TYPE_HELMET);
+    blueslime.addTrait(overshield, ArmorMaterialStats.TYPE_CHESTPLATE);
 
     knightslime.setCraftable(true);
     knightslime.addCommonItems("Knightslime");
     knightslime.addTrait(crumbling, HEAD);
     knightslime.addTrait(unnatural);
+    knightslime.addTrait(invigorating, ArmorMaterialStats.TYPE_HELMET);
+    knightslime.addTrait(invigorating, ArmorMaterialStats.TYPE_CHESTPLATE);
+    knightslime.addTrait(invigorating, ArmorMaterialStats.TYPE_LEGGINGS);
+    knightslime.addTrait(invigorating, ArmorMaterialStats.TYPE_BOOTS);
+    knightslime.addTrait(overshield, ArmorMaterialStats.TYPE_HELMET);
+    knightslime.addTrait(overshield, ArmorMaterialStats.TYPE_CHESTPLATE);
 
     magmaslime.setCraftable(true);
     magmaslime.addItemIngot("slimecrystalMagma");
@@ -363,6 +374,8 @@ public final class TinkerMaterials {
     iron.setRepresentativeItem(Items.IRON_INGOT);
     iron.addTrait(magnetic2, HEAD);
     iron.addTrait(magnetic);
+    iron.addTrait(heavy, ArmorMaterialStats.TYPE_CHESTPLATE);
+    iron.addTrait(heavy, ArmorMaterialStats.TYPE_HELMET);
 
     pigiron.addCommonItems("Pigiron");
     pigiron.addTrait(baconlicious, HEAD);
@@ -374,9 +387,16 @@ public final class TinkerMaterials {
     // Nether Backport, y sin él se queda sin insumo igual que las vides.
     // Rasgos TC3 → fork: overlord+overslime → slimeyBlue, momentum → momentum,
     // conducting → shocking, vintage/worldbound → duritos.
+    // Habilidades pasivas armor duales (weapon vs armor): invigorating/overshield/revitalizing/etc para placas
     queensslime.addTrait(slimeyBlue);
+    queensslime.addTrait(overshield, ArmorMaterialStats.TYPE_HELMET);
+    queensslime.addTrait(overshield, ArmorMaterialStats.TYPE_CHESTPLATE);
     hepatizon.addTrait(momentum);
+    hepatizon.addTrait(revitalizingArmor, ArmorMaterialStats.TYPE_CHESTPLATE);
+    hepatizon.addTrait(revitalizingArmor, ArmorMaterialStats.TYPE_HELMET);
     blazingbone.addTrait(shocking);
+    blazingbone.addTrait(conductiveArmor, ArmorMaterialStats.TYPE_HELMET);
+    blazingbone.addTrait(conductiveArmor, ArmorMaterialStats.TYPE_CHESTPLATE);
     netherite.setCraftable(true);
     netherite.setCastable(true);
     netherite.setFluid(TinkerFluids.netherite);
@@ -415,17 +435,24 @@ public final class TinkerMaterials {
 
     // Aleaciones de TC3 (tier 3). Sin insumos de crafteo: se obtienen colando piezas desde la smeltery.
     // Rasgos: TC3 da overcast+overslime (slimesteel), enhanced (rose gold) y crumbling (amethyst bronze).
+    // Armor dual: amethyst_bronze crystalstrike -> crystalArmor, slimesteel overslime -> overshield
     slimesteel.addItemIngot("ingotSlimesteel");
     slimesteel.addTrait(dense);
+    slimesteel.addTrait(overshield, ArmorMaterialStats.TYPE_CHESTPLATE);
     slimesteel.setRepresentativeItem(TinkerCommons.ingotSlimesteel);
     cinderslime.addItemIngot("ingotCinderslime");
     cinderslime.addTrait(flammable);
+    cinderslime.addTrait(overshield, ArmorMaterialStats.TYPE_HELMET);
+    cinderslime.addTrait(overshield, ArmorMaterialStats.TYPE_CHESTPLATE);
     cinderslime.setRepresentativeItem(TinkerCommons.ingotCinderslime);
     rosegold.addItemIngot("ingotRosegold");
     rosegold.addTrait(established);
+    rosegold.addTrait(crystalArmor, ArmorMaterialStats.TYPE_HELMET);
     rosegold.setRepresentativeItem(TinkerCommons.ingotRosegold);
     amethystbronze.addItemIngot("ingotAmethystBronze");
     amethystbronze.addTrait(crumbling, HEAD);
+    amethystbronze.addTrait(crystalArmor, ArmorMaterialStats.TYPE_HELMET);
+    amethystbronze.addTrait(crystalArmor, ArmorMaterialStats.TYPE_CHESTPLATE);
     amethystbronze.setRepresentativeItem(TinkerCommons.ingotAmethystBronze);
 
     // Aleaciones de compat: mismos rasgos aproximados que sus equivalentes del fork
@@ -496,6 +523,8 @@ public final class TinkerMaterials {
     cobalt.addCommonItems("Cobalt");
     cobalt.addTrait(momentum, HEAD);
     cobalt.addTrait(lightweight);
+    cobalt.addTrait(lightweight, ArmorMaterialStats.TYPE_HELMET);
+    cobalt.addTrait(conductiveArmor, ArmorMaterialStats.TYPE_CHESTPLATE);
 
     ardite.addCommonItems("Ardite");
     ardite.addTrait(stonebound, HEAD);
@@ -504,6 +533,7 @@ public final class TinkerMaterials {
     manyullyn.addCommonItems("Manyullyn");
     manyullyn.addTrait(insatiable, HEAD);
     manyullyn.addTrait(coldblooded);
+    manyullyn.addTrait(revitalizingArmor, ArmorMaterialStats.TYPE_CHESTPLATE);
     
     // Special Bone Materials
     bloodbone.setCraftable(true);
@@ -581,6 +611,7 @@ public final class TinkerMaterials {
     // Common Metals
     copper.addCommonItems("Copper");
     copper.addTrait(established);
+    copper.addTrait(aquadynamic, ArmorMaterialStats.TYPE_HELMET);
 
     bronze.addCommonItems("Bronze");
     bronze.addTrait(dense);
@@ -594,6 +625,7 @@ public final class TinkerMaterials {
 
     silver.addCommonItems("Silver");
     silver.addTrait(holy);
+    silver.addTrait(holy, ArmorMaterialStats.TYPE_HELMET);
 
     electrum.addCommonItems("Electrum");
     electrum.addTrait(shocking);
@@ -622,9 +654,8 @@ public final class TinkerMaterials {
     necroticbone.setCraftable(true);
     necroticbone.addItem(TinkerCommons.matNecroticBone, 1, Material.VALUE_Ingot);
     necroticbone.setRepresentativeItem(TinkerCommons.matNecroticBone);
-    // TC3 le da el rasgo `necrotic` (robavida); el fork solo tiene ese efecto como modificador
-    // (TinkerModifiers.modNecrotic, declarado Modifier) así que se usa veneno, lo más parecido
     necroticbone.addTrait(poisonous);
+    necroticbone.addTrait(revitalizingArmor, ArmorMaterialStats.TYPE_HELMET);
 
     enderpearl.setCraftable(true);
     enderpearl.addItem(Items.ENDER_PEARL, 1, Material.VALUE_Ingot);
@@ -846,8 +877,8 @@ public final class TinkerMaterials {
                                     new HandleMaterialStats(1.30f, -50),
                                     new ExtraMaterialStats(200));
     TinkerRegistry.addMaterialStats(knightslime,
-                                    new HeadMaterialStats(850, 5.8f, 5.10f, OBSIDIAN),
-                                    new HandleMaterialStats(0.50f, 500),
+                                    new HeadMaterialStats(1047, 7.5f, 3.25f, COBALT),
+                                    new HandleMaterialStats(0.60f, 200),
                                     new ExtraMaterialStats(125));
     TinkerRegistry.addMaterialStats(magmaslime,
                                     new HeadMaterialStats(600, 2.1f, 7.00f, STONE),
@@ -860,7 +891,7 @@ public final class TinkerMaterials {
                                     new HandleMaterialStats(0.85f, -150),
                                     new ExtraMaterialStats(75));
     TinkerRegistry.addMaterialStats(cobalt,
-                                    new HeadMaterialStats(780, 12.00f, 4.10f, COBALT),
+                                    new HeadMaterialStats(800, 6.50f, 2.25f, DIAMOND),
                                     new HandleMaterialStats(0.90f, 100),
                                     new ExtraMaterialStats(300));
     TinkerRegistry.addMaterialStats(ardite,
@@ -868,8 +899,8 @@ public final class TinkerMaterials {
                                     new HandleMaterialStats(1.40f, -200),
                                     new ExtraMaterialStats(450));
     TinkerRegistry.addMaterialStats(manyullyn,
-                                    new HeadMaterialStats(820, 7.02f, 8.72f, COBALT),
-                                    new HandleMaterialStats(0.50f, 250),
+                                    new HeadMaterialStats(1250, 6.50f, 3.50f, COBALT),
+                                    new HandleMaterialStats(0.55f, 200),
                                     new ExtraMaterialStats(50));
     TinkerRegistry.addMaterialStats(firewood,
                                     new HeadMaterialStats(550, 6.00f, 5.50f, STONE),
@@ -885,12 +916,12 @@ public final class TinkerMaterials {
 
     // Metals
     TinkerRegistry.addMaterialStats(iron,
-                                    new HeadMaterialStats(204, 6.00f, 4.00f, DIAMOND),
+                                    new HeadMaterialStats(250, 6.00f, 2.00f, IRON),
                                     new HandleMaterialStats(0.85f, 60),
                                     new ExtraMaterialStats(50));
     TinkerRegistry.addMaterialStats(pigiron,
-                                    new HeadMaterialStats(380, 6.20f, 4.50f, DIAMOND),
-                                    new HandleMaterialStats(1.20f, 0),
+                                    new HeadMaterialStats(580, 6.00f, 2.50f, DIAMOND),
+                                    new HandleMaterialStats(1.00f, 50),
                                     new ExtraMaterialStats(170));
 
     // Aleaciones de TC3 (tier 3): Head(1040, 6, DIAMOND, 2.5), Head(175, 9, GOLD→STONE, 1) y
@@ -900,10 +931,10 @@ public final class TinkerMaterials {
                                     new HandleMaterialStats(1.20f, 150),
                                     new ExtraMaterialStats(200));
 
-    // Cinderslime (tier 4): oro + slime ichor + ladrillo scorched
+    // Cinderslime (tier 4): oro + slime ichor + ladrillo scorched — acomodado a 1.20.1 1221/6.5/2.25
     TinkerRegistry.addMaterialStats(cinderslime,
-                                    new HeadMaterialStats(1150, 6.50f, 2.00f, COBALT),
-                                    new HandleMaterialStats(1.25f, 175),
+                                    new HeadMaterialStats(1221, 6.50f, 2.25f, COBALT),
+                                    new HandleMaterialStats(1.15f, 150),
                                     new ExtraMaterialStats(180));
 
     TinkerRegistry.addMaterialStats(rosegold,

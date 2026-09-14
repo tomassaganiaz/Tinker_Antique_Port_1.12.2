@@ -58,6 +58,12 @@ public class TinkerTraits {
   public static final AbstractTrait writable = new TraitWritable(1);
   public static final AbstractTrait writable2 = new TraitWritable(2);
 
+  public static final AbstractTrait invigorating = new TraitInvigorating();
+  public static final AbstractTrait overshield = new TraitOvershield();
+  public static final AbstractTrait revitalizingArmor = new TraitRevitalizingArmor();
+  public static final AbstractTrait crystalArmor = new TraitCrystalArmor();
+  public static final AbstractTrait conductiveArmor = new TraitConductiveArmor();
+
   // arrow shaft traits
   public static final AbstractTrait breakable = new TraitBreakable();
   public static final AbstractTrait endspeed = new TraitEndspeed();

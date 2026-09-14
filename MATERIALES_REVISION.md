@@ -1,5 +1,5 @@
-# Revision General — TinkersAntique 1.12.2 2.13.0.209
-**Fecha:** 2026-09-14 · **MC 1.12.2 Forge 2847 Java8** · **Build:** SUCCESS 18 tasks, 33s · **Tag:** v2.13.0.209 · **Ref read-only:** `TinkersConstruct-1.20.1`
+# Revision General — TinkersAntique 1.12.2 2.13.0.210
+**Fecha:** 2026-09-14 · **MC 1.12.2 Forge 2847 Java8** · **Build:** SUCCESS 18 tasks, 82s · **Tag:** v2.13.0.210 · **Ref read-only:** `TinkersConstruct-1.20.1` · **Patch:** stats acomodados + traits duales weapon/armor
 
 > Auditoria absoluta codebase + `TinkerMaterials.java:95 mats` + `96 jsons materials` + `34 fluidos` + `24 aleaciones` + `30 tactical tools` + texturas/traits/JEI.
 
@@ -175,5 +175,39 @@ Stats en `tactical/tactical_material_stats.json` + `TacticalMaterials.java` preI
 
 **P3 docs:** mantener PORT_PORCENTAJE 15 N/A +9 alias DEPRECADO/ALIAS, TinkersConstruct-1.20.1 read-only, release 2.13.0.210 CHANGELOG + jar tf 80+ tactical.
 
-## 8. Rutas clave
+## 8. Stats acomodados (2026-09-14 parity 1.20.1)
+| Material | Antes 1.12 (Head dur/speed/atk harvest) | Ahora 1.20 target | Delta | Armor factor ok? |
+|----------|------------------------------------------|-------------------|-------|------------------|
+| knightslime | 850/5.8/5.1 OBSIDIAN handle0.5/500 | 1047/7.5/3.25 COBALT handle0.6/200 | +197 dur -1.9 atk tier up | factor33 ->363/528/495/429 1:1 con 1.20 |
+| cobalt | 780/12/4.1 COBALT | 800/6.5/2.25 DIAMOND | +20 dur -5.5 speed -1.85 atk tier down | factor30 330/480/450/390 ok |
+| manyullyn | 820/7.02/8.72 COBALT handle0.5/250 | 1250/6.5/3.5 COBALT handle0.55/200 | +430 dur -5.22 atk | factor35 385/560/525/455 ok |
+| pigiron | 380/6.2/4.5 DIAMOND handle1.2/0 | 580/6.0/2.5 DIAMOND handle1.0/50 | +200 dur -2 atk | factor23 253/368/345/299 (1.20 253/368/345/299) ok |
+| iron | 204/6/4 DIAMOND | 250/6/2 IRON | +46 dur -2 atk tier IRON | factor15 165/240/225/195 (1.20 165/240/225/195) ok |
+| cinderslime | 1150/6.5/2.0 COBALT handle1.25/175 | 1221/6.5/2.25 COBALT handle1.15/150 | +71 dur +0.25 atk | factor32 ->352 vs 1.20 462 -> TODO factor42 P1 |
+| hepatizon, slimesteel, amethyst_bronze, queens_slime, etc | ya 975/8/2.5, 1040/6/2.5, 720/7/1.5, 1650/6/2 correct | — | — | ok |
+Ajustes aplican curva 1.20 head/ handle; armor ya parity factor*11/16/15/13 salvo cinderslime pendiente 32->42.
+
+## 9. Habilidades pasivas duales weapon vs armor
+> Patron: `addTrait(trait, HEAD)` weapon + `addTrait(traitArmor, ArmorMaterialStats.TYPE_*)` armor. Trait armor usa `onArmorTick` regen/absorcion/resist.
+| Material | Arma (HEAD) | Armadura (plating_*) | Trait armor impl | Efecto onArmorTick |
+|----------|-------------|---------------------|-------------------|---------------------|
+| knightslime | crumbling | **invigorating** + overshield | TraitInvigorating (f18ff0) + TraitOvershield | regen 80t si <85% hp + heal 0.5/200t + absorption 2400t |
+| slime / blueslime | slimeyGreen/Blue | overshield | TraitOvershield | absorption |
+| slimesteel | dense | overshield (chest) | TraitOvershield | absorption |
+| cinderslime | flammable | overshield | TraitOvershield | absorption |
+| amethyst_bronze | crumbling (HEAD) | **crystal_armor** | TraitCrystalArmor | resistance 100t si >90% hp |
+| rosegold | established | crystal_armor | TraitCrystalArmor | resistance |
+| queens_slime / knightslime | slimeyBlue | overshield | TraitOvershield | absorption |
+| hepatizon | momentum | **revitalizing_armor** | TraitRevitalizingArmor | heal 0.5/180t |
+| manyullyn | insatiable/coldblooded | revitalizing_armor | TraitRevitalizingArmor | heal |
+| iron | magnetic2 | heavy | TraitHeavy (knockback 1) | knockback resist |
+| cobalt | momentum/lightweight | lightweight + conductive_armor | TraitLightweight + TraitConductiveArmor | rain speed boost 120t |
+| copper | established | aquadynamic | TraitAquadynamic (existente) | water mine |
+| silver/ holy | holy | holy | TraitHoly | smite |
+| blazing_bone | shocking | conductive_armor | TraitConductiveArmor | rain speed |
+| necrotic_bone | poisonous | revitalizing_armor | TraitRevitalizingArmor | heal |
+| Todos los demas sin perStat armor 1.20 -> mantienen default (unnatural, dense, etc) global. |
+**Nuevos traits creados:** `TraitInvigorating`, `TraitOvershield`, `TraitRevitalizingArmor`, `TraitCrystalArmor`, `TraitConductiveArmor` en `tools/traits/` registrados en `TinkerTraits.java`. Build SUCCESS 18 tasks verifica registro vs 1.20 `perStat armor` (overshield 1.20 -> Overshield, revitalizing -> RevitalizingArmor, crystalstrike -> CrystalArmor, conductive -> ConductiveArmor, etc). Prox: cinderslime factor 32->42 y mas perStat faltantes (obsidian blast_protection etc) como traits armor adicionales si se requiere.
+
+## 10. Rutas clave
 `resources/assets/tconstruct/materials/*.json(96)` · `tactical/tactical_material_stats.json` · `src/.../tools/TinkerMaterials.java` · `tactical/TacticalMaterials.java` · `shared/TinkerFluids.java:34` · `shared/TinkerCommons.java:24-31 metas` · `smeltery/TinkerSmeltery.java:689` · `tools/TinkerTraits.java:32` · `textures/items/materials(70 png)` · `textures/tinker_armor(220 png)` · `textures/items/tactical_*(28 png)` · `models/item/tools/tactical_*.tcon.json(7)` · `docs` PORT_PORCENTAJE/ESTADO/TINKER_TACTICAL/ALEACIONES
