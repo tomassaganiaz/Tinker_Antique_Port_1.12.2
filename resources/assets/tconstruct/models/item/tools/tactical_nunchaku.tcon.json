@@ -1,8 +1,0 @@
-{
-    "textures": {
-        "layer0": "tconstruct:items/tactical_nunchaku/rod_top",
-        "layer1": "tconstruct:items/tactical_nunchaku/rod_bottom",
-        "layer2": "tconstruct:items/tactical_nunchaku/binding",
-        "broken1": "tconstruct:items/tactical_nunchaku/broken_rod"
-    }
-}

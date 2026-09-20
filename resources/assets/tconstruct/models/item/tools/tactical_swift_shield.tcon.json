@@ -1,7 +1,0 @@
-{
-    "textures": {
-        "layer0": "tconstruct:items/tactical_swift_shield/head",
-        "layer1": "tconstruct:items/tactical_swift_shield/plate",
-        "broken1": "tconstruct:items/tactical_swift_shield/broken_plate"
-    }
-}

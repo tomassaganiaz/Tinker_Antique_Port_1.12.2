@@ -1,8 +1,0 @@
-{
-    "textures": {
-        "layer0": "tconstruct:items/tactical_spear/head",
-        "layer1": "tconstruct:items/tactical_spear/shaft",
-        "layer2": "tconstruct:items/tactical_spear/guard",
-        "broken1": "tconstruct:items/tactical_spear/broken_head"
-    }
-}

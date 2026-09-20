@@ -1,9 +1,0 @@
-{
-    "textures": {
-        "layer0": "tconstruct:items/tactical_doppelhander/blade",
-        "layer1": "tconstruct:items/tactical_doppelhander/binding",
-        "layer2": "tconstruct:items/tactical_doppelhander/plate",
-        "layer3": "tconstruct:items/tactical_doppelhander/handle",
-        "broken1": "tconstruct:items/tactical_doppelhander/broken_blade"
-    }
-}
