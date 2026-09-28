@@ -37,27 +37,27 @@ import slimeknights.tconstruct.world.TinkerWorld;
 // MANTLE
 public abstract class TinkerPulse {
 
-  protected static boolean isToolsLoaded() {
+  public static boolean isToolsLoaded() {
     return TConstruct.pulseManager.isPulseLoaded(TinkerTools.PulseId);
   }
 
-  protected static boolean isSmelteryLoaded() {
+  public static boolean isSmelteryLoaded() {
     return TConstruct.pulseManager.isPulseLoaded(TinkerSmeltery.PulseId);
   }
 
-  protected static boolean isScorchedLoaded() {
+  public static boolean isScorchedLoaded() {
     return TConstruct.pulseManager.isPulseLoaded(TinkerScorched.PulseId);
   }
 
-  protected static boolean isWorldLoaded() {
+  public static boolean isWorldLoaded() {
     return TConstruct.pulseManager.isPulseLoaded(TinkerWorld.PulseId);
   }
 
-  protected static boolean isGadgetsLoaded() {
+  public static boolean isGadgetsLoaded() {
     return TConstruct.pulseManager.isPulseLoaded(TinkerGadgets.PulseId);
   }
 
-  protected static boolean isChiselPluginLoaded() {
+  public static boolean isChiselPluginLoaded() {
     return TConstruct.pulseManager.isPulseLoaded(Chisel.PulseId);
   }
 

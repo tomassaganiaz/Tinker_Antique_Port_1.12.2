@@ -31,6 +31,7 @@ import slimeknights.tconstruct.shared.block.BlockLiquidSlime;
 import slimeknights.tconstruct.smeltery.TinkerSmeltery;
 import slimeknights.tconstruct.smeltery.block.BlockMolten;
 import slimeknights.tconstruct.smeltery.block.BlockTinkerFluid;
+import slimeknights.tconstruct.library.fluid.FluidFactory;
 import slimeknights.tconstruct.tools.TinkerMaterials;
 
 @Pulse(id = TinkerFluids.PulseId, pulsesRequired = TinkerSmeltery.PulseId, forced = true)
@@ -115,147 +116,147 @@ public class TinkerFluids extends TinkerPulse {
     FluidRegistry.enableUniversalBucket();
 
     // Fluids for integration, getting registered by TinkerIntegration
-    iron = fluidMetal(TinkerMaterials.iron.getIdentifier(), 0xa81212);
+    iron = FluidFactory.metal(TinkerMaterials.iron.getIdentifier(), 0xa81212);
     iron.setTemperature(769);
 
-    gold = fluidMetal("gold", 0xf6d609);
+    gold = FluidFactory.metal("gold", 0xf6d609);
     gold.setTemperature(532);
     gold.setRarity(EnumRarity.RARE);
 
-    pigIron = fluidMetal(TinkerMaterials.pigiron);
+    pigIron = FluidFactory.metal(TinkerMaterials.pigiron);
     pigIron.setTemperature(600);
     pigIron.setRarity(EnumRarity.EPIC);
 
-    cobalt = fluidMetal(TinkerMaterials.cobalt);
+    cobalt = FluidFactory.metal(TinkerMaterials.cobalt);
     cobalt.setTemperature(950);
     cobalt.setRarity(EnumRarity.RARE);
 
-    ardite = fluidMetal(TinkerMaterials.ardite);
+    ardite = FluidFactory.metal(TinkerMaterials.ardite);
     ardite.setTemperature(860);
     ardite.setRarity(EnumRarity.RARE);
 
-    manyullyn = fluidMetal(TinkerMaterials.manyullyn);
+    manyullyn = FluidFactory.metal(TinkerMaterials.manyullyn);
     manyullyn.setTemperature(1000);
     manyullyn.setRarity(EnumRarity.RARE);
 
-    knightslime = fluidMetal(TinkerMaterials.knightslime);
+    knightslime = FluidFactory.metal(TinkerMaterials.knightslime);
     knightslime.setTemperature(520);
     knightslime.setRarity(EnumRarity.EPIC);
 
-    alubrass = fluidMetal(TinkerMaterials.alubrass);
+    alubrass = FluidFactory.metal(TinkerMaterials.alubrass);
     alubrass.setTemperature(500);
     
-    alumite = fluidMetal(TinkerMaterials.alumite);
+    alumite = FluidFactory.metal(TinkerMaterials.alumite);
     alumite.setTemperature(900);
     alumite.setRarity(EnumRarity.RARE);
 
     // Mod Integration fluids
-    brass = fluidMetal("brass", 0xede38b);
+    brass = FluidFactory.metal("brass", 0xede38b);
     brass.setTemperature(470);
 
-    copper = fluidMetal(TinkerMaterials.copper);
+    copper = FluidFactory.metal(TinkerMaterials.copper);
     copper.setTemperature(542);
 
-    tin = fluidMetal("tin", 0xc1cddc);
+    tin = FluidFactory.metal("tin", 0xc1cddc);
     tin.setTemperature(350);
 
-    bronze = fluidMetal(TinkerMaterials.bronze);
+    bronze = FluidFactory.metal(TinkerMaterials.bronze);
     bronze.setTemperature(475);
 
-    zinc = fluidMetal("zinc", 0xd3efe8);
+    zinc = FluidFactory.metal("zinc", 0xd3efe8);
     zinc.setTemperature(375);
 
-    lead = fluidMetal(TinkerMaterials.lead);
+    lead = FluidFactory.metal(TinkerMaterials.lead);
     lead.setTemperature(400);
 
-    nickel = fluidMetal("nickel", 0xc8d683);
+    nickel = FluidFactory.metal("nickel", 0xc8d683);
     nickel.setTemperature(727);
 
-    silver = fluidMetal(TinkerMaterials.silver);
+    silver = FluidFactory.metal(TinkerMaterials.silver);
     silver.setTemperature(480);
     silver.setRarity(EnumRarity.RARE);
 
-    electrum = fluidMetal(TinkerMaterials.electrum);
+    electrum = FluidFactory.metal(TinkerMaterials.electrum);
     electrum.setTemperature(500);
     electrum.setRarity(EnumRarity.EPIC);
 
-    steel = fluidMetal(TinkerMaterials.steel);
+    steel = FluidFactory.metal(TinkerMaterials.steel);
     steel.setTemperature(681);
 
-    aluminum = fluidMetal("aluminum", 0xefe0d5);
+    aluminum = FluidFactory.metal("aluminum", 0xefe0d5);
     aluminum.setTemperature(330);
 
     // aleaciones de TC3 (tier 3). Se crean aquí, en el bloque estático, para que estén
     // disponibles ya en preinit y MaterialIntegration pueda enlazarlas con el material.
-    slimesteel = fluidMetal("slimesteel", 0x9dc0cc);
+    slimesteel = FluidFactory.metal("slimesteel", 0x9dc0cc);
     slimesteel.setTemperature(800);
     slimesteel.setRarity(EnumRarity.RARE);
 
-    rosegold = fluidMetal("rosegold", 0xd08a7a);
+    rosegold = FluidFactory.metal("rosegold", 0xd08a7a);
     rosegold.setTemperature(600);
     rosegold.setRarity(EnumRarity.RARE);
 
-    amethystbronze = fluidMetal("amethystbronze", 0xa87bbd);
+    amethystbronze = FluidFactory.metal("amethystbronze", 0xa87bbd);
     amethystbronze.setTemperature(700);
     amethystbronze.setRarity(EnumRarity.RARE);
 
     // la amatista solo es insumo de la aleación, así que no lleva material asociado
-    amethyst = fluidMetal("amethyst", 0xa86fd4);
+    amethyst = FluidFactory.metal("amethyst", 0xa86fd4);
     amethyst.setTemperature(700);
 
     // aleaciones de TC3 (tier 4)
-    queensslime = fluidMetal("queensslime", 0x7fd85f);
+    queensslime = FluidFactory.metal("queensslime", 0x7fd85f);
     queensslime.setTemperature(950);
     queensslime.setRarity(EnumRarity.EPIC);
 
-    hepatizon = fluidMetal("hepatizon", 0xb08d57);
+    hepatizon = FluidFactory.metal("hepatizon", 0xb08d57);
     hepatizon.setTemperature(900);
     hepatizon.setRarity(EnumRarity.EPIC);
 
     // insumos de esas aleaciones: crema de magma y cuarzo, ambos existen en vanilla 1.12
-    magma = fluidMetal("magma", 0xff960d);
+    magma = FluidFactory.metal("magma", 0xff960d);
     magma.setTemperature(400);
 
-    quartz = fluidMetal("quartz", 0xe8e3d5);
+    quartz = FluidFactory.metal("quartz", 0xe8e3d5);
     quartz.setTemperature(700);
 
     // aleaciones de compat de TC3
-    constantan = fluidMetal("constantan", 0xc98f5c);
+    constantan = FluidFactory.metal("constantan", 0xc98f5c);
     constantan.setTemperature(700);
 
-    invar = fluidMetal("invar", 0xb8b8a8);
+    invar = FluidFactory.metal("invar", 0xb8b8a8);
     invar.setTemperature(800);
 
-    pewter = fluidMetal("pewter", 0x9aa3a8);
+    pewter = FluidFactory.metal("pewter", 0x9aa3a8);
     pewter.setTemperature(500);
 
-    nicrosil = fluidMetal("nicrosil", 0x8c93a8);
+    nicrosil = FluidFactory.metal("nicrosil", 0x8c93a8);
     nicrosil.setTemperature(950);
     nicrosil.setRarity(EnumRarity.RARE);
 
     // compuesto de TC3 como aleación: obsidiana + ardita
-    darkthread = fluidMetal("darkthread", 0x5a4672);
+    darkthread = FluidFactory.metal("darkthread", 0x5a4672);
     darkthread.setTemperature(1000);
 
     // compuesto de TC3 como aleación: pigiron + knightslime
-    jeweledhide = fluidMetal("jeweledhide", 0xa86e98);
+    jeweledhide = FluidFactory.metal("jeweledhide", 0xa86e98);
     jeweledhide.setTemperature(900);
 
     // metal de cinderslime: oro + slime ichor + ladrillo scorched
-    cinderslime = fluidMetal("cinderslime", 0xa5130c);
+    cinderslime = FluidFactory.metal("cinderslime", 0xa5130c);
     cinderslime.setTemperature(950);
     cinderslime.setRarity(EnumRarity.RARE);
 
     // solo existen si sus mods están cargados; sin ellos el fluido se queda sin fuente
-    scrap = fluidMetal("scrap", 0x6b5a52);
+    scrap = FluidFactory.metal("scrap", 0x6b5a52);
     scrap.setTemperature(900);
     scrap.setRarity(EnumRarity.UNCOMMON);
 
-    honey = fluidMetal("honey", 0xe8a33c);
+    honey = FluidFactory.metal("honey", 0xe8a33c);
     honey.setTemperature(320);
 
     // netherite - material completo tier 4
-    netherite = fluidMetal("netherite", 0x443a3b);
+    netherite = FluidFactory.metal("netherite", 0x443a3b);
     netherite.setTemperature(1250);
     netherite.setRarity(EnumRarity.EPIC);
   }
@@ -265,40 +266,40 @@ public class TinkerFluids extends TinkerPulse {
     IForgeRegistry<Block> registry = event.getRegistry();
 
     if(isSmelteryLoaded()) {
-      searedStone = fluidStone("stone", 0x777777);
+      searedStone = FluidFactory.stone("stone", 0x777777);
       searedStone.setTemperature(800);
       registerMoltenBlock(registry, searedStone);
 
       // tier 2 de TC3: la piedra scorched tiene su propio fluido, la funde la foundry
-      scorchedStone = fluidStone("scorched_stone", 0x3a2f2c);
+      scorchedStone = FluidFactory.stone("scorched_stone", 0x3a2f2c);
       scorchedStone.setTemperature(800);
       registerMoltenBlock(registry, scorchedStone);
 
-      obsidian = fluidStone(TinkerMaterials.obsidian.getIdentifier(), 0x2c0d59);
+      obsidian = FluidFactory.stone(TinkerMaterials.obsidian.getIdentifier(), 0x2c0d59);
       obsidian.setTemperature(1000);
       registerMoltenBlock(registry, obsidian);
 
-      clay = fluidStone("clay", 0xc67453);
+      clay = FluidFactory.stone("clay", 0xc67453);
       clay.setTemperature(700);
       registerMoltenBlock(registry, clay);
 
-      dirt = fluidStone("dirt", 0xa68564);
+      dirt = FluidFactory.stone("dirt", 0xa68564);
       dirt.setTemperature(500);
       registerMoltenBlock(registry, dirt);
       
-      calcium = fluidStone("notmilk", 0xcbc6a5);
+      calcium = FluidFactory.stone("notmilk", 0xcbc6a5);
       calcium.setTemperature(800);
       registerMoltenBlockPrefixless(registry, calcium);
 
-      emerald = fluidMetal("emerald", 0x58e78e);
+      emerald = FluidFactory.metal("emerald", 0x58e78e);
       emerald.setTemperature(999);
       registerMoltenBlock(registry, emerald);
 
-      diamond = fluidMetal("diamond", 0x8cf4e2);
+      diamond = FluidFactory.metal("diamond", 0x8cf4e2);
       diamond.setTemperature(999);
       registerMoltenBlock(registry, diamond);
 
-      glass = fluidMetal("glass", 0xc0f5fe);
+      glass = FluidFactory.metal("glass", 0xc0f5fe);
       glass.setTemperature(625);
       registerMoltenBlock(registry, glass);
 
@@ -309,17 +310,17 @@ public class TinkerFluids extends TinkerPulse {
       registerMoltenBlock(registry, honey);
 
       // venom for the insect god
-      venom = fluidPoison("venom", 0xb9b566);
+      venom = FluidFactory.poison("venom", 0xb9b566);
       venom.setTemperature(336);
       registerClassicBlock(registry, venom);
 
       // blood for the blood god
-      blood = fluidClassic("blood", 0x540000);
+      blood = FluidFactory.classic("blood", 0x540000);
       blood.setTemperature(336);
       registerClassicBlock(registry, blood);
       
       // even more blood for the blood god
-      blazingBlood = fluidBlaze("blazing_blood");
+      blazingBlood = FluidFactory.blaze("blazing_blood");
       blazingBlood.setTemperature(1800);
       blazingBlood.setViscosity(6000);
       blazingBlood.setDensity(3500);
@@ -328,30 +329,30 @@ public class TinkerFluids extends TinkerPulse {
       registerMoltenBlockPrefixless(registry, blazingBlood);
     }
 
-    milk = fluidMilk("milk", 0xffffff);
+    milk = FluidFactory.milk("milk", 0xffffff);
     milk.setTemperature(320);
     registerClassicBlock(registry, milk);
 
     if(isWorldLoaded() || isSmelteryLoaded()) {
-      greenSlime = fluidSlime("greenslime", 0x82c873);
+      greenSlime = FluidFactory.slime("greenslime", 0x82c873);
       greenSlime.setTemperature(370);
       greenSlime.setViscosity(1600);
       greenSlime.setDensity(1600);
       registerBlock(registry, new BlockLiquidSlime(greenSlime, net.minecraft.block.material.Material.WATER), greenSlime.getName());
       
-      blueslime = fluidSlime("blueslime", 0xef67f0f5);
+      blueslime = FluidFactory.slime("blueslime", 0xef67f0f5);
       blueslime.setTemperature(370);
       blueslime.setViscosity(1600);
       blueslime.setDensity(1600);
       registerBlock(registry, new BlockLiquidSlime(blueslime, net.minecraft.block.material.Material.WATER), blueslime.getName());
       
-      purpleSlime = fluidSlime("purpleslime", 0xefd236ff);
+      purpleSlime = FluidFactory.slime("purpleslime", 0xefd236ff);
       purpleSlime.setTemperature(370);
       purpleSlime.setViscosity(1600);
       purpleSlime.setDensity(1600);
       registerBlock(registry, new BlockLiquidSlime(purpleSlime, net.minecraft.block.material.Material.WATER), purpleSlime.getName());
 
-      ichor = fluidSlime("ichor", 0xefea7c2c);
+      ichor = FluidFactory.slime("ichor", 0xefea7c2c);
       ichor.setTemperature(370);
       ichor.setViscosity(1600);
       ichor.setDensity(1600);
@@ -430,61 +431,6 @@ public class TinkerFluids extends TinkerPulse {
     proxy.postInit();
   }
 
-  private static FluidMolten fluidMetal(Material material) {
-    return fluidMetal(material.getIdentifier(), material.materialTextColor);
-  }
-
-  private static FluidMolten fluidMetal(String name, int color) {
-    FluidMolten fluid = new FluidMolten(name, color);
-    return registerFluid(fluid);
-  }
-
-  private static FluidMolten fluidLiquid(String name, int color) {
-    FluidMolten fluid = new FluidMolten(name, color, FluidMolten.ICON_LiquidStill, FluidMolten.ICON_LiquidFlowing);
-    return registerFluid(fluid);
-  }
-
-  private static FluidMolten fluidStone(String name, int color) {
-    FluidMolten fluid = new FluidMolten(name, color, FluidColored.ICON_StoneStill, FluidColored.ICON_StoneFlowing);
-
-    return registerFluid(fluid);
-  }
-  
-  private static FluidNonColored fluidBlaze(String name) {
-	    FluidNonColored fluid = new FluidNonColored(name, FluidNonColored.ICON_BlazeStill, FluidNonColored.ICON_BlazeFlowing);
-
-	    return registerFluid(fluid);
-	  }
-  
-  private static FluidColored fluidSlime(String name, int color) {
-	    FluidColored fluid = new FluidColored(name, color, FluidColored.ICON_SlimeStill, FluidColored.ICON_SlimeFlowing);
-
-	    return registerFluid(fluid);
-	  }
-  
-  private static FluidColored fluidPoison(String name, int color) {
-	    FluidColored fluid = new FluidColored(name, color, FluidColored.ICON_PoisonStill, FluidColored.ICON_PoisonFlowing);
-
-	    return registerFluid(fluid);
-	  }
-
-  private static FluidColored fluidClassic(String name, int color) {
-    FluidColored fluid = new FluidColored(name, color, FluidColored.ICON_LiquidStill, FluidColored.ICON_LiquidFlowing);
-
-    return registerFluid(fluid);
-  }
-
-  private static FluidColored fluidMilk(String name, int color) {
-    FluidColored fluid = new FluidColored(name, color, FluidColored.ICON_MilkStill, FluidColored.ICON_MilkFlowing);
-    return registerFluid(fluid);
-  }
-
-  protected static <T extends Fluid> T registerFluid(T fluid) {
-    fluid.setUnlocalizedName(Util.prefix(fluid.getName()));
-    FluidRegistry.registerFluid(fluid);
-
-    return fluid;
-  }
 
   /** Registers a non-burning water based block for the fluid */
   public static BlockFluidBase registerClassicBlock(IForgeRegistry<Block> registry, Fluid fluid) {
