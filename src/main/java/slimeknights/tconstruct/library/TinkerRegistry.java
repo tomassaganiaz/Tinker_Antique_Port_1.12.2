@@ -49,6 +49,17 @@ import slimeknights.tconstruct.library.tools.IPattern;
 import slimeknights.tconstruct.library.tools.IToolPart;
 import slimeknights.tconstruct.library.tools.Shard;
 import slimeknights.tconstruct.library.tools.ToolCore;
+import slimeknights.tconstruct.library.events.AlloyRegisterEvent;
+import slimeknights.tconstruct.library.events.BasinCastingRegisterEvent;
+import slimeknights.tconstruct.library.events.DryingRackRegisterEvent;
+import slimeknights.tconstruct.library.events.EntityMeltingRegisterEvent;
+import slimeknights.tconstruct.library.events.MeltingRegisterEvent;
+import slimeknights.tconstruct.library.events.ModifierRegisterEvent;
+import slimeknights.tconstruct.library.events.SmelteryFuelRegisterEvent;
+import slimeknights.tconstruct.library.events.StencilTableCraftingRegisterEvent;
+import slimeknights.tconstruct.library.events.TableCastingRegisterEvent;
+import slimeknights.tconstruct.library.events.ToolForgeCraftingRegisterEvent;
+import slimeknights.tconstruct.library.events.ToolStationCraftingRegisterEvent;
 import slimeknights.tconstruct.library.traits.ITrait;
 
 public final class TinkerRegistry {
@@ -389,7 +400,7 @@ public final class TinkerRegistry {
 
   /** Adds a tool to the Crafting UI of the Tool Station */
   public static void registerToolStationCrafting(ToolCore tool) {
-    if(new TinkerRegisterEvent.ToolStationCraftingRegisterEvent(tool).fire()) {
+    if(new ToolStationCraftingRegisterEvent(tool).fire()) {
       toolStationCrafting.add(tool);
     } else {
       log.debug("Registration of tool station recipe " + tool.getRegistryName().toString() + " has been cancelled by event");
@@ -402,7 +413,7 @@ public final class TinkerRegistry {
 
   /** Adds a tool to the Crafting UI of the Tool Forge */
   public static void registerToolForgeCrafting(ToolCore tool) {
-    if(new TinkerRegisterEvent.ToolForgeCraftingRegisterEvent(tool).fire()) {
+    if(new ToolForgeCraftingRegisterEvent(tool).fire()) {
       toolForgeCrafting.add(tool);
     } else {
       log.debug("Registration of tool forge recipe " + tool.getRegistryName().toString() + " has been cancelled by event");
@@ -419,7 +430,7 @@ public final class TinkerRegistry {
       log.fatal("Stencil Table Crafting has to be a pattern ({})", stencil);
       return;
     }
-    if(new TinkerRegisterEvent.StencilTableCraftingRegisterEvent(stencil).fire()) {
+    if(new StencilTableCraftingRegisterEvent(stencil).fire()) {
       stencilTableCrafting.add(stencil);
     } else {
       log.debug("Registration of stencil table stencil " + stencil + " has been cancelled by event");
@@ -486,7 +497,7 @@ public final class TinkerRegistry {
       log.fatal("Trying to register a modifier with the name " + alias + " but it already is registered");
       return;
     }
-    if(new TinkerRegisterEvent.ModifierRegisterEvent(modifier).fire()) {
+    if(new ModifierRegisterEvent(modifier).fire()) {
       modifiers.put(alias, modifier);
     }
     else {
@@ -611,7 +622,7 @@ public final class TinkerRegistry {
     if(Arrays.stream(Config.fluidIgnore).anyMatch(f -> f.equals(recipe.output.getFluid().getName()))) {
       return;
     }
-    if(new TinkerRegisterEvent.MeltingRegisterEvent(recipe).fire()) {
+    if(new MeltingRegisterEvent(recipe).fire()) {
       meltingRegistry.add(recipe);
     }
     else {
@@ -652,7 +663,7 @@ public final class TinkerRegistry {
   }
 
   public static void registerAlloy(AlloyRecipe recipe) {
-    if(new TinkerRegisterEvent.AlloyRegisterEvent(recipe).fire()) {
+    if(new AlloyRegisterEvent(recipe).fire()) {
       alloyRegistry.add(recipe);
     }
     else {
@@ -683,7 +694,7 @@ public final class TinkerRegistry {
   }
 
   public static void registerTableCasting(ICastingRecipe recipe) {
-    if(new TinkerRegisterEvent.TableCastingRegisterEvent(recipe).fire()) {
+    if(new TableCastingRegisterEvent(recipe).fire()) {
       tableCastRegistry.add(recipe);
     }
     else {
@@ -722,7 +733,7 @@ public final class TinkerRegistry {
   }
 
   public static void registerBasinCasting(ICastingRecipe recipe) {
-    if(new TinkerRegisterEvent.BasinCastingRegisterEvent(recipe).fire()) {
+    if(new BasinCastingRegisterEvent(recipe).fire()) {
       basinCastRegistry.add(recipe);
     }
     else {
@@ -756,7 +767,7 @@ public final class TinkerRegistry {
    * @param fuelDuration How many ticks the consumtpion of the fluidStack lasts.
    */
   public static void registerSmelteryFuel(FluidStack fluidStack, int fuelDuration) {
-    if(new TinkerRegisterEvent.SmelteryFuelRegisterEvent(fluidStack, fuelDuration).fire()) {
+    if(new SmelteryFuelRegisterEvent(fluidStack, fuelDuration).fire()) {
       smelteryFuels.put(fluidStack, fuelDuration);
     }
     else {
@@ -874,7 +885,7 @@ public final class TinkerRegistry {
       return;
     }
 
-    TinkerRegisterEvent.EntityMeltingRegisterEvent event = new TinkerRegisterEvent.EntityMeltingRegisterEvent(clazz, liquid);
+    EntityMeltingRegisterEvent event = new EntityMeltingRegisterEvent(clazz, liquid);
     if(event.fire()) {
       entityMeltingRegistry.put(name, event.getNewFluidStack());
     }
@@ -992,7 +1003,7 @@ public final class TinkerRegistry {
   }
 
   public static void addDryingRecipe(DryingRecipe recipe) {
-    if(new TinkerRegisterEvent.DryingRackRegisterEvent(recipe).fire()) {
+    if(new DryingRackRegisterEvent(recipe).fire()) {
       dryingRegistry.add(recipe);
     }
     else {

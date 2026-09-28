@@ -13,6 +13,7 @@ import net.minecraftforge.common.util.FakePlayer;
 import slimeknights.tconstruct.library.modifiers.ModifierAspect;
 import slimeknights.tconstruct.library.tools.ToolNBT;
 import slimeknights.tconstruct.library.utils.TagUtil;
+import slimeknights.tconstruct.library.modifiers.SingleAspect;
 import slimeknights.tconstruct.library.utils.ToolHelper;
 
 /**
@@ -37,7 +38,7 @@ public class ToolGrowth extends TraitProgressiveStats {
   public ToolGrowth() {
     super("toolgrowth", TextFormatting.WHITE);
 
-    this.addAspects(new ModifierAspect.SingleAspect(this));
+    this.addAspects(new SingleAspect(this));
   }
 
   @Override

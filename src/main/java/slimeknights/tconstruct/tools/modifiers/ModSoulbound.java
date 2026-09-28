@@ -13,6 +13,8 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import java.util.ListIterator;
 
 import slimeknights.tconstruct.library.modifiers.ModifierAspect;
+import slimeknights.tconstruct.library.modifiers.DataAspect;
+import slimeknights.tconstruct.library.modifiers.SingleAspect;
 import slimeknights.tconstruct.library.utils.TinkerUtil;
 
 public class ModSoulbound extends ToolModifier {
@@ -20,7 +22,7 @@ public class ModSoulbound extends ToolModifier {
   public ModSoulbound() {
     super("soulbound", 0xf5fbac);
 
-    addAspects(new ModifierAspect.DataAspect(this), new ModifierAspect.SingleAspect(this));
+    addAspects(new DataAspect(this), new SingleAspect(this));
 
     MinecraftForge.EVENT_BUS.register(this);
   }

@@ -32,6 +32,7 @@ import slimeknights.tconstruct.library.Util;
 import slimeknights.tconstruct.library.client.CustomFontColor;
 import slimeknights.tconstruct.library.client.MaterialRenderInfo;
 import slimeknights.tconstruct.library.traits.ITrait;
+import slimeknights.tconstruct.library.client.DefaultRenderInfo;
 import slimeknights.tconstruct.library.utils.RecipeUtil;
 
 public class Material extends RecipeMatchRegistry {
@@ -99,7 +100,7 @@ public class Material extends RecipeMatchRegistry {
    * How the material will be rendered on tinker tools etc.
    */
   @SideOnly(Side.CLIENT)
-  public MaterialRenderInfo renderInfo;// = new MaterialRenderInfo.Default(0xffffff);
+  public MaterialRenderInfo renderInfo;// = new DefaultRenderInfo(0xffffff);
   public int materialTextColor = 0xffffff; // used in tooltips and other text. Saved in NBT.
 
   /**
@@ -207,7 +208,7 @@ public class Material extends RecipeMatchRegistry {
 
   @SideOnly(Side.CLIENT)
   public MaterialRenderInfo setRenderInfo(int color) {
-    setRenderInfo(new MaterialRenderInfo.Default(color));
+    setRenderInfo(new DefaultRenderInfo(color));
     return renderInfo;
   }
 

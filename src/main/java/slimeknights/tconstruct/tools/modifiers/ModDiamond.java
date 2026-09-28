@@ -5,6 +5,8 @@ import net.minecraft.nbt.NBTTagCompound;
 import slimeknights.tconstruct.library.modifiers.ModifierAspect;
 import slimeknights.tconstruct.library.tools.ToolNBT;
 import slimeknights.tconstruct.library.utils.HarvestLevels;
+import slimeknights.tconstruct.library.modifiers.DataAspect;
+import slimeknights.tconstruct.library.modifiers.SingleAspect;
 import slimeknights.tconstruct.library.utils.TagUtil;
 
 public class ModDiamond extends ToolModifier {
@@ -12,7 +14,7 @@ public class ModDiamond extends ToolModifier {
   public ModDiamond() {
     super("diamond", 0x8cf4e2);
 
-    addAspects(new ModifierAspect.SingleAspect(this), new ModifierAspect.DataAspect(this), ModifierAspect.freeModifier);
+    addAspects(new SingleAspect(this), new DataAspect(this), ModifierAspect.freeModifier);
   }
 
   @Override

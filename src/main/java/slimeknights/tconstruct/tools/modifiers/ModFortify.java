@@ -15,6 +15,8 @@ import slimeknights.tconstruct.library.modifiers.ModifierAspect;
 import slimeknights.tconstruct.library.modifiers.ModifierNBT;
 import slimeknights.tconstruct.library.utils.TagUtil;
 import slimeknights.tconstruct.library.utils.Tags;
+import slimeknights.tconstruct.library.modifiers.DataAspect;
+import slimeknights.tconstruct.library.modifiers.SingleAspect;
 import slimeknights.tconstruct.tools.TinkerTools;
 
 public class ModFortify extends ToolModifier {
@@ -29,7 +31,7 @@ public class ModFortify extends ToolModifier {
     }
 
     this.material = material;
-    addAspects(new ModifierAspect.SingleAspect(this), new ModifierAspect.DataAspect(this), ModifierAspect.harvestOnly);
+    addAspects(new SingleAspect(this), new DataAspect(this), ModifierAspect.harvestOnly);
 
     ItemStack kit = TinkerTools.sharpeningKit.getItemstackWithMaterial(material);
     ItemStack flint = new ItemStack(Items.FLINT);

@@ -1,5 +1,6 @@
 package slimeknights.tconstruct.library.client.material.deserializers;
 
+import slimeknights.tconstruct.library.client.MultiColorRenderInfo;
 import slimeknights.tconstruct.library.client.MaterialRenderInfo;
 
 public class MultiColorRenderInfoDeserializer extends AbstractRenderInfoDeserializer {
@@ -10,6 +11,6 @@ public class MultiColorRenderInfoDeserializer extends AbstractRenderInfoDeserial
 
   @Override
   public MaterialRenderInfo getMaterialRenderInfo() {
-    return new MaterialRenderInfo.MultiColor(fromHex(dark), fromHex(mid), fromHex(bright));
+    return new MultiColorRenderInfo(fromHex(dark), fromHex(mid), fromHex(bright));
   }
 }

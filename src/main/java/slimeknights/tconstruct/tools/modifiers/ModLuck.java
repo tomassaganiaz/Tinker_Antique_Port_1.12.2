@@ -17,6 +17,10 @@ import slimeknights.tconstruct.library.modifiers.TinkerGuiException;
 import slimeknights.tconstruct.library.tinkering.Category;
 import slimeknights.tconstruct.library.utils.TagUtil;
 import slimeknights.tconstruct.library.utils.TinkerUtil;
+import slimeknights.tconstruct.library.modifiers.FreeModifierAspect;
+import slimeknights.tconstruct.library.modifiers.FreeFirstModifierAspect;
+import slimeknights.tconstruct.library.modifiers.MultiAspect;
+import slimeknights.tconstruct.library.modifiers.CategoryAnyAspect;
 import slimeknights.tconstruct.library.utils.ToolBuilder;
 
 public class ModLuck extends ModifierTrait {
@@ -32,7 +36,7 @@ public class ModLuck extends ModifierTrait {
 
     aspects.clear();
     aspect = new LuckAspect(this);
-    addAspects(aspect, new ModifierAspect.CategoryAnyAspect(Category.HARVEST, Category.WEAPON, Category.PROJECTILE));
+    addAspects(aspect, new CategoryAnyAspect(Category.HARVEST, Category.WEAPON, Category.PROJECTILE));
   }
 
   public int getLuckLevel(ItemStack itemStack) {
@@ -134,7 +138,7 @@ public class ModLuck extends ModifierTrait {
     return tooltip;
   }
 
-  public static class LuckAspect extends ModifierAspect.MultiAspect {
+  public static class LuckAspect extends MultiAspect {
 
     public LuckAspect(IModifier parent) {
       super(parent, 0x5a82e2, maxLevel, baseCount, 1);

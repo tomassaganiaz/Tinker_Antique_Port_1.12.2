@@ -1,6 +1,7 @@
 package slimeknights.tconstruct.library.client.material.deserializers;
 
 import slimeknights.tconstruct.library.client.MaterialRenderInfo;
+import slimeknights.tconstruct.library.client.MetalRenderInfo;
 import slimeknights.tconstruct.library.client.material.IMaterialRenderInfoDeserializer;
 
 public class MetalRenderInfoDeserializer extends AbstractRenderInfoDeserializer {
@@ -12,6 +13,6 @@ public class MetalRenderInfoDeserializer extends AbstractRenderInfoDeserializer 
 
   @Override
   public MaterialRenderInfo getMaterialRenderInfo() {
-    return new MaterialRenderInfo.Metal(fromHex(color), shinyness, brightness, hueshift);
+    return new MetalRenderInfo(fromHex(color), shinyness, brightness, hueshift);
   }
 }

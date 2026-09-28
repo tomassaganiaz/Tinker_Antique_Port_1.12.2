@@ -6,6 +6,8 @@ import net.minecraft.nbt.NBTTagCompound;
 import slimeknights.tconstruct.gadgets.TinkerGadgets;
 import slimeknights.tconstruct.library.modifiers.Modifier;
 import slimeknights.tconstruct.library.modifiers.ModifierAspect;
+import slimeknights.tconstruct.library.modifiers.DataAspect;
+import slimeknights.tconstruct.library.modifiers.SingleAspect;
 import slimeknights.tconstruct.library.modifiers.TinkerGuiException;
 
 public class ModSpaghettiMod extends Modifier {
@@ -13,7 +15,7 @@ public class ModSpaghettiMod extends Modifier {
   public ModSpaghettiMod(String suffix, int color) {
     super("spaghetti_" + suffix);
 
-    addAspects(new ModifierAspect.SingleAspect(this), new ModifierAspect.DataAspect(this, color));
+    addAspects(new SingleAspect(this), new DataAspect(this, color));
   }
 
   @Override

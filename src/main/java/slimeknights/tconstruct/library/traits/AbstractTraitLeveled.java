@@ -9,6 +9,8 @@ import slimeknights.tconstruct.library.modifiers.IModifier;
 import slimeknights.tconstruct.library.modifiers.ModifierAspect;
 import slimeknights.tconstruct.library.modifiers.ModifierNBT;
 import slimeknights.tconstruct.library.utils.TagUtil;
+import slimeknights.tconstruct.library.modifiers.DataAspect;
+import slimeknights.tconstruct.library.modifiers.LevelAspect;
 import slimeknights.tconstruct.library.utils.TinkerUtil;
 
 /**
@@ -43,7 +45,7 @@ public abstract class AbstractTraitLeveled extends AbstractTrait {
     }
 
     aspects.clear();
-    this.addAspects(new ModifierAspect.LevelAspect(this, maxLevels), new ModifierAspect.DataAspect(this, color));
+    this.addAspects(new LevelAspect(this, maxLevels), new DataAspect(this, color));
   }
 
   @Override

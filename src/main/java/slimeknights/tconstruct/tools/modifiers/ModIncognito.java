@@ -1,6 +1,8 @@
 package slimeknights.tconstruct.tools.modifiers;
 
 import net.minecraft.nbt.NBTTagCompound;
+import slimeknights.tconstruct.library.modifiers.DataAspect;
+import slimeknights.tconstruct.library.modifiers.SingleAspect;
 import slimeknights.tconstruct.library.modifiers.ModifierAspect;
 
 public class ModIncognito extends ToolModifier {
@@ -8,7 +10,7 @@ public class ModIncognito extends ToolModifier {
   public ModIncognito() {
     super("incognito", 0x575757);
 
-    addAspects(new ModifierAspect.SingleAspect(this), new ModifierAspect.DataAspect(this));
+    addAspects(new SingleAspect(this), new DataAspect(this));
   }
 
   @Override

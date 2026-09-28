@@ -18,6 +18,7 @@ import slimeknights.tconstruct.library.tools.ProjectileLauncherNBT;
 import slimeknights.tconstruct.library.tools.ToolCore;
 import slimeknights.tconstruct.library.tools.ToolNBT;
 import slimeknights.tconstruct.library.utils.TagUtil;
+import slimeknights.tconstruct.library.modifiers.MultiAspect;
 import slimeknights.tconstruct.library.utils.Tags;
 
 public class ModHaste extends ToolModifier {
@@ -30,7 +31,7 @@ public class ModHaste extends ToolModifier {
 
     this.max = max;
 
-    addAspects(new ModifierAspect.MultiAspect(this, 5, max, 1));
+    addAspects(new MultiAspect(this, 5, max, 1));
   }
 
   @Override

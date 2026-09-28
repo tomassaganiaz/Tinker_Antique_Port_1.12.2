@@ -26,6 +26,7 @@ import slimeknights.tconstruct.library.modifiers.ModifierTrait;
 import slimeknights.tconstruct.library.utils.TinkerUtil;
 import slimeknights.tconstruct.library.utils.ToolHelper;
 import slimeknights.tconstruct.tools.TinkerModifiers;
+import slimeknights.tconstruct.library.modifiers.FreeFirstModifierAspect;
 import slimeknights.tconstruct.tools.TinkerTraits;
 
 public class ModBlasting extends ModifierTrait {
@@ -36,7 +37,7 @@ public class ModBlasting extends ModifierTrait {
     ListIterator<ModifierAspect> iter = aspects.listIterator();
     while(iter.hasNext()) {
       if(iter.next() == ModifierAspect.freeModifier) {
-        iter.set(new ModifierAspect.FreeFirstModifierAspect(this, 1));
+        iter.set(new FreeFirstModifierAspect(this, 1));
       }
     }
 

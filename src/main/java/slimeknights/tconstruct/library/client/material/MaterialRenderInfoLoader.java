@@ -32,6 +32,7 @@ import slimeknights.tconstruct.library.TinkerRegistry;
 import slimeknights.tconstruct.library.Util;
 import slimeknights.tconstruct.library.client.MaterialRenderInfo;
 import slimeknights.tconstruct.library.client.model.ModelHelper;
+import slimeknights.tconstruct.library.client.DefaultRenderInfo;
 import slimeknights.tconstruct.library.materials.Material;
 
 public class MaterialRenderInfoLoader implements IResourceManagerReloadListener {
@@ -83,7 +84,7 @@ public class MaterialRenderInfoLoader implements IResourceManagerReloadListener 
         } catch(FileNotFoundException e) {
           // set default if nothing is present
           if(material.renderInfo == null) {
-            material.renderInfo = new MaterialRenderInfo.Default(material.materialTextColor);
+            material.renderInfo = new DefaultRenderInfo(material.materialTextColor);
             log.warn("Material " + material.getIdentifier() + " has no rendering info. Substituting default");
           }
         } catch(IOException | JsonParseException e) {

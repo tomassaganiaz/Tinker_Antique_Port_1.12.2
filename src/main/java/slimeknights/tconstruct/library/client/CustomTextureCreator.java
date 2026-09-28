@@ -302,7 +302,7 @@ public class CustomTextureCreator implements IResourceManagerReloadListener {
 
   static {
     guiMaterial = new MaterialGUI("_internal_gui");
-    guiMaterial.setRenderInfo(new MaterialRenderInfo.AbstractMaterialRenderInfo() {
+    guiMaterial.setRenderInfo(new AbstractMaterialRenderInfo() {
       @Override
       public TextureAtlasSprite getTexture(ResourceLocation baseTexture, String location) {
         return new GuiOutlineTexture(baseTexture, location);

@@ -21,6 +21,8 @@ import slimeknights.tconstruct.library.capability.projectile.ITinkerProjectile;
 import slimeknights.tconstruct.library.modifiers.ModifierAspect;
 import slimeknights.tconstruct.library.modifiers.ModifierNBT;
 import slimeknights.tconstruct.library.utils.TagUtil;
+import slimeknights.tconstruct.library.modifiers.DataAspect;
+import slimeknights.tconstruct.library.modifiers.LevelAspect;
 import slimeknights.tconstruct.library.utils.TinkerUtil;
 
 import java.util.Collection;
@@ -44,7 +46,7 @@ public class ModBeheading extends ToolModifier {
   ModBeheading(String traitBeheading) {
     super(traitBeheading, BEHEADING_COLOR);
 
-    addAspects(new ModifierAspect.LevelAspect(this, 10), new ModifierAspect.DataAspect(this));
+    addAspects(new LevelAspect(this, 10), new DataAspect(this));
   }
 
   @Override

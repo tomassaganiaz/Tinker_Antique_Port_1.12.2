@@ -19,6 +19,8 @@ import slimeknights.tconstruct.library.modifiers.ModifierAspect;
 import slimeknights.tconstruct.library.modifiers.ModifierTrait;
 import slimeknights.tconstruct.library.utils.ToolHelper;
 import slimeknights.tconstruct.tools.TinkerModifiers;
+import slimeknights.tconstruct.library.modifiers.DataAspect;
+import slimeknights.tconstruct.library.modifiers.SingleAspect;
 import slimeknights.tconstruct.tools.TinkerTraits;
 
 // Identical to the trait version of Autosmelt, these are separate because both modifiers and traits are registered differently
@@ -27,7 +29,7 @@ public class ModAutosmelt extends ModifierTrait {
     public ModAutosmelt() {
         super("mod_autosmelt", 0xfc0000);
 
-        addAspects(new ModifierAspect.SingleAspect(this), new ModifierAspect.DataAspect(this), ModifierAspect.harvestOnly, ModifierAspect.freeModifier);
+        addAspects(new SingleAspect(this), new DataAspect(this), ModifierAspect.harvestOnly, ModifierAspect.freeModifier);
     }
 
     @Override

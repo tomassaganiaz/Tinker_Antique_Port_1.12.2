@@ -20,6 +20,8 @@ import slimeknights.tconstruct.library.tools.ToolCore;
 import slimeknights.tconstruct.library.traits.ITrait;
 import slimeknights.tconstruct.library.utils.TagUtil;
 import slimeknights.tconstruct.library.utils.ToolBuilder;
+import slimeknights.tconstruct.library.modifiers.DataAspect;
+import slimeknights.tconstruct.library.modifiers.SingleAspect;
 import slimeknights.tconstruct.shared.TinkerCommons;
 
 import java.util.ArrayList;
@@ -48,7 +50,7 @@ public class ModExtraTrait extends ToolModifier {
     this.material = material;
     this.toolCores = new HashSet<>();
     this.traits = traits;
-    addAspects(new ExtraTraitAspect(), new ModifierAspect.SingleAspect(this), new ModifierAspect.DataAspect(this));
+    addAspects(new ExtraTraitAspect(), new SingleAspect(this), new DataAspect(this));
   }
 
   public <T extends Item & IToolPart> void addCombination(ToolCore toolCore, T toolPart) {

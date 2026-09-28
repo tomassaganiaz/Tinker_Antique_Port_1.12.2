@@ -20,6 +20,7 @@ import slimeknights.tconstruct.library.modifiers.Modifier;
 import slimeknights.tconstruct.library.modifiers.ModifierAspect;
 import slimeknights.tconstruct.library.modifiers.ModifierNBT;
 import slimeknights.tconstruct.library.utils.TagUtil;
+import slimeknights.tconstruct.library.modifiers.SingleAspect;
 import slimeknights.tconstruct.library.utils.TinkerUtil;
 
 // Trait and modifier in one! Useful because modifiers are saved as traits
@@ -41,7 +42,7 @@ public abstract class AbstractTrait extends Modifier implements ITrait {
 
     // we assume traits can only be applied once.
     // If you want stacking traits you'll have to do that stuff yourself :P
-    this.addAspects(new ModifierAspect.SingleAspect(this));
+    this.addAspects(new SingleAspect(this));
   }
 
   @Override

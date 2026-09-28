@@ -35,13 +35,13 @@ public class ModifierTrait extends AbstractTrait implements IModifierDisplay {
     this.aspects.clear();
 
     if(maxLevel > 0 && countPerLevel > 0) {
-      addAspects(new ModifierAspect.MultiAspect(this, color, maxLevel, countPerLevel, 1));
+      addAspects(new MultiAspect(this, color, maxLevel, countPerLevel, 1));
     }
     else {
       if(maxLevel > 0) {
-        addAspects(new ModifierAspect.LevelAspect(this, maxLevel));
+        addAspects(new LevelAspect(this, maxLevel));
       }
-      addAspects(new ModifierAspect.DataAspect(this, color), ModifierAspect.freeModifier);
+      addAspects(new DataAspect(this, color), ModifierAspect.freeModifier);
     }
   }
 
