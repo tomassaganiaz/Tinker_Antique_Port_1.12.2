@@ -113,12 +113,21 @@ decisión fue de coste, no técnica.
 
 | Escenario | Materiales que se desbloquean | Restantes |
 |---|---|---|
-| Portar **armadura + escudos** (`GUIDE_ARMOR.md`) | `turtle`, `nautilus`, `jadeite`, `horn`*, `phantom`* | 11 |
-| Portar **slimesuit** | `honey`, `ichorskin`* | 9 |
-| Añadir **slime de icor** propio | `ichor`, `cinderslime`, `ichorskin` | 7 |
-| Crear **madera de slime** (4 sets) | `slimewood` (4 materiales) | 3 |
-| Crear **knightmetal** completo | `knightmetal`, `knightly` | 1 |
-| Añadir mods de osmio/uranio/zinc/madera tratada | `osmium`, `necronium`, `platedSlimewood`, `treatedWood` | 0 |
+| Portar **armadura + escudos** (`GUIDE_ARMOR.md`) | — | 0 |
+| Portar **slimesuit** | — | 0 |
+| Añadir **slime de icor** propio | — | 0 |
+| Crear **madera de slime** (4 sets) | — | 0 |
+| Crear **knightmetal** con set propio TC3 | — | 0 |
+| Añadir mods de osmio/uranio/zinc/madera tratada | — | 0 |
 
-\* `horn` y `phantom` necesitan además un ítem que no existe en 1.12.2; `ichorskin`
-necesita icor **y** armadura.
+> **Actualización (implementación completa 2026-09-20):** se implementaron **todos los
+> materiales que dependen de ítems/sistemas disponibles**:
+> - `knightmetal` (Twilight Forest `ingotKnightmetal`), `honey` (Future MC `honey_bottle`),
+>   `kobold`/`magnetite`/`knightly` (shards de cobalto/acero/knightmetal del fork)
+> - Compuestos con items propios del fork: `ichor`, `ichorskin`, `jadeite`, `ancienthide`,
+>   `osmium`, `treatedwood`, `platedslimewood`, `slimewood`
+> - `turtle`/`nautilus` (items de OceanicExpanse/Future MC, null-safe)
+>
+> **Únicos no implementados (N/A definitivos, dependen de contenido que no existe en
+> 1.12.2 ni en el pack):** `horn` (cuerno de cabra 1.19+), `phantom` (membrana 1.13+).
+> Estos dos no tienen ningún ítem fuente en 1.12.2.

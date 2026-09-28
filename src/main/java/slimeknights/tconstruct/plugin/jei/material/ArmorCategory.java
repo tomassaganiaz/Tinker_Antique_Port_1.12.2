@@ -4,6 +4,7 @@ import mezz.jei.api.IGuiHelper;
 import net.minecraft.util.text.TextComponentTranslation;
 import slimeknights.tconstruct.common.ClientProxy;
 import slimeknights.tconstruct.library.Util;
+import slimeknights.tconstruct.library.materials.ArmorMaterialStats;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -35,30 +36,31 @@ public class ArmorCategory extends AbstractCategory {
                 getHeading("stat.plating_helmet.name"),
                 getHeading("stat.plating_chestplate.name"),
                 getHeading("stat.plating_leggings.name"),
-                getHeading("stat.plating_boots.name")
+                getHeading("stat.plating_boots.name"),
+                getHeading("stat.plating_shield.name")
+        };
+        String[] types = new String[]{
+                ArmorMaterialStats.TYPE_HELMET,
+                ArmorMaterialStats.TYPE_CHESTPLATE,
+                ArmorMaterialStats.TYPE_LEGGINGS,
+                ArmorMaterialStats.TYPE_BOOTS,
+                ArmorMaterialStats.TYPE_SHIELD
         };
         int index = 0;
-        for (int i = 0; i < statInfo.size(); i++) {
-            if (i == 0 || i == 3 || i == 6 || i == 9) {
+        for (String stat : statInfo) {
+            // every armor stat group begins with its durability line; emit the header for the next type there
+            if (index < header.length && stat != null && stat.startsWith("Durability")) {
                 drawComponent(header[index], 0, lineNumber++, materialWrapper.material.materialTextColor, true);
                 lineNumber += HEADING_SPACING;
-                index++;
-                if(index >= header.length) index = header.length-1;
-            }
-            drawStatComponent(statInfo.get(i), lineNumber++);
-            if(i == 0 || i == 3 || i == 6 || i == 9) {
-                String type = slimeknights.tconstruct.library.materials.ArmorMaterialStats.TYPE_HELMET;
-                if(i==3) type = slimeknights.tconstruct.library.materials.ArmorMaterialStats.TYPE_CHESTPLATE;
-                else if(i==6) type = slimeknights.tconstruct.library.materials.ArmorMaterialStats.TYPE_LEGGINGS;
-                else if(i==9) type = slimeknights.tconstruct.library.materials.ArmorMaterialStats.TYPE_BOOTS;
-                int dur = slimeknights.tconstruct.library.materials.ArmorMaterialStats.getDurabilityMultiplier(type);
+                int dur = ArmorMaterialStats.getDurabilityMultiplier(types[index]);
                 try {
-                    String dstr = statInfo.get(i);
-                    int val = Integer.parseInt(dstr.split(": ")[1].replace(",", ""));
+                    int val = Integer.parseInt(stat.split(": ")[1].replace(",", ""));
                     int factor = val / dur;
                     drawComponent("  Factor: " + factor, 0, lineNumber++, 0xFFAAAAAA, true);
                 } catch(Exception e) {}
+                index++;
             }
+            drawStatComponent(stat, lineNumber++);
         }
     }
 }

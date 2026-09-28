@@ -595,6 +595,25 @@ public class TinkerSmeltery extends TinkerPulse {
     TinkerRegistry.registerMelting(new MeltingRecipe(RecipeMatch.of(Items.MILK_BUCKET, 1000), TinkerFluids.milk, 320));
     TinkerRegistry.registerTableCasting(TinkerCommons.matCheeseWet, castIngot, TinkerFluids.milk, Material.VALUE_Ingot);
 
+    // Compuestos de TC3 portados (2026-09-20): items propios del fork.
+    // ichor skin: cuero + ichor; jadeite: esmeralda + ichor; ancient hide: cuero + netherita fundida;
+    // osmium: hierro + netherita (aleación ligera); treated wood: madera + creosota (ichor como proxy);
+    // plated slimewood: slimewood + zinc; slimewood: tronco slime congelado + slime verde.
+    TinkerRegistry.registerTableCasting(new CastingRecipe(TinkerCommons.matIchorSkin, RecipeMatch.of("leather"),
+      new FluidStack(TinkerFluids.ichor, 250), 12, true, false));
+    TinkerRegistry.registerTableCasting(new CastingRecipe(TinkerCommons.matJadeite, RecipeMatch.of("gemEmerald"),
+      new FluidStack(TinkerFluids.ichor, 250), 12, true, false));
+    TinkerRegistry.registerTableCasting(new CastingRecipe(TinkerCommons.matAncientHide, RecipeMatch.of("leather"),
+      new FluidStack(TinkerFluids.netherite, 250), 12, true, false));
+    TinkerRegistry.registerTableCasting(new CastingRecipe(TinkerCommons.matOsmiumIngot, RecipeMatch.of("ingotIron"),
+      new FluidStack(TinkerFluids.netherite, 100), 8, true, false));
+    TinkerRegistry.registerTableCasting(new CastingRecipe(TinkerCommons.matTreatedWood, RecipeMatch.of("plankWood"),
+      new FluidStack(TinkerFluids.ichor, 250), 12, true, false));
+    TinkerRegistry.registerTableCasting(new CastingRecipe(TinkerCommons.matSlimewood, RecipeMatch.of("logWood"),
+      new FluidStack(TinkerFluids.greenSlime, 250), 12, true, false));
+    TinkerRegistry.registerTableCasting(new CastingRecipe(TinkerCommons.matPlatedSlimewood, RecipeMatch.of(TinkerCommons.matSlimewood),
+      new FluidStack(TinkerFluids.zinc, 100), 8, true, false));
+
     // amatista: insumo de la aleación amethyst bronze. El oredict lo aporta Deeper Depths;
     // si el mod no está instalado la receta simplemente no coincide con nada.
     TinkerRegistry.registerMelting(new MeltingRecipe(RecipeMatch.of("gemAmethyst", Material.VALUE_Ingot), TinkerFluids.amethyst, 700));

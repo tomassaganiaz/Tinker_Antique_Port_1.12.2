@@ -15,6 +15,7 @@ import slimeknights.tconstruct.common.config.Config;
 import slimeknights.tconstruct.shared.TinkerCommons;
 import slimeknights.tconstruct.shared.TinkerFluids;
 import slimeknights.tconstruct.shared.block.BlockSlime;
+import slimeknights.tconstruct.shared.block.BlockSlimeWood;
 import slimeknights.tconstruct.world.TinkerWorld;
 import slimeknights.tconstruct.world.block.BlockSlimeDirt;
 import slimeknights.tconstruct.world.block.BlockSlimeGrass;
@@ -52,6 +53,11 @@ public class SlimeIslandGenerator implements IWorldGenerator {
     IBlockState slimeBlue = TinkerCommons.blockSlimeCongealed.getDefaultState().withProperty(BlockSlime.TYPE, BlockSlime.SlimeType.BLUE);
     IBlockState slimePurple = TinkerCommons.blockSlimeCongealed.getDefaultState().withProperty(BlockSlime.TYPE, BlockSlime.SlimeType.PURPLE);
 
+    // Tronco de madera de slime (en lugar de slime congelado) para que sea obtenible en el mundo
+    IBlockState slimeWoodGreen = TinkerCommons.blockSlimeWood.getDefaultState().withProperty(BlockSlimeWood.TYPE, BlockSlimeWood.SlimeWoodType.GREEN);
+    IBlockState slimeWoodBlue = TinkerCommons.blockSlimeWood.getDefaultState().withProperty(BlockSlimeWood.TYPE, BlockSlimeWood.SlimeWoodType.BLUE);
+    IBlockState slimeWoodPurple = TinkerCommons.blockSlimeWood.getDefaultState().withProperty(BlockSlimeWood.TYPE, BlockSlimeWood.SlimeWoodType.PURPLE);
+
     IBlockState leaves = TinkerWorld.slimeLeaves.getDefaultState();
 
     IBlockState slimeFLuidBlue = Blocks.WATER.getDefaultState();
@@ -68,8 +74,8 @@ public class SlimeIslandGenerator implements IWorldGenerator {
     lakeGenBlue = new SlimeLakeGenerator(slimeFLuidBlue, slimeBlue, slimeGreen, slimeBlue);
     lakeGenPurple = new SlimeLakeGenerator(slimeFLuidPurple, slimePurple, slimePurple);
 
-    treeGenBlue = new SlimeTreeGenerator(5, 4, slimeGreen, leaves.withProperty(BlockSlimeGrass.FOLIAGE, BlockSlimeGrass.FoliageType.BLUE), TinkerWorld.slimeVineBlue2.getDefaultState());
-    treeGenPurple = new SlimeTreeGenerator(5, 4, slimeGreen, leaves.withProperty(BlockSlimeGrass.FOLIAGE, BlockSlimeGrass.FoliageType.PURPLE), TinkerWorld.slimeVinePurple2.getDefaultState());
+    treeGenBlue = new SlimeTreeGenerator(5, 4, slimeWoodGreen, leaves.withProperty(BlockSlimeGrass.FOLIAGE, BlockSlimeGrass.FoliageType.BLUE), TinkerWorld.slimeVineBlue2.getDefaultState());
+    treeGenPurple = new SlimeTreeGenerator(5, 4, slimeWoodGreen, leaves.withProperty(BlockSlimeGrass.FOLIAGE, BlockSlimeGrass.FoliageType.PURPLE), TinkerWorld.slimeVinePurple2.getDefaultState());
 
     plantGenBlue = new SlimePlantGenerator(BlockSlimeGrass.FoliageType.BLUE, false);
     plantGenPurple = new SlimePlantGenerator(BlockSlimeGrass.FoliageType.PURPLE, false);

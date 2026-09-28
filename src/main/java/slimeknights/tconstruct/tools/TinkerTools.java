@@ -101,6 +101,7 @@ public class TinkerTools extends AbstractToolPulse {
   public static ToolPart largePlate;
 
   public static ToolPart knifeBlade;
+  public static ToolPart adzeHead;
 
   public static ToolPart bowLimb;
   public static ToolPart bowString;
@@ -211,6 +212,7 @@ public class TinkerTools extends AbstractToolPulse {
     largePlate = registerToolPart(registry, new ToolPart(Material.VALUE_Ingot * 8), "large_plate");
 
     knifeBlade = registerToolPart(registry, new ToolPart(Material.VALUE_Ingot), "knife_blade");
+    adzeHead = registerToolPart(registry, new ToolPart(Material.VALUE_Ingot * 2), "adze_head");
 
     bowLimb = registerToolPart(registry, new ToolPart(Material.VALUE_Ingot * 3), "bow_limb");
     bowString = registerToolPart(registry, new ToolPart(Material.VALUE_Ingot), "bow_string");

@@ -63,10 +63,19 @@ public class JsonMaterialLoader {
             int dur = a.has("durability") ? a.get("durability").getAsInt() : 100;
             float def = a.has("defense") ? a.get("defense").getAsFloat() : 1f;
             float tough = a.has("toughness") ? a.get("toughness").getAsFloat() : 0f;
-            String type = ArmorMaterialStats.TYPE_HELMET;
-            if(!mat.hasStats(type)) {
-              TinkerRegistry.addMaterialStats(mat, new ArmorMaterialStats(type, dur, def, tough));
-              count++;
+            // a single "armor" block maps to every plating type (mirrors TinkerArmor.addMatStats)
+            for(String type : new String[]{
+                ArmorMaterialStats.TYPE_HELMET,
+                ArmorMaterialStats.TYPE_CHESTPLATE,
+                ArmorMaterialStats.TYPE_LEGGINGS,
+                ArmorMaterialStats.TYPE_BOOTS,
+                ArmorMaterialStats.TYPE_SHIELD,
+                ArmorMaterialStats.TYPE_MAILLE}) {
+              if(!mat.hasStats(type)) {
+                int mult = ArmorMaterialStats.getDurabilityMultiplier(type);
+                TinkerRegistry.addMaterialStats(mat, new ArmorMaterialStats(type, dur * mult / 11, def, tough));
+                count++;
+              }
             }
           }
         }

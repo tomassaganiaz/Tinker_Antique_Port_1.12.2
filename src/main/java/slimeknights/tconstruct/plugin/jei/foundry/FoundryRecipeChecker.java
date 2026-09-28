@@ -7,13 +7,7 @@ import slimeknights.tconstruct.library.smeltery.MeltingRecipe;
 
 public class FoundryRecipeChecker {
   public static Set<MeltingRecipe> getFoundryRecipes() {
-    Set<MeltingRecipe> set = new LinkedHashSet<>();
-    for(MeltingRecipe r : TinkerRegistry.getAllMeltingRecipies()) {
-      if(r.output != null && r.output.getFluid() != null && slimeknights.tconstruct.foundry.FoundryTierHelper.isTier4Fluid(r.output.getFluid())) {
-        set.add(r);
-      }
-    }
-    if(set.isEmpty()) set.addAll(TinkerRegistry.getAllMeltingRecipies());
-    return set;
+    // the foundry melts any item; only alloying is restricted to tier 4+, so show every melting recipe
+    return new LinkedHashSet<>(TinkerRegistry.getAllMeltingRecipies());
   }
 }

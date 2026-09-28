@@ -1,0 +1,14 @@
+{
+  "variants": {
+    "type=quartz":     { "model": "tconstruct:crystal_cluster_quartz" },
+    "type=amethyst":   { "model": "tconstruct:crystal_cluster_amethyst" },
+    "type=blood":      { "model": "tconstruct:crystal_cluster_blood" },
+    "type=venom":      { "model": "tconstruct:crystal_cluster_venom" },
+    "type=ender":      { "model": "tconstruct:crystal_cluster_ender" },
+    "type=earth":      { "model": "tconstruct:crystal_cluster_earth" },
+    "type=sky":        { "model": "tconstruct:crystal_cluster_sky" },
+    "type=ichor":      { "model": "tconstruct:crystal_cluster_ichor" },
+    "type=knightmetal": { "model": "tconstruct:crystal_cluster_knightmetal" },
+    "inventory":       { "model": "tconstruct:crystal_cluster_earth" }
+  }
+}

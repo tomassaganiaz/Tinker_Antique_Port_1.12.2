@@ -17,23 +17,39 @@ public class CrystalGeodeGenerator implements IWorldGenerator {
 
   @Override
   public void generate(Random random, int chunkX, int chunkZ, World world, IChunkGenerator chunkGenerator, IChunkProvider chunkProvider) {
-    if(world.provider.getDimension() == 1 || world.provider.getDimension() == -1) {
-      return;
+    int dim = world.provider.getDimension();
+    // Overworld: geodas de slime verde/azul (EARTH/SKY). Nether: magma + knightmetal (ICHOR/KNIGHTMETAL).
+    // End: ender. En 1.20.1 cada geoda genera su cristal; aquí se reparte por dimensión.
+    if(dim == 1) {
+      generateGeode(world, chunkX, chunkZ, random, BlockCrystalCluster.CrystalType.ENDER);
     }
-    if(random.nextInt(350) != 0) {
-      return;
+    else if(dim == -1) {
+      if(random.nextInt(400) == 0) {
+        generateGeode(world, chunkX, chunkZ, random,
+            random.nextBoolean() ? BlockCrystalCluster.CrystalType.ICHOR : BlockCrystalCluster.CrystalType.KNIGHTMETAL);
+      }
     }
-    int x = chunkX * 16 + random.nextInt(16);
-    int z = chunkZ * 16 + random.nextInt(16);
-    int y = 8 + random.nextInt(40);
-    BlockPos pos = new BlockPos(x, y, z);
-    generateGeode(world, pos, random);
+    else {
+      if(random.nextInt(350) != 0) {
+        return;
+      }
+      BlockCrystalCluster.CrystalType type = random.nextBoolean()
+          ? BlockCrystalCluster.CrystalType.EARTH : BlockCrystalCluster.CrystalType.SKY;
+      generateGeode(world, chunkX, chunkZ, random, type);
+    }
   }
 
-  private void generateGeode(World world, BlockPos center, Random rand) {
+  private void generateGeode(World world, int chunkX, int chunkZ, Random rand, BlockCrystalCluster.CrystalType type) {
+    int x = chunkX * 16 + rand.nextInt(16);
+    int z = chunkZ * 16 + rand.nextInt(16);
+    int y = 8 + rand.nextInt(40);
+    generateGeode(world, new BlockPos(x, y, z), rand, type);
+  }
+
+  private void generateGeode(World world, BlockPos center, Random rand, BlockCrystalCluster.CrystalType type) {
     int radius = 4 + rand.nextInt(3);
-    BlockCrystalCluster.CrystalType type = BlockCrystalCluster.CrystalType.values()[rand.nextInt(BlockCrystalCluster.CrystalType.values().length)];
-    IBlockState state = TinkerWorld.crystalCluster.getDefaultState().withProperty(BlockCrystalCluster.TYPE, type);
+    IBlockState crystalState = TinkerWorld.crystalCluster.getDefaultState().withProperty(BlockCrystalCluster.TYPE, type);
+    IBlockState buddingState = TinkerWorld.buddingCrystal.getDefaultState();
 
     for(int dx = -radius; dx <= radius; dx++) {
       for(int dy = -radius; dy <= radius; dy++) {
@@ -48,7 +64,9 @@ public class CrystalGeodeGenerator implements IWorldGenerator {
           }
           IBlockState cur = world.getBlockState(pos);
           if(cur.getBlock().isReplaceableOreGen(cur, world, pos, s -> s.getMaterial().isSolid())) {
-            world.setBlockState(pos, state, 2);
+            // capa exterior: cristales; interior: budding (permite que crezcan más)
+            boolean interior = d2 <= (radius - 1) * (radius - 1);
+            world.setBlockState(pos, interior ? buddingState : crystalState, 2);
           }
         }
       }

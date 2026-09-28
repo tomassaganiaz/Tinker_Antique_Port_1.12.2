@@ -1,0 +1,16 @@
+{
+    "forge_marker": 1,
+    "defaults": {
+        "transform": "forge:default-block",
+        "model": "cube_column"
+    },
+    "variants": {
+        "type": {
+            "green": { "textures": { "end": "tconstruct:blocks/slimewood_green_top", "side": "tconstruct:blocks/slimewood_green" } },
+            "blue": { "textures": { "end": "tconstruct:blocks/slimewood_blue_top", "side": "tconstruct:blocks/slimewood_blue" } },
+            "purple": { "textures": { "end": "tconstruct:blocks/slimewood_purple_top", "side": "tconstruct:blocks/slimewood_purple" } },
+            "magma": { "textures": { "end": "tconstruct:blocks/slimewood_magma_top", "side": "tconstruct:blocks/slimewood_magma" } },
+            "blood": { "textures": { "end": "tconstruct:blocks/slimewood_blood_top", "side": "tconstruct:blocks/slimewood_blood" } }
+        }
+    }
+}

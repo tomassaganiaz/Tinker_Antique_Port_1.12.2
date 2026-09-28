@@ -8,9 +8,11 @@ import slimeknights.tconstruct.library.client.ToolBuildGuiInfo;
 import slimeknights.tconstruct.tools.common.client.renderer.RenderArrow;
 import slimeknights.tconstruct.tools.common.client.renderer.RenderBolt;
 import slimeknights.tconstruct.tools.common.client.renderer.RenderShuriken;
+import slimeknights.tconstruct.tools.common.client.renderer.RenderThrowingAxe;
 import slimeknights.tconstruct.tools.common.entity.EntityArrow;
 import slimeknights.tconstruct.tools.common.entity.EntityBolt;
 import slimeknights.tconstruct.tools.common.entity.EntityShuriken;
+import slimeknights.tconstruct.tools.common.entity.EntityThrowingAxe;
 
 public class RangedClientProxy extends ClientProxy {
 
@@ -22,6 +24,7 @@ public class RangedClientProxy extends ClientProxy {
     RenderingRegistry.registerEntityRenderingHandler(EntityShuriken.class, RenderShuriken::new);
     RenderingRegistry.registerEntityRenderingHandler(EntityArrow.class, RenderArrow::new);
     RenderingRegistry.registerEntityRenderingHandler(EntityBolt.class, RenderBolt::new);
+    RenderingRegistry.registerEntityRenderingHandler(EntityThrowingAxe.class, RenderThrowingAxe::new);
   }
 
   @Override
@@ -70,6 +73,12 @@ public class RangedClientProxy extends ClientProxy {
     info.addSlotPosition(32 + 12, 41 - 22); // limb
     info.addSlotPosition(32 - 18, 41 - 18); // grip
     info.addSlotPosition(32 - 14, 41 + 10); // bowstring
+    TinkerRegistryClient.addToolBuilding(info);
+
+    // throwing_axe
+    info = new ToolBuildGuiInfo(TinkerRangedWeapons.throwingAxe);
+    info.addSlotPosition(32 - 12, 41 - 12); // head
+    info.addSlotPosition(32 + 12, 41 + 12); // shaft
     TinkerRegistryClient.addToolBuilding(info);
 
     // bolt

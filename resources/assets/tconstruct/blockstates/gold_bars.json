@@ -1,0 +1,21 @@
+{
+  "variants": {
+    "inventory": { "model": "tconstruct:gold_bars_ns" },
+    "east=false,north=false,south=false,west=false": { "model": "tconstruct:gold_bars_ns" },
+    "east=false,north=true,south=false,west=false": { "model": "tconstruct:gold_bars_ns" },
+    "east=true,north=false,south=false,west=false": { "model": "tconstruct:gold_bars_ew" },
+    "east=false,north=false,south=true,west=false": { "model": "tconstruct:gold_bars_ns" },
+    "east=false,north=false,south=false,west=true": { "model": "tconstruct:gold_bars_ew" },
+    "east=false,north=true,south=true,west=false": { "model": "tconstruct:gold_bars_ns" },
+    "east=true,north=false,south=false,west=true": { "model": "tconstruct:gold_bars_ew" },
+    "east=true,north=true,south=false,west=false": { "model": "tconstruct:gold_bars_nsew" },
+    "east=true,north=false,south=true,west=false": { "model": "tconstruct:gold_bars_nsew" },
+    "east=false,north=true,south=false,west=true": { "model": "tconstruct:gold_bars_nsew" },
+    "east=false,north=false,south=true,west=true": { "model": "tconstruct:gold_bars_nsew" },
+    "east=true,north=true,south=true,west=false": { "model": "tconstruct:gold_bars_nsew" },
+    "east=true,north=true,south=false,west=true": { "model": "tconstruct:gold_bars_nsew" },
+    "east=true,north=false,south=true,west=true": { "model": "tconstruct:gold_bars_nsew" },
+    "east=false,north=true,south=true,west=true": { "model": "tconstruct:gold_bars_nsew" },
+    "east=true,north=true,south=true,west=true": { "model": "tconstruct:gold_bars_nsew" }
+  }
+}

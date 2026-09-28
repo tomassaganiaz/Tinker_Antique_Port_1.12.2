@@ -38,6 +38,10 @@ public class MeleeClientProxy extends ClientProxy {
     TinkerRegistryClient.addToolBuilding(info);
 
     // dagger
+    info = new ToolBuildGuiInfo(TinkerMeleeWeapons.dagger);
+    info.addSlotPosition(33 - 20 - 1, 42 + 20); // handle
+    info.addSlotPosition(33 + 20 - 5, 42 - 20 + 4); // blade
+    TinkerRegistryClient.addToolBuilding(info);
 
     // battlesign
     info = new ToolBuildGuiInfo(TinkerMeleeWeapons.battleSign);

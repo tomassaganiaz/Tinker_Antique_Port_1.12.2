@@ -25,8 +25,11 @@ import slimeknights.tconstruct.tools.TinkerTools;
 import slimeknights.tconstruct.tools.melee.item.BattleSign;
 import slimeknights.tconstruct.tools.melee.item.BroadSword;
 import slimeknights.tconstruct.tools.melee.item.Cleaver;
+import slimeknights.tconstruct.tools.melee.item.Dagger;
+import slimeknights.tconstruct.tools.melee.item.FlintAndBrick;
 import slimeknights.tconstruct.tools.melee.item.FryPan;
 import slimeknights.tconstruct.tools.melee.item.LongSword;
+import slimeknights.tconstruct.tools.melee.item.MinotaurAxe;
 import slimeknights.tconstruct.tools.melee.item.Rapier;
 
 @Pulse(
@@ -52,6 +55,8 @@ public class TinkerMeleeWeapons extends AbstractToolPulse {
 
   public static ToolCore cleaver;
   public static ToolCore battleAxe;
+  public static ToolCore minotaurAxe;
+  public static ToolCore flintAndBrick;
 
   @Override
   @SubscribeEvent
@@ -76,12 +81,14 @@ public class TinkerMeleeWeapons extends AbstractToolPulse {
     longSword = registerTool(registry, new LongSword(), "longsword");
     rapier = registerTool(registry, new Rapier(), "rapier");
     // cutlass
-    // dagger
+    dagger = registerTool(registry, new Dagger(), "dagger");
     fryPan = registerTool(registry, new FryPan(), "frypan");
     battleSign = registerTool(registry, new BattleSign(), "battlesign");
 
     cleaver = registerTool(registry, new Cleaver(), "cleaver");
     //battleAxe = registerTool(new BattleAxe(), "battleaxe");
+    minotaurAxe = registerTool(registry, new MinotaurAxe(), "minotaur_axe");
+    flintAndBrick = registerTool(registry, new FlintAndBrick(), "flint_and_brick");
   }
 
   // INITIALIZATION
@@ -97,10 +104,13 @@ public class TinkerMeleeWeapons extends AbstractToolPulse {
     TinkerRegistry.registerToolCrafting(broadSword);
     TinkerRegistry.registerToolCrafting(longSword);
     TinkerRegistry.registerToolCrafting(rapier);
+    TinkerRegistry.registerToolCrafting(dagger);
     TinkerRegistry.registerToolCrafting(fryPan);
     TinkerRegistry.registerToolCrafting(battleSign);
 
     TinkerRegistry.registerToolForgeCrafting(cleaver);
+    TinkerRegistry.registerToolForgeCrafting(minotaurAxe);
+    TinkerRegistry.registerToolCrafting(flintAndBrick);
     //TinkerRegistry.registerToolForgeCrafting(battleAxe);
   }
 

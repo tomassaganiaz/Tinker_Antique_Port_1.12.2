@@ -106,6 +106,8 @@ public class WorldClientProxy extends ClientProxy {
 
     // items
     ModelRegisterUtil.registerItemBlockMeta(TinkerWorld.slimeDirt);
+    ModelRegisterUtil.registerItemBlockMeta(TinkerWorld.crystalCluster);
+    ModelRegisterUtil.registerItemModel(net.minecraft.item.Item.getItemFromBlock(TinkerWorld.buddingCrystal), 0);
 
     // slime grass
     Item grass = Item.getItemFromBlock(TinkerWorld.slimeGrass);

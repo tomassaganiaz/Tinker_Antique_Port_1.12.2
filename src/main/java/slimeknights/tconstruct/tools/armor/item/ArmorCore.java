@@ -118,6 +118,7 @@ public abstract class ArmorCore extends ToolCore {
 
   @Override
   public void onArmorTick(World world, EntityPlayer player, ItemStack itemStack) {
+    if(slimeknights.tconstruct.library.utils.ToolHelper.isBroken(itemStack)) return;
     TinkerUtil.getTraitsOrdered(itemStack).forEach(trait -> trait.onArmorTick(itemStack, world, player));
   }
 

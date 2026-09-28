@@ -36,6 +36,11 @@ import slimeknights.tconstruct.library.TinkerRegistry;
 import slimeknights.tconstruct.library.Util;
 import slimeknights.tconstruct.plugin.quark.QuarkPlugin;
 import slimeknights.tconstruct.shared.block.BlockClearGlass;
+import slimeknights.tconstruct.shared.block.BlockGoldBars;
+import slimeknights.tconstruct.shared.block.BlockSoulGlass;
+import slimeknights.tconstruct.shared.block.BlockObsidianPane;
+import slimeknights.tconstruct.shared.block.BlockSlimeWood;
+import slimeknights.tconstruct.shared.block.BlockSlimePlanks;
 import slimeknights.tconstruct.shared.block.BlockClearStainedGlass;
 import slimeknights.tconstruct.shared.block.BlockCommonMetal;
 import slimeknights.tconstruct.shared.block.BlockCommonOre;
@@ -91,6 +96,12 @@ public class TinkerCommons extends TinkerPulse {
   // glass
   public static Block blockClearGlass;
   public static BlockClearStainedGlass blockClearStainedGlass;
+  public static BlockSoulGlass blockSoulGlass;
+  public static BlockObsidianPane blockObsidianPane;
+  public static BlockGoldBars blockGoldBars;
+  // Madera de slime (tronco + tablones por tipo)
+  public static BlockSlimeWood blockSlimeWood;
+  public static BlockSlimePlanks blockSlimePlanks;
 
   // block itemstacks
   public static ItemStack grout;
@@ -228,6 +239,14 @@ public class TinkerCommons extends TinkerPulse {
   public static ItemStack matDragonScale;
   public static ItemStack matCheeseWet;
   public static ItemStack matCheese;
+  // Compuestos de TC3 portados como items propios del fork (materiales de armadura/ligante)
+  public static ItemStack matIchorSkin;
+  public static ItemStack matJadeite;
+  public static ItemStack matAncientHide;
+  public static ItemStack matOsmiumIngot;
+  public static ItemStack matTreatedWood;
+  public static ItemStack matPlatedSlimewood;
+  public static ItemStack matSlimewood;
 
   // jerky
   public static ItemStack jerkyBeef;
@@ -285,6 +304,11 @@ public class TinkerCommons extends TinkerPulse {
 
     blockClearGlass = registerBlock(registry, new BlockClearGlass(), "clear_glass");
     blockClearStainedGlass = registerBlock(registry, new BlockClearStainedGlass(), "clear_stained_glass");
+    blockSoulGlass = registerBlock(registry, new BlockSoulGlass(), "soul_glass");
+    blockGoldBars = registerBlock(registry, new BlockGoldBars(), "gold_bars");
+    blockObsidianPane = registerBlock(registry, new BlockObsidianPane(), "obsidian_pane");
+    blockSlimeWood = registerBlock(registry, new BlockSlimeWood(), "slime_wood");
+    blockSlimePlanks = registerBlock(registry, new BlockSlimePlanks(), "slime_planks");
 
     // slabs
     slabDecoGround = registerBlock(registry, new BlockDecoGroundSlab(), "deco_ground_slab");
@@ -355,6 +379,11 @@ public class TinkerCommons extends TinkerPulse {
 
     blockClearGlass = registerItemBlock(registry, blockClearGlass);
     blockClearStainedGlass = registerEnumItemBlock(registry, blockClearStainedGlass);
+    blockSoulGlass = registerItemBlock(registry, blockSoulGlass);
+    blockGoldBars = registerItemBlock(registry, blockGoldBars);
+    blockObsidianPane = registerItemBlock(registry, blockObsidianPane);
+    blockSlimeWood = registerEnumItemBlock(registry, blockSlimeWood);
+    blockSlimePlanks = registerEnumItemBlock(registry, blockSlimePlanks);
 
     // Slabs
     slabDecoGround = registerEnumItemBlockSlab(registry, slabDecoGround);
@@ -518,8 +547,16 @@ public class TinkerCommons extends TinkerPulse {
       matJeweledHide = materials.addMeta(27, "jeweled_hide");
       matDragonScale = materials.addMeta(29, "dragon_scale");
       // queso de TC3: leche colada en molde de lingote y secada en el secadero
-      matCheeseWet = materials.addMeta(30, "cheese_ingot_wet");
-      matCheese = materials.addMeta(31, "cheese_ingot");
+matCheeseWet = materials.addMeta(30, "cheese_ingot_wet");
+    matCheese = materials.addMeta(31, "cheese_ingot");
+    // Compuestos de TC3 portados (meta 36-42): items propios del fork sin textura nueva (recoloreo no requiere).
+    matIchorSkin = materials.addMeta(36, "ichor_skin");
+    matJadeite = materials.addMeta(37, "jadeite");
+    matAncientHide = materials.addMeta(38, "ancient_hide");
+    matOsmiumIngot = materials.addMeta(39, "osmium_ingot");
+    matTreatedWood = materials.addMeta(40, "treated_wood");
+    matPlatedSlimewood = materials.addMeta(41, "plated_slimewood");
+    matSlimewood = materials.addMeta(42, "slimewood");
 
       matCreativeModifier = materials.addMeta(50, "creative_modifier");
 

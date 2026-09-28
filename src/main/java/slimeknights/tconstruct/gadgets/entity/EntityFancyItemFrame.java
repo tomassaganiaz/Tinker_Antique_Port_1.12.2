@@ -116,7 +116,10 @@ public class EntityFancyItemFrame extends EntityItemFrame implements IEntityAddi
     ARDITE,
     MANYULLYN,
     GOLD,
-    CLEAR;
+    CLEAR,
+    DIAMOND,
+    REVERSED_GOLD,
+    NETHERITE;
 
     public static FrameType fromMeta(int meta) {
       return FrameType.values()[meta % FrameType.values().length];

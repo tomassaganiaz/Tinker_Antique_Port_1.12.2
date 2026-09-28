@@ -120,6 +120,11 @@ public final class TinkerMaterials {
   public static final Material steeleaf       = mat("steeleaf", 0x6b8f4a);
   public static final Material fiery          = mat("fiery", 0xd4622a);
   public static final Material dragonscale    = mat("dragonscale", 0x2f6f5c);
+  public static final Material knightmetal    = mat("knightmetal", 0x8a7f9e);
+  // Materiales de armadura de TC3 hechos de esquirlas (kobold = cobalto, magnetite = acero, knightly = knightmetal)
+  public static final Material kobold        = mat("kobold", 0x2882d4);
+  public static final Material magnetite     = mat("magnetite", 0xa7a7a7);
+  public static final Material knightly      = mat("knightly", 0x8a7f9e);
 
   // Compuestos de TC3: items nuevos fabricados en la smeltery
   public static final Material slimeskin      = mat("slimeskin", 0x82c873);
@@ -132,6 +137,20 @@ public final class TinkerMaterials {
   public static final Material bamboo         = mat("bamboo", 0x7fa83f);
   // Queso: leche colada en molde de lingote + secadero (como en TC3)
   public static final Material cheese         = mat("cheese", 0xf2d16b);
+  // Miel: TC3 la usa solo en slimesuit (SlimeStats 200); el fork ya funde futuremc:honey_bottle en fluido honey
+  public static final Material honey          = mat("honey", 0xe8a33c);
+  // Compuestos de TC3 portados con items propios del fork (armadura/ligante)
+  public static final Material ichor          = mat("ichor", 0xd9a441);
+  public static final Material ichorskin      = mat("ichorskin", 0xd9a441);
+  public static final Material jadeite        = mat("jadeite", 0x38d163);
+  public static final Material ancienthide    = mat("ancienthide", 0x4a4a4a);
+  public static final Material osmium         = mat("osmium", 0x8aa8b8);
+  public static final Material treatedwood    = mat("treatedwood", 0x8b6b4a);
+  public static final Material platedslimewood = mat("platedslimewood", 0x82c873);
+  public static final Material slimewood      = mat("slimewood", 0x82c873);
+  // Materiales de armadura de TC3 con items de mods del pack (OceanicExpanse/Future MC)
+  public static final Material turtle         = mat("turtle", 0x5fbf77);
+  public static final Material nautilus       = mat("nautilus", 0x9b59b6);
   public static final Material rosegold       = mat("rosegold", 0xd08a7a);
   public static final Material amethystbronze = mat("amethystbronze", 0xa87bbd);
 
@@ -486,6 +505,22 @@ public final class TinkerMaterials {
     fiery.addCommonItems("Fiery");
     fiery.addTrait(superheat);
 
+    // Knightmetal: metal tier 4 de Twilight Forest (mismo patrón que ironwood/steeleaf/fiery).
+    // TC3: valiant (armas) + stalwart (armadura). En el fork se mapean a insatiable (armas)
+    // y heavy (armadura), y al no existir el sistema de skulls se omite spitting.
+    knightmetal.addCommonItems("Knightmetal");
+    knightmetal.addTrait(insatiable);
+    knightmetal.addTrait(heavy);
+
+    // Kobold/Magnetite/Knightly: materiales de armadura de TC3 hechos de esquirlas.
+    // Se craftean con el shard del metal base (cobalto/acero/knightmetal) en postInit
+    // (los shards por material se generan ahí). Traits mapeados de TC3:
+    // kobold cobalamin -> insatiable, magnetite attractive/magnetic -> magnetic,
+    // knightly valiant/loyal -> insatiable.
+    kobold.addTrait(insatiable);
+    magnetite.addTrait(magnetic);
+    knightly.addTrait(insatiable);
+
     // escamas del dragón del End (drop añadido en ToolEvents) + las de Ice and Fire por oredict
     dragonscale.setCraftable(true);
     dragonscale.addItem("dragonScale", 1, Material.VALUE_Ingot);
@@ -529,6 +564,86 @@ public final class TinkerMaterials {
     cheese.setCraftable(true);
     cheese.addItem(TinkerCommons.matCheese, 1, Material.VALUE_Ingot);
     cheese.setRepresentativeItem(TinkerCommons.matCheese);
+
+    // Miel: Future MC aporta futuremc:honey_bottle (el fork ya lo funde a fluido honey).
+    // TC3 la usa solo en slimesuit; aquí se craftea con la botella y sirve como ligante pegajoso.
+    honey.setCraftable(true);
+    honey.setFluid(TinkerFluids.honey);
+    honey.setCastable(true);
+    net.minecraft.item.Item honeyBottle = net.minecraft.item.Item.getByNameOrId("futuremc:honey_bottle");
+    if(honeyBottle != null) {
+      honey.addItem(honeyBottle, 1, Material.VALUE_Ingot);
+      honey.setRepresentativeItem(honeyBottle);
+    }
+    honey.addItem("honey_bottle", 1, Material.VALUE_Ingot);
+    honey.addTrait(tasty);
+
+    // Compuestos de TC3 con items propios del fork. Traits mapeados de TC3:
+    // ichor godspeed/overslime -> slimeyBlue, ichorskin godspeed -> slimeyBlue,
+    // jadeite insatiable, ancient_hide fortified -> reinforced-ish (heavy), osmium dense,
+    // treated_wood preserved -> ecological, slimewood overgrowth/overslime -> slimeyBlue.
+    ichor.setCraftable(true);
+    ichor.addItem(TinkerCommons.matSlimeBallIchor, 1, Material.VALUE_Ingot);
+    ichor.setRepresentativeItem(TinkerCommons.matSlimeBallIchor);
+    ichor.addTrait(slimeyBlue);
+
+    ichorskin.setCraftable(true);
+    ichorskin.addItem(TinkerCommons.matIchorSkin, 1, Material.VALUE_Ingot);
+    ichorskin.setRepresentativeItem(TinkerCommons.matIchorSkin);
+    ichorskin.addTrait(slimeyBlue);
+
+    jadeite.setCraftable(true);
+    jadeite.addItem(TinkerCommons.matJadeite, 1, Material.VALUE_Ingot);
+    jadeite.setRepresentativeItem(TinkerCommons.matJadeite);
+    jadeite.addTrait(insatiable);
+
+    ancienthide.setCraftable(true);
+    ancienthide.addItem(TinkerCommons.matAncientHide, 1, Material.VALUE_Ingot);
+    ancienthide.setRepresentativeItem(TinkerCommons.matAncientHide);
+    ancienthide.addTrait(heavy);
+
+    osmium.setCraftable(true);
+    osmium.addItem(TinkerCommons.matOsmiumIngot, 1, Material.VALUE_Ingot);
+    osmium.setRepresentativeItem(TinkerCommons.matOsmiumIngot);
+    osmium.addTrait(dense);
+
+    treatedwood.setCraftable(true);
+    treatedwood.addItem(TinkerCommons.matTreatedWood, 1, Material.VALUE_Ingot);
+    treatedwood.setRepresentativeItem(TinkerCommons.matTreatedWood);
+    treatedwood.addTrait(ecological);
+
+    platedslimewood.setCraftable(true);
+    platedslimewood.addItem(TinkerCommons.matPlatedSlimewood, 1, Material.VALUE_Ingot);
+    platedslimewood.setRepresentativeItem(TinkerCommons.matPlatedSlimewood);
+    platedslimewood.addTrait(slimeyBlue);
+
+    slimewood.setCraftable(true);
+    slimewood.addItem(TinkerCommons.matSlimewood, 1, Material.VALUE_Ingot);
+    slimewood.setRepresentativeItem(TinkerCommons.matSlimewood);
+    slimewood.addTrait(slimeyBlue);
+
+    // Turtle/Nautilus: items de mods del pack (OceanicExpanse / Future MC). Null-safe:
+    // sin el mod no hay receta pero el material no rompe nada. TC3 traits: turtle_shell/turtles_grace,
+    // shell_gut -> se mapean a heavy/insatiable.
+    net.minecraft.item.Item turtleScute = net.minecraft.item.Item.getByNameOrId("oe:turtle_scute");
+    turtle.setCraftable(true);
+    if(turtleScute != null) {
+      turtle.addItem(turtleScute, 1, Material.VALUE_Ingot);
+      turtle.setRepresentativeItem(turtleScute);
+    }
+    turtle.addItem("turtleScute", 1, Material.VALUE_Ingot);
+    turtle.addItem("scute", 1, Material.VALUE_Ingot);
+    turtle.addTrait(heavy);
+
+    net.minecraft.item.Item nautilusShell = net.minecraft.item.Item.getByNameOrId("futuremc:nautilus_shell");
+    if(nautilusShell == null) nautilusShell = net.minecraft.item.Item.getByNameOrId("oe:nautilus_shell");
+    nautilus.setCraftable(true);
+    if(nautilusShell != null) {
+      nautilus.addItem(nautilusShell, 1, Material.VALUE_Ingot);
+      nautilus.setRepresentativeItem(nautilusShell);
+    }
+    nautilus.addItem("nautilusShell", 1, Material.VALUE_Ingot);
+    nautilus.addTrait(insatiable);
 
     cobalt.addCommonItems("Cobalt");
     cobalt.addTrait(momentum, HEAD);
@@ -1030,6 +1145,54 @@ public final class TinkerMaterials {
                                     new HandleMaterialStats(1.10f, 120),
                                     new ExtraMaterialStats(150));
 
+    // Knightmetal (TC3 1.20.1): Head(512, 8, 3, NETHERITE), Handle(+0.15 atk, +0.05 spd), Limb/Grip (no 1.12),
+    // Plating armor (2/5/7/2, tough 2), Skull(220). El nivel NETHERITE se mapea a COBALT (máx 1.12).
+    TinkerRegistry.addMaterialStats(knightmetal,
+                                    new HeadMaterialStats(512, 8.00f, 3.00f, COBALT),
+                                    new HandleMaterialStats(1.00f, 90),
+                                    new ExtraMaterialStats(100));
+
+    // Kobold: solo armadura (shell) en TC3. Magnetite/Knightly: punta de flecha + armadura.
+    // El repair_amount de shell (450/435/300) se usa como factor de armadura; en el fork no
+    // existe "shell", así que se registra como Extra (ligante de armadura) + Head para los que tienen punta.
+    TinkerRegistry.addMaterialStats(kobold, new ExtraMaterialStats(80));
+    TinkerRegistry.addMaterialStats(magnetite,
+                                    new HeadMaterialStats(180, 5.50f, 4.00f, IRON),
+                                    new ExtraMaterialStats(85));
+    TinkerRegistry.addMaterialStats(knightly,
+                                    new HeadMaterialStats(220, 6.50f, 3.50f, COBALT),
+                                    new ExtraMaterialStats(90));
+
+    // Compuestos de TC3 portados (stats de 1.20.1 adaptados a Head/Handle/Extra).
+    // ichor: arrow_head + slime; slimewood: head(375/4/1 iron)+grip; treated_wood: head(300/3.5/1.5 stone);
+    // plated_slimewood: head(595/5/2 diamond); osmium: head(500/4.5/2 iron); ancient_hide: solo binding/bowstring.
+    TinkerRegistry.addMaterialStats(ichor,
+                                    new HeadMaterialStats(175, 5.50f, 3.00f, DIAMOND),
+                                    new ExtraMaterialStats(50));
+    TinkerRegistry.addMaterialStats(ichorskin, new ExtraMaterialStats(70));
+    TinkerRegistry.addMaterialStats(jadeite, new ExtraMaterialStats(90));
+    TinkerRegistry.addMaterialStats(ancienthide, new ExtraMaterialStats(80));
+    TinkerRegistry.addMaterialStats(osmium,
+                                    new HeadMaterialStats(500, 4.50f, 2.00f, IRON),
+                                    new HandleMaterialStats(1.00f, 80),
+                                    new ExtraMaterialStats(90));
+    TinkerRegistry.addMaterialStats(treatedwood,
+                                    new HeadMaterialStats(300, 3.50f, 1.50f, STONE),
+                                    new HandleMaterialStats(1.10f, 60),
+                                    new ExtraMaterialStats(50));
+    TinkerRegistry.addMaterialStats(platedslimewood,
+                                    new HeadMaterialStats(595, 5.00f, 2.00f, DIAMOND),
+                                    new HandleMaterialStats(1.05f, 80),
+                                    new ExtraMaterialStats(70));
+    TinkerRegistry.addMaterialStats(slimewood,
+                                    new HeadMaterialStats(375, 4.00f, 1.00f, IRON),
+                                    new HandleMaterialStats(1.10f, 50),
+                                    new ExtraMaterialStats(60));
+
+    // Turtle/Nautilus: solo armadura (shell) en TC3 → en el fork Extra (ligante de armadura).
+    TinkerRegistry.addMaterialStats(turtle, new ExtraMaterialStats(75));
+    TinkerRegistry.addMaterialStats(nautilus, new ExtraMaterialStats(70));
+
     // dragonScale solo es punta de flecha en TC3 (ARROW_HEAD), sin mango
     TinkerRegistry.addMaterialStats(dragonscale, new HeadMaterialStats(150, 5.50f, 4.50f, IRON));
 
@@ -1046,6 +1209,8 @@ public final class TinkerMaterials {
 
     // TC3: cheese solo tiene BOWSTRING y laces (111); bamboo no tiene cabeza ni mango
     TinkerRegistry.addMaterialStats(cheese, new ExtraMaterialStats(111));
+    // TC3 solo da SlimeStats(200) a honey; en el fork se portan como ligante (Extra) y cuerda de arco pegajosa
+    TinkerRegistry.addMaterialStats(honey, new ExtraMaterialStats(60));
 
     // Common Metals
     TinkerRegistry.addMaterialStats(copper,
@@ -1237,6 +1402,9 @@ public final class TinkerMaterials {
     TinkerRegistry.addMaterialStats(darkthread, bowstring); // TC3: BOWSTRING
     TinkerRegistry.addMaterialStats(jeweledhide, bowstring); // TC3: BOWSTRING
     TinkerRegistry.addMaterialStats(cheese, bowstring);      // TC3: BOWSTRING + laces
+    TinkerRegistry.addMaterialStats(honey, bowstring);       // TC3: slime (pegajosa) → cuerda de arco
+    TinkerRegistry.addMaterialStats(ancienthide, bowstring); // TC3: BOWSTRING
+    TinkerRegistry.addMaterialStats(slimewood, bowstring);   // TC3: grip
     TinkerRegistry.addMaterialStats(leather, bowstring);
     TinkerRegistry.addMaterialStats(string, bowstring);
     TinkerRegistry.addMaterialStats(vine, bowstring);
@@ -1287,5 +1455,17 @@ public final class TinkerMaterials {
         material.setShard(shard);
       }
     }
+
+    // Kobold/Magnetite/Knightly se craftean con el shard de su metal base (cobalto/acero/knightmetal),
+    // imitando TC3 (COBALT_SHARD / STEEL_SHARD / KNIGHTMETAL_SHARD).
+    addShardRecipe(kobold, TinkerMaterials.cobalt);
+    addShardRecipe(magnetite, TinkerMaterials.steel);
+    addShardRecipe(knightly, TinkerMaterials.knightmetal);
+  }
+
+  private static void addShardRecipe(Material target, Material source) {
+    ItemStack shard = TinkerTools.shard.getItemstackWithMaterial(source);
+    target.addRecipeMatch(new RecipeMatch.ItemCombination(Material.VALUE_Ingot, shard));
+    target.setCraftable(true);
   }
 }

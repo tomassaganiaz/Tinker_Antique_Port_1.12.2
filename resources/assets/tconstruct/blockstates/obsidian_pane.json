@@ -1,5 +1,21 @@
 {
   "variants": {
-    "normal": { "model": "tconstruct:obsidian_pane" }
+    "inventory": { "model": "tconstruct:obsidian_pane_ns" },
+    "east=false,north=false,south=false,west=false": { "model": "tconstruct:obsidian_pane_ns" },
+    "east=false,north=true,south=false,west=false": { "model": "tconstruct:obsidian_pane_ns" },
+    "east=true,north=false,south=false,west=false": { "model": "tconstruct:obsidian_pane_ew" },
+    "east=false,north=false,south=true,west=false": { "model": "tconstruct:obsidian_pane_ns" },
+    "east=false,north=false,south=false,west=true": { "model": "tconstruct:obsidian_pane_ew" },
+    "east=false,north=true,south=true,west=false": { "model": "tconstruct:obsidian_pane_ns" },
+    "east=true,north=false,south=false,west=true": { "model": "tconstruct:obsidian_pane_ew" },
+    "east=true,north=true,south=false,west=false": { "model": "tconstruct:obsidian_pane_nsew" },
+    "east=true,north=false,south=true,west=false": { "model": "tconstruct:obsidian_pane_nsew" },
+    "east=false,north=true,south=false,west=true": { "model": "tconstruct:obsidian_pane_nsew" },
+    "east=false,north=false,south=true,west=true": { "model": "tconstruct:obsidian_pane_nsew" },
+    "east=true,north=true,south=true,west=false": { "model": "tconstruct:obsidian_pane_nsew" },
+    "east=true,north=true,south=false,west=true": { "model": "tconstruct:obsidian_pane_nsew" },
+    "east=true,north=false,south=true,west=true": { "model": "tconstruct:obsidian_pane_nsew" },
+    "east=false,north=true,south=true,west=true": { "model": "tconstruct:obsidian_pane_nsew" },
+    "east=true,north=true,south=true,west=true": { "model": "tconstruct:obsidian_pane_nsew" }
   }
 }

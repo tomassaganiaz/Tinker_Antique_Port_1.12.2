@@ -20,7 +20,10 @@
             "cobalt":    { "textures": { "wood": "tconstruct:blocks/block_cobalt" } },
             "ardite":    { "textures": { "wood": "tconstruct:blocks/block_ardite" } },
             "manyullyn": { "textures": { "wood": "tconstruct:blocks/block_manyullyn" } },
-            "clear":     { "textures": { "wood": "minecraft:blocks/glass_white", "back": "minecraft:blocks/glass" } }
+            "clear":     { "textures": { "wood": "minecraft:blocks/glass_white", "back": "minecraft:blocks/glass" } },
+            "diamond":   { "textures": { "wood": "minecraft:blocks/diamond_block" } },
+            "reversed_gold": { "textures": { "wood": "minecraft:blocks/gold_block" } },
+            "netherite": { "textures": { "wood": "tconstruct:blocks/block_hepatizon" } }
         }
     }
 }

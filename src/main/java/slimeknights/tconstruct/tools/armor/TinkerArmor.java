@@ -126,11 +126,15 @@ public class TinkerArmor extends AbstractToolPulse {
     if(travelersShield != null) TinkerRegistry.registerTool(travelersShield);
     modProtection = regMod(new ModProtection());
     modProtection.addRecipeMatch(new ReinforcementRecipeMatch(
-      new ItemStack(slimeknights.tconstruct.shared.TinkerCommons.matReinforcement.getItem(), 2, slimeknights.tconstruct.shared.TinkerCommons.matReinforcement.getMetadata()),
-      new ItemStack(slimeknights.tconstruct.shared.TinkerCommons.matReinforceCobalt.getItem(), 2, slimeknights.tconstruct.shared.TinkerCommons.matReinforceCobalt.getMetadata()),
-      new ItemStack(slimeknights.tconstruct.shared.TinkerCommons.matReinforceGold.getItem(), 2, slimeknights.tconstruct.shared.TinkerCommons.matReinforceGold.getMetadata()),
-      new ItemStack(slimeknights.tconstruct.shared.TinkerCommons.matReinforceObsidian.getItem(), 2, slimeknights.tconstruct.shared.TinkerCommons.matReinforceObsidian.getMetadata()),
-      new ItemStack(slimeknights.tconstruct.shared.TinkerCommons.matReinforceSeared.getItem(), 2, slimeknights.tconstruct.shared.TinkerCommons.matReinforceSeared.getMetadata())));
+      new ItemStack(slimeknights.tconstruct.shared.TinkerCommons.matReinforcement.getItem(), 1, slimeknights.tconstruct.shared.TinkerCommons.matReinforcement.getMetadata())));
+    modProtection.addRecipeMatch(new ReinforcementRecipeMatch(
+      new ItemStack(slimeknights.tconstruct.shared.TinkerCommons.matReinforceCobalt.getItem(), 1, slimeknights.tconstruct.shared.TinkerCommons.matReinforceCobalt.getMetadata())));
+    modProtection.addRecipeMatch(new ReinforcementRecipeMatch(
+      new ItemStack(slimeknights.tconstruct.shared.TinkerCommons.matReinforceGold.getItem(), 1, slimeknights.tconstruct.shared.TinkerCommons.matReinforceGold.getMetadata())));
+    modProtection.addRecipeMatch(new ReinforcementRecipeMatch(
+      new ItemStack(slimeknights.tconstruct.shared.TinkerCommons.matReinforceObsidian.getItem(), 1, slimeknights.tconstruct.shared.TinkerCommons.matReinforceObsidian.getMetadata())));
+    modProtection.addRecipeMatch(new ReinforcementRecipeMatch(
+      new ItemStack(slimeknights.tconstruct.shared.TinkerCommons.matReinforceSeared.getItem(), 1, slimeknights.tconstruct.shared.TinkerCommons.matReinforceSeared.getMetadata())));
     modProjectileProtection = regMod(new ModProjectileProtection(), "blockWool", "wool");
     modProjectileProtection.addItem(slimeknights.tconstruct.shared.TinkerCommons.matReinforcement, 2, 1);
     modBlastProtection = regMod(new ModBlastProtection(), "blockObsidian", "obsidian");
@@ -283,6 +287,17 @@ public class TinkerArmor extends AbstractToolPulse {
       {TinkerMaterials.steeleaf, 10, 2,5,7,2},
       {TinkerMaterials.ironwood, 8, 2,4,5,2},
       {TinkerMaterials.fiery, 25, 3,6,8,3},
+      {TinkerMaterials.knightmetal, 40, 3,6,8,3, 2f, 0.05f},
+      {TinkerMaterials.kobold, 28, 2,5,7,2},
+      {TinkerMaterials.magnetite, 26, 2,5,6,2},
+      {TinkerMaterials.knightly, 32, 2,5,7,2},
+      {TinkerMaterials.ichor, 22, 2,4,6,2},
+      {TinkerMaterials.ichorskin, 18, 2,4,5,2},
+      {TinkerMaterials.jadeite, 20, 2,5,6,2},
+      {TinkerMaterials.ancienthide, 26, 3,6,8,3},
+      {TinkerMaterials.osmium, 24, 2,5,6,2},
+      {TinkerMaterials.turtle, 18, 2,4,6,2},
+      {TinkerMaterials.nautilus, 16, 2,4,5,2},
       {TinkerMaterials.searedstone, 14, 1,3,4,2},
       {TinkerMaterials.scorchedstone, 10, 1,4,5,2},
       {TinkerMaterials.amethyst, 12, 1,3,4,1},

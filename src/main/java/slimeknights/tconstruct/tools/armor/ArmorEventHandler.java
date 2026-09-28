@@ -19,7 +19,6 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import slimeknights.tconstruct.library.utils.TagUtil;
 import slimeknights.tconstruct.library.utils.Tags;
 import slimeknights.tconstruct.tools.armor.item.ArmorCore;
-import slimeknights.tconstruct.tools.armor.item.ItemPlateShield;
 
 public class ArmorEventHandler {
 
@@ -51,7 +50,8 @@ public class ArmorEventHandler {
     int strengthLvl = 0;
     int shulkingLvl = 0;
     for(ItemStack s : p.getArmorInventoryList()) {
-      if(!(s.getItem() instanceof ArmorCore) || !s.hasTagCompound()) continue;
+      if(!(s.getItem() instanceof ArmorCore) || !s.hasTagCompound()
+          || slimeknights.tconstruct.library.utils.ToolHelper.isBroken(s)) continue;
       NBTTagCompound tag = TagUtil.getToolTag(s);
       red += tag.getFloat(Tags.PROTECTION) * 0.10f;
       if(isDirectMeleeDamage(src)) red += tag.getFloat(Tags.MELEE_PROTECTION) * 0.10f;
@@ -79,7 +79,8 @@ public class ArmorEventHandler {
       if(attacker.isSneaking()) {
         int atkShulk = 0;
         for(ItemStack s : attacker.getArmorInventoryList()) {
-          if(!(s.getItem() instanceof ArmorCore) || !s.hasTagCompound()) continue;
+          if(!(s.getItem() instanceof ArmorCore) || !s.hasTagCompound()
+              || slimeknights.tconstruct.library.utils.ToolHelper.isBroken(s)) continue;
           net.minecraft.nbt.NBTTagList mods = TagUtil.getModifiersTagList(s);
           for(int i=0;i<mods.tagCount();i++) {
             slimeknights.tconstruct.library.modifiers.ModifierNBT data = slimeknights.tconstruct.library.modifiers.ModifierNBT.readTag(mods.getCompoundTagAt(i));
@@ -105,16 +106,15 @@ public class ArmorEventHandler {
       p.addPotionEffect(new net.minecraft.potion.PotionEffect(net.minecraft.init.MobEffects.STRENGTH, duration, 0, false, true));
     }
     if(red > 0) event.setAmount(event.getAmount() * (1f - Math.min(0.8f, red)));
-    // vanilla only damages instanceof ItemArmor, so Tinker armor would never wear down: damage it here
+    // vanilla only damages instanceof ItemArmor, so Tinker armor would never wear down: damage one random piece per hit
     if(!event.isCanceled() && event.getAmount() > 0 && !src.isUnblockable()) {
+      java.util.List<ItemStack> wearable = new java.util.ArrayList<>();
       for(ItemStack s : p.getArmorInventoryList()) {
-        if(s.getItem() instanceof ArmorCore && s.hasTagCompound()) {
-          slimeknights.tconstruct.library.utils.ToolHelper.damageTool(s, 1, p);
-        }
+        if(s.getItem() instanceof ArmorCore && s.hasTagCompound()) wearable.add(s);
       }
-      ItemStack active = p.getActiveItemStack();
-      if(p.isActiveItemStackBlocking() && active.getItem() instanceof ItemPlateShield && active.hasTagCompound()) {
-        slimeknights.tconstruct.library.utils.ToolHelper.damageTool(active, 1, p);
+      if(!wearable.isEmpty()) {
+        ItemStack damaged = wearable.get(p.getRNG().nextInt(wearable.size()));
+        slimeknights.tconstruct.library.utils.ToolHelper.damageTool(damaged, 1, p);
       }
     }
   }
@@ -145,7 +145,8 @@ public class ArmorEventHandler {
     EntityPlayer p = (EntityPlayer) event.getEntityLiving();
     int total = 0;
     for(ItemStack s : p.getArmorInventoryList()) {
-      if(!(s.getItem() instanceof ArmorCore) || !s.hasTagCompound()) continue;
+      if(!(s.getItem() instanceof ArmorCore) || !s.hasTagCompound()
+          || slimeknights.tconstruct.library.utils.ToolHelper.isBroken(s)) continue;
       net.minecraft.nbt.NBTTagList mods = TagUtil.getModifiersTagList(s);
       for(int i=0;i<mods.tagCount();i++) {
         slimeknights.tconstruct.library.modifiers.ModifierNBT data = slimeknights.tconstruct.library.modifiers.ModifierNBT.readTag(mods.getCompoundTagAt(i));
@@ -171,7 +172,8 @@ public class ArmorEventHandler {
 
   public static boolean hasDoubleJump(EntityPlayer p) {
     for(ItemStack s : p.getArmorInventoryList()) {
-      if(!(s.getItem() instanceof ArmorCore) || !s.hasTagCompound()) continue;
+      if(!(s.getItem() instanceof ArmorCore) || !s.hasTagCompound()
+          || slimeknights.tconstruct.library.utils.ToolHelper.isBroken(s)) continue;
       net.minecraft.nbt.NBTTagList list = TagUtil.getModifiersTagList(s);
       for(int i = 0; i < list.tagCount(); i++) {
         if("double_jump".equals(slimeknights.tconstruct.library.modifiers.ModifierNBT.readTag(list.getCompoundTagAt(i)).identifier)) {

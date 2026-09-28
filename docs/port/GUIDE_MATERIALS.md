@@ -368,7 +368,7 @@ Detalles de integración:
 | `slimewood` | N/A | TC3 usa sus 4 maderas de slime (greenheart/skyroot/bloodshroom/enderbark). El fork no tiene madera de slime: sus árboles usan slime congelado como tronco (`SlimeIslandGenerator`). |
 | `turtle` | N/A | El escudo de tortuga **sí existe** (OceanicExpanse: `oe:turtle_scute`), pero en TC3 solo sirve para armadura (`RepairStats.shell(275)` + maille). |
 | `nautilus` | N/A | La concha de náutilo **sí existe** (OceanicExpanse, Future MC, Fossils), pero en TC3 solo es armadura (`RepairStats.shell(350)`). |
-| `honey` | N/A | La botella de miel **sí existe** (Future MC: `futuremc:honey_bottle`), pero en TC3 solo es slimesuit (`SlimeStats(200, 0)`). |
+| `honey` | **Implementado (2026-09-20)** | La botella de miel existe (Future MC: `futuremc:honey_bottle`) y el fork ya funde el fluido `honey`. En TC3 solo es slimesuit (`SlimeStats(200, 0)`); en el fork se portó como ligante (Extra 60) + BowString pegajosa + trait `tasty`. |
 | `cheese` | N/A | Contenido propio de TC3 (`cheeseIngot`): no hay queso en 1.12 ni en el modpack. Su uso no-armadura sería cuerda de arco. |
 | `phantom` | N/A | Membrana de phantom (1.13+), ausente; en TC3 solo es armadura/elytra. |
 
@@ -475,7 +475,7 @@ Notas:
 | Material | Estado | Motivo |
 |---|---|---|
 | `cinderslime` | N/A | Su aleación usa **icor** (slime propio de TC3). |
-| `knightmetal` | N/A | Metal con **lingote y fluido propios** (`ingotKnightmetal`): requiere ítems + texturas. |
+| `knightmetal` | **Implementado (2026-09-20)** | Integración por oredict `ingotKnightmetal` de **Twilight Forest** (mismo patrón que ironwood/steeleaf/fiery): Head(512, 8, 3, COBALT) + Handle(1.0, 90) + Extra(100) + Armor factor 40 (3/6/8/3, tough 2). Traits `insatiable`+`heavy` (TC3: valiant/stalwart). |
 | `blazewood` | N/A | Compuesto **bloodshroom** (item de TC3) + sangre de blaze. |
 | `jeweledHide` | N/A | Compuesto cuero + diamante fundido: el fork tiene el fluido, falta el **item**. |
 | `ancientHide` | N/A | **Item propio de TC3** que se funde en `moltenDebris`. |

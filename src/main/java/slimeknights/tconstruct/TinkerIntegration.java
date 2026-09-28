@@ -76,6 +76,7 @@ public class TinkerIntegration extends TinkerPulse {
     integrate(TinkerMaterials.ironwood, "ingotIronwood");   // Twilight Forest
     integrate(TinkerMaterials.steeleaf, "ingotSteeleaf");   // Twilight Forest
     integrate(TinkerMaterials.fiery, "ingotFiery");         // Twilight Forest
+    integrate(TinkerMaterials.knightmetal, "ingotKnightmetal"); // Twilight Forest
     integrate(TinkerMaterials.dragonscale, "dragonScale");  // Ice and Fire
 
     // Compuestos de TC3 fabricados en la smeltery (items propios del fork)
@@ -85,6 +86,9 @@ public class TinkerIntegration extends TinkerPulse {
     integrate(TinkerMaterials.jeweledhide, TinkerFluids.jeweledhide);
     integrate(TinkerMaterials.blazewood);
     integrate(TinkerMaterials.bamboo, "blockCactus");
+    integrate(TinkerMaterials.honey, "honey_bottle");  // Future MC
+    integrate(TinkerMaterials.turtle, "turtleScute");    // OceanicExpanse
+    integrate(TinkerMaterials.nautilus, "nautilusShell"); // Future MC / OceanicExpanse
     integrate(TinkerMaterials.cheese, "ingotCheese");  // nuestro lingote seco
 
     // Aleaciones de TC3 (tier 3): fluido propio pero sin lingote de oredict, así que van sin

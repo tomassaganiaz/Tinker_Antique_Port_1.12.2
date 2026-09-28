@@ -1,6 +1,5 @@
 package slimeknights.tconstruct.tools.traits;
 
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
@@ -15,7 +14,7 @@ public class TraitOvershield extends AbstractTrait {
   @Override
   public void onArmorTick(ItemStack tool, World world, EntityPlayer player) {
     if(world.isRemote) return;
-    if(player.ticksExisted % 200 == 0 && !player.isPotionActive(MobEffects.ABSORPTION)) {
+    if(player.ticksExisted % 200 == 0 && player.getAbsorptionAmount() <= 0f) {
       player.addPotionEffect(new PotionEffect(MobEffects.ABSORPTION, 2400, 0, true, false));
     }
   }

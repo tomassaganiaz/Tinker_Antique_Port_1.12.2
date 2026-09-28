@@ -1,0 +1,8 @@
+{
+    "parent": "block/iron_bars_ns",
+    "textures": {
+        "particle": "tconstruct:blocks/obsidian_pane",
+        "bars": "tconstruct:blocks/obsidian_pane",
+        "edge": "tconstruct:blocks/obsidian_pane"
+    }
+}

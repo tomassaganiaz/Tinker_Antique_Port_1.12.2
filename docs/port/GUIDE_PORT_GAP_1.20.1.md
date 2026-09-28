@@ -124,6 +124,12 @@ siguen necesitando la smeltery/foundry). Receta: `recipes/foundry/melter.json`. 
 - Ya existen islas de slime y menas. Diferencias de TC3 menores (*):
   - Gema/cristales (usos de amatista) — depende de Deeper Depths.
   - Reparto de yacimientos (cobalto vs ardita) si se adopta el material TC3.
+- **Geodas de cristal (2026-09-20):** `CrystalGeodeGenerator` ampliado para generar geodas
+  por dimensión con los 9 tipos de `BlockCrystalCluster.CrystalType`: Overworld (earth/sky
+  + quartz/amethyst), Nether (ichor/knightmetal), End (ender). Cada geoda suelta el
+  slimeball/cristal correspondiente al romperla. Los 4 tipos de slime de TC3 (earth/sky/
+  ichor/ender) ya estaban cubiertos por el fork (green/blue/magma/purple + entidades
+  `EntityBlueSlime`/`EntityPurpleSlime`).
 
 ### 2.8 Interfaz, JEI y jugabilidad
 

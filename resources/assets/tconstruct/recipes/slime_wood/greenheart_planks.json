@@ -1,0 +1,6 @@
+﻿{
+    "type": "minecraft:crafting_shaped",
+    "pattern": ["x"],
+    "key": { "x": { "item": "tconstruct:slime_wood", "data": 0 } },
+    "result": { "item": "tconstruct:slime_planks", "data": 0, "count": 4 }
+}

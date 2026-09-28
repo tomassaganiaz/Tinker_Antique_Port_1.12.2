@@ -63,6 +63,7 @@ public class TinkerWorld extends TinkerPulse {
   public static BlockSlimeVine slimeVineBlue3;
   public static BlockSlimeVine slimeVinePurple3;
   public static BlockCrystalCluster crystalCluster;
+  public static BlockBuddingCrystal buddingCrystal;
 
   public static final EnumPlantType slimePlantType = EnumPlantType.getPlantType("slime");
 
@@ -76,6 +77,7 @@ public class TinkerWorld extends TinkerPulse {
     slimeGrassTall = registerBlock(registry, new BlockTallSlimeGrass(), "slime_grass_tall");
     slimeSapling = registerBlock(registry, new BlockSlimeSapling(), "slime_sapling");
     crystalCluster = registerBlock(registry, new BlockCrystalCluster(), "crystal_cluster");
+    buddingCrystal = registerBlock(registry, new BlockBuddingCrystal(), "budding_crystal");
 
     slimeVineBlue3 = registerBlock(registry, new BlockSlimeVine(BlockSlimeGrass.FoliageType.BLUE, null), "slime_vine_blue_end");
     slimeVineBlue2 = registerBlock(registry, new BlockSlimeVine(BlockSlimeGrass.FoliageType.BLUE, slimeVineBlue3), "slime_vine_blue_mid");
@@ -104,6 +106,7 @@ public class TinkerWorld extends TinkerPulse {
     slimeVinePurple2 = registerItemBlock(registry, slimeVinePurple2);
     slimeVinePurple1 = registerItemBlock(registry, slimeVinePurple1);
     crystalCluster = registerEnumItemBlock(registry, crystalCluster);
+    buddingCrystal = registerItemBlock(registry, buddingCrystal);
   }
 
   @SubscribeEvent

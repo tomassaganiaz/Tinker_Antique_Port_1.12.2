@@ -34,12 +34,14 @@ import slimeknights.tconstruct.tools.TinkerTools;
 import slimeknights.tconstruct.tools.common.entity.EntityArrow;
 import slimeknights.tconstruct.tools.common.entity.EntityBolt;
 import slimeknights.tconstruct.tools.common.entity.EntityShuriken;
+import slimeknights.tconstruct.tools.common.entity.EntityThrowingAxe;
 import slimeknights.tconstruct.tools.ranged.item.Arrow;
 import slimeknights.tconstruct.tools.ranged.item.Bolt;
 import slimeknights.tconstruct.tools.ranged.item.CrossBow;
 import slimeknights.tconstruct.tools.ranged.item.LongBow;
 import slimeknights.tconstruct.tools.ranged.item.ShortBow;
 import slimeknights.tconstruct.tools.ranged.item.Shuriken;
+import slimeknights.tconstruct.tools.ranged.item.ThrowingAxe;
 
 @Pulse(
     id = TinkerRangedWeapons.PulseId,
@@ -63,6 +65,7 @@ public class TinkerRangedWeapons extends AbstractToolPulse {
   public static Bolt bolt;
 
   public static ToolCore shuriken;
+  public static ToolCore throwingAxe;
 
   private static List<Item> DISCOVERED_ARROWS = new ArrayList<>();
 
@@ -82,6 +85,7 @@ public class TinkerRangedWeapons extends AbstractToolPulse {
     EntityRegistry.registerModEntity(Util.getResource("arrow"), EntityArrow.class, "arrow", EntityIDs.ARROW, TConstruct.instance, 64, 1, false);
     EntityRegistry.registerModEntity(Util.getResource("bolt"), EntityBolt.class, "bolt", EntityIDs.BOLT, TConstruct.instance, 64, 1, false);
     EntityRegistry.registerModEntity(Util.getResource("shuriken"), EntityShuriken.class, "shuriken", EntityIDs.SHURIKEN, TConstruct.instance, 64, 1, false);
+    EntityRegistry.registerModEntity(Util.getResource("throwingaxe"), EntityThrowingAxe.class, "throwingaxe", EntityIDs.THROWINGAXE, TConstruct.instance, 64, 1, false);
   }
 
   @SubscribeEvent
@@ -106,6 +110,7 @@ public class TinkerRangedWeapons extends AbstractToolPulse {
     bolt = registerTool(registry, new Bolt(), "bolt");
 
     shuriken = registerTool(registry, new Shuriken(), "shuriken");
+    throwingAxe = registerTool(registry, new ThrowingAxe(), "throwing_axe");
   }
 
   // INITIALIZATION
@@ -128,6 +133,7 @@ public class TinkerRangedWeapons extends AbstractToolPulse {
     TinkerRegistry.registerToolForgeCrafting(bolt);
 
     TinkerRegistry.registerToolForgeCrafting(shuriken);
+    TinkerRegistry.registerToolForgeCrafting(throwingAxe);
   }
 
   // POST-INITIALIZATION

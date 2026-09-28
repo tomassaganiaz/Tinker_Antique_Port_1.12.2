@@ -30,6 +30,8 @@ import slimeknights.tconstruct.tools.tools.Pickaxe;
 import slimeknights.tconstruct.tools.tools.Scythe;
 import slimeknights.tconstruct.tools.tools.Shovel;
 import slimeknights.tconstruct.tools.tools.Kama;
+import slimeknights.tconstruct.tools.tools.VeinHammer;
+import slimeknights.tconstruct.tools.tools.Pickadze;
 
 @Pulse(
     id = TinkerHarvestTools.PulseId,
@@ -54,6 +56,8 @@ public class TinkerHarvestTools extends AbstractToolPulse {
   public static ToolCore excavator;
   public static ToolCore lumberAxe;
   public static ToolCore scythe;
+  public static ToolCore veinHammer;
+  public static ToolCore pickadze;
 
   @Override
   @SubscribeEvent
@@ -79,11 +83,13 @@ public class TinkerHarvestTools extends AbstractToolPulse {
     hatchet = registerTool(registry, new Hatchet(), "hatchet");
     mattock = registerTool(registry, new Mattock(), "mattock");
     kama = registerTool(registry, new Kama(), "kama");
+    pickadze = registerTool(registry, new Pickadze(), "pickadze");
 
     hammer = registerTool(registry, new Hammer(), "hammer");
     excavator = registerTool(registry, new Excavator(), "excavator");
     lumberAxe = registerTool(registry, new LumberAxe(), "lumberaxe");
     scythe = registerTool(registry, new Scythe(), "scythe");
+    veinHammer = registerTool(registry, new VeinHammer(), "vein_hammer");
   }
 
   // INITIALIZATION
@@ -101,11 +107,13 @@ public class TinkerHarvestTools extends AbstractToolPulse {
     TinkerRegistry.registerToolCrafting(hatchet);
     TinkerRegistry.registerToolCrafting(mattock);
     TinkerRegistry.registerToolCrafting(kama);
+    TinkerRegistry.registerToolCrafting(pickadze);
 
     TinkerRegistry.registerToolForgeCrafting(hammer);
     TinkerRegistry.registerToolForgeCrafting(excavator);
     TinkerRegistry.registerToolForgeCrafting(lumberAxe);
     TinkerRegistry.registerToolForgeCrafting(scythe);
+    TinkerRegistry.registerToolForgeCrafting(veinHammer);
   }
 
   // POST-INITIALIZATION
