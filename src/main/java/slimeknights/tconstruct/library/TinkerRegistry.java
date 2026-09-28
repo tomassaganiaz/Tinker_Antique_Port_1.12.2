@@ -1,67 +1,42 @@
 package slimeknights.tconstruct.library;
 
-import com.google.common.base.CharMatcher;
-import com.google.common.collect.*;
-
-import it.unimi.dsi.fastutil.objects.*;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityList;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fluids.Fluid;
-import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fml.common.Loader;
-import net.minecraftforge.fml.common.ModContainer;
-import net.minecraftforge.fml.common.eventhandler.Event;
-import net.minecraftforge.fml.common.registry.EntityEntry;
-import net.minecraftforge.fml.common.registry.ForgeRegistries;
-import net.minecraftforge.oredict.OreDictionary;
 
 import org.apache.logging.log4j.Logger;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
 import java.util.function.Function;
-import java.util.stream.Collectors;
 
 import slimeknights.mantle.client.CreativeTab;
-import slimeknights.mantle.util.RecipeMatch;
-import slimeknights.tconstruct.common.config.Config;
-import slimeknights.tconstruct.library.events.MaterialEvent;
-import slimeknights.tconstruct.library.events.TinkerRegisterEvent;
 import slimeknights.tconstruct.library.materials.IMaterialStats;
 import slimeknights.tconstruct.library.materials.Material;
-import slimeknights.tconstruct.library.materials.MaterialTypes;
-import slimeknights.tconstruct.library.materials.ProjectileMaterialStats;
 import slimeknights.tconstruct.library.modifiers.IModifier;
 import slimeknights.tconstruct.library.smeltery.AlloyRecipe;
-import slimeknights.tconstruct.library.smeltery.CastingRecipe;
 import slimeknights.tconstruct.library.smeltery.ICastingRecipe;
 import slimeknights.tconstruct.library.smeltery.MeltingRecipe;
-import slimeknights.tconstruct.library.tinkering.PartMaterialType;
-import slimeknights.tconstruct.library.tools.IPattern;
 import slimeknights.tconstruct.library.tools.IToolPart;
 import slimeknights.tconstruct.library.tools.Shard;
 import slimeknights.tconstruct.library.tools.ToolCore;
-import slimeknights.tconstruct.library.events.AlloyRegisterEvent;
-import slimeknights.tconstruct.library.events.BasinCastingRegisterEvent;
-import slimeknights.tconstruct.library.events.DryingRackRegisterEvent;
-import slimeknights.tconstruct.library.events.EntityMeltingRegisterEvent;
-import slimeknights.tconstruct.library.events.MeltingRegisterEvent;
-import slimeknights.tconstruct.library.events.ModifierRegisterEvent;
-import slimeknights.tconstruct.library.events.SmelteryFuelRegisterEvent;
-import slimeknights.tconstruct.library.events.StencilTableCraftingRegisterEvent;
-import slimeknights.tconstruct.library.events.TableCastingRegisterEvent;
-import slimeknights.tconstruct.library.events.ToolForgeCraftingRegisterEvent;
-import slimeknights.tconstruct.library.events.ToolStationCraftingRegisterEvent;
 import slimeknights.tconstruct.library.traits.ITrait;
 
+/**
+ * Fachada de los registries de Tinkers' Construct.
+ * <p>
+ * La implementación (estado + lógica) vive en {@link MaterialRegistry}, {@link ToolRegistry},
+ * {@link ModifierRegistry}, {@link SmelteryRegistry} y {@link DryingRegistry}. Esta clase solo
+ * expone la API pública estática delegando en ellos, para no romper los call sites existentes.
+ */
 public final class TinkerRegistry {
 
   // the logger for the library
@@ -81,1067 +56,375 @@ public final class TinkerRegistry {
   public static CreativeTab tabGadgets = new CreativeTab("TinkerGadgets", new ItemStack(Blocks.TNT));
 
   /*---------------------------------------------------------------------------
-  | MATERIALS                                                                 |
+  | MATERIALS & TRAITS & STATS                                                |
   ---------------------------------------------------------------------------*/
-
-  // Identifier to Material mapping. Hashmap so we can look it up directly without iterating
-  private static final Map<String, Material> materials = new Object2ObjectLinkedOpenHashMap<>();
-  private static final Map<String, ITrait> traits = new Object2ObjectOpenHashMap<>();
-  // traceability information who registered what. Used to find errors.
-  private static final Map<String, ModContainer> materialRegisteredByMod = new Object2ObjectOpenHashMap<>();
-  private static final Map<String, Map<String, ModContainer>> statRegisteredByMod = new Object2ObjectOpenHashMap<>();
-  private static final Map<String, Map<String, ModContainer>> traitRegisteredByMod = new Object2ObjectOpenHashMap<>();
-
-  // contains all cancelled materials, allows us to eat calls regarding the material silently
-  private static final Set<String> cancelledMaterials = new ObjectOpenHashSet<>();
-
   public static void addMaterial(Material material, IMaterialStats stats, ITrait trait) {
-    addMaterial(material, stats);
-    addMaterialTrait(material.identifier, trait, null);
+    MaterialRegistry.addMaterial(material, stats, trait);
   }
 
   public static void addMaterial(Material material, ITrait trait) {
-    addMaterial(material);
-    addMaterialTrait(material.identifier, trait, null);
+    MaterialRegistry.addMaterial(material, trait);
   }
 
   public static void addMaterial(Material material, IMaterialStats stats) {
-    addMaterial(material);
-    addMaterialStats(material.identifier, stats);
+    MaterialRegistry.addMaterial(material, stats);
   }
 
-  /**
-   * Registers a material. The materials identifier has to be lowercase and not contain any spaces.
-   * Identifiers have to be globally unique!
-   */
   public static void addMaterial(Material material) {
-    // ensure material identifiers are safe
-    if(CharMatcher.whitespace().matchesAnyOf(material.getIdentifier())) {
-      log.fatal("Could not register material \"{}\": Material identifier must not contain any spaces.", material.identifier);
-      return;
-    }
-    if(CharMatcher.javaUpperCase().matchesAnyOf(material.getIdentifier())) {
-      log.fatal("Could not register material \"{}\": Material identifier must be completely lowercase.", material.identifier);
-      return;
-    }
-
-    // duplicate material
-    if(materials.containsKey(material.identifier)) {
-      ModContainer currentMod = Loader.instance().activeModContainer();
-      String currentModId = currentMod != null ? currentMod.getModId() : "unknown";
-      ModContainer registeredMod = getTrace(material);
-      String registeredModId = registeredMod != null ? registeredMod.getModId() : "unknown";
-      // compare priorities based on config
-      int currentPriority = getModPriority(currentModId);
-      int registeredPriority = getModPriority(registeredModId);
-      if(currentPriority < registeredPriority) {
-        // current mod has higher priority (lower index), replace existing material
-        log.warn("Replacing material \"{}\" with material from {} ({})",
-                material.identifier, currentMod.getName(), currentModId);
-        // remove existing material
-        materials.remove(material.identifier);
-        materialRegisteredByMod.remove(material.identifier);
-      } else {
-        // existing mod has higher priority, reject new material
-        log.fatal("Could not register material \"{}\" from {} ({}): It was already registered by {} ({})",
-                material.identifier, currentMod.getName(), currentModId, registeredMod.getName(), registeredModId);
-        return;
-      }
-    }
-
-    MaterialEvent.MaterialRegisterEvent event = new MaterialEvent.MaterialRegisterEvent(material);
-
-    if(MinecraftForge.EVENT_BUS.post(event)) {
-      // event cancelled
-      log.trace("Addition of material \"{}\" cancelled by event", material.getIdentifier());
-      cancelledMaterials.add(material.getIdentifier());
-      return;
-    }
-
-    // ignored material
-    if(Arrays.stream(Config.materialIgnore).anyMatch(mat -> mat.equals(material.getIdentifier()))) {
-      log.trace("Addition of material \"{}\" ignored by config", material.getIdentifier());
-      cancelledMaterials.add(material.getIdentifier());
-      return;
-    }
-
-    // register material
-    materials.put(material.identifier, material);
-    putMaterialTrace(material.identifier);
+    MaterialRegistry.addMaterial(material);
   }
 
   public static Material getMaterial(String identifier) {
-    return materials.containsKey(identifier) ? materials.get(identifier) : Material.UNKNOWN;
+    return MaterialRegistry.getMaterial(identifier);
   }
 
   public static Collection<Material> getAllMaterials() {
-    return ImmutableList.copyOf(materials.values());
+    return MaterialRegistry.getAllMaterials();
   }
 
-  /**
-   * Called by TinkerIntegrtion at the end of postInit to remove any materials that are still hidden (unused)
-   * For internal use, should not need to be called by other mods
-   */
   public static void removeHiddenMaterials() {
-    materials.entrySet().removeIf(entry->entry.getValue().isHidden());
+    MaterialRegistry.removeHiddenMaterials();
   }
 
   public static Collection<Material> getAllMaterialsWithStats(String statType) {
-    ImmutableList.Builder<Material> mats = ImmutableList.builder();
-    for(Material material : materials.values()) {
-      if(material.hasStats(statType)) {
-        mats.add(material);
-      }
-    }
-
-    return mats.build();
+    return MaterialRegistry.getAllMaterialsWithStats(statType);
   }
 
-  /*---------------------------------------------------------------------------
-  | TRAITS & STATS                                                            |
-  ---------------------------------------------------------------------------*/
-
   public static void addTrait(ITrait trait) {
-    // Trait might already have been registered since modifiers and materials share traits
-    if(traits.containsKey(trait.getIdentifier())) {
-      return;
-    }
-
-    traits.put(trait.getIdentifier(), trait);
-
-    ModContainer activeMod = Loader.instance().activeModContainer();
-    putTraitTrace(trait.getIdentifier(), trait, activeMod);
+    MaterialRegistry.addTrait(trait);
   }
 
   public static void addMaterialStats(String materialIdentifier, IMaterialStats stats) {
-    if(cancelledMaterials.contains(materialIdentifier)) {
-      return;
-    }
-    if(!materials.containsKey(materialIdentifier)) {
-      log.fatal("Could not add Stats \"{}\" to \"{}\": Unknown Material", stats.getIdentifier(), materialIdentifier);
-      return;
-    }
-
-    Material material = materials.get(materialIdentifier);
-    addMaterialStats(material, stats);
+    MaterialRegistry.addMaterialStats(materialIdentifier, stats);
   }
 
   public static void addMaterialStats(Material material, IMaterialStats stats, IMaterialStats... stats2) {
-    addMaterialStats(material, stats);
-    for(IMaterialStats stat : stats2) {
-      addMaterialStats(material, stat);
-    }
+    MaterialRegistry.addMaterialStats(material, stats, stats2);
   }
 
   public static void addMaterialStats(Material material, IMaterialStats stats) {
-    if(material == null) {
-      log.fatal("Could not add Stats \"{}\": Material is null", stats.getIdentifier());
-      return;
-    }
-    if(cancelledMaterials.contains(material.identifier)) {
-      return;
-    }
-
-    String identifier = material.identifier;
-    // duplicate stats
-    if(material.getStats(stats.getIdentifier()) != null) {
-      String registeredBy = "Unknown";
-      Map<String, ModContainer> matReg = statRegisteredByMod.get(identifier);
-      if(matReg != null) {
-        registeredBy = matReg.get(stats.getIdentifier()).getName();
-      }
-
-      log.fatal("Could not add Stats to \"{}\": Stats of type \"{}\" were already registered by {}. Use the events to modify stats.", identifier, stats.getIdentifier(), registeredBy);
-      return;
-    }
-
-    // ensure there are default stats present
-    if(Material.UNKNOWN.getStats(stats.getIdentifier()) == null) {
-      log.fatal("Could not add Stat of type \"{}\": Default Material does not have default stats for said type. Please add default-values to the default material \"unknown\" first.", stats
-          .getIdentifier());
-      return;
-    }
-
-    MaterialEvent.StatRegisterEvent<?> event = new MaterialEvent.StatRegisterEvent<>(material, stats);
-    MinecraftForge.EVENT_BUS.post(event);
-
-    // overridden stats from event
-    if(event.getResult() == Event.Result.ALLOW) {
-      stats = event.newStats;
-    }
-
-    material.addStats(stats);
-
-    ModContainer activeMod = Loader.instance().activeModContainer();
-    putStatTrace(identifier, stats, activeMod);
-
-    if(Objects.equals(stats.getIdentifier(), MaterialTypes.HEAD) && !material.hasStats(MaterialTypes.PROJECTILE)) {
-      addMaterialStats(material, new ProjectileMaterialStats());
-    }
+    MaterialRegistry.addMaterialStats(material, stats);
   }
 
   public static void addMaterialTrait(String materialIdentifier, ITrait trait, String stats) {
-    if(cancelledMaterials.contains(materialIdentifier)) {
-      return;
-    }
-    if(!materials.containsKey(materialIdentifier)) {
-      log.fatal("Could not add Trait \"{}\" to \"{}\": Unknown Material", trait.getIdentifier(), materialIdentifier);
-      return;
-    }
-
-    Material material = materials.get(materialIdentifier);
-    addMaterialTrait(material, trait, stats);
+    MaterialRegistry.addMaterialTrait(materialIdentifier, trait, stats);
   }
 
   public static void addMaterialTrait(Material material, ITrait trait, String stats) {
-    if(checkMaterialTrait(material, trait, stats)) {
-      material.addTrait(trait);
-    }
+    MaterialRegistry.addMaterialTrait(material, trait, stats);
   }
 
-  /**
-   * Call before adding a trait to a material. Checks consistency and takes care everything is in a consistent state.
-   * Registers the trait if it's not registered, takes events into account.
-   */
   public static boolean checkMaterialTrait(Material material, ITrait trait, String stats) {
-    if(material == null) {
-      log.fatal("Could not add Trait \"{}\": Material is null", trait.getIdentifier());
-      return false;
-    }
-    if(cancelledMaterials.contains(material.identifier)) {
-      return false;
-    }
-
-    String identifier = material.identifier;
-    // duplicate traits
-    if(material.hasTrait(trait.getIdentifier(), stats)) {
-      String registeredBy = "Unknown";
-      Map<String, ModContainer> matReg = traitRegisteredByMod.get(identifier);
-      if(matReg != null) {
-        registeredBy = matReg.get(trait.getIdentifier()).getName();
-      }
-
-      log.fatal("Could not add Trait to \"{}\": Trait \"{}\" was already registered by {}", identifier, trait.getIdentifier(), registeredBy);
-      return false;
-    }
-
-    MaterialEvent.TraitRegisterEvent<?> event = new MaterialEvent.TraitRegisterEvent<>(material, trait);
-    if(MinecraftForge.EVENT_BUS.post(event)) {
-      // cancelled
-      log.trace("Trait {} on {} cancelled by event", trait.getIdentifier(), material.getIdentifier());
-      return false;
-    }
-
-    addTrait(trait);
-
-    return true;
+    return MaterialRegistry.checkMaterialTrait(material, trait, stats);
   }
 
   public static ITrait getTrait(String identifier) {
-    return traits.get(identifier);
+    return MaterialRegistry.getTrait(identifier);
   }
 
   /*---------------------------------------------------------------------------
-  | TOOLS & WEAPONS & Crafting                                                |
+  | TOOLS & WEAPONS & CRAFTING                                                |
   ---------------------------------------------------------------------------*/
-
-  /** This set contains all known tools */
-  private static final Set<ToolCore> tools = new ObjectLinkedOpenHashSet<>();
-  private static final Set<IToolPart> toolParts = new ObjectLinkedOpenHashSet<>();
-  private static final Set<ToolCore> toolStationCrafting = new ObjectLinkedOpenHashSet<>();
-  private static final Set<ToolCore> toolForgeCrafting = new ObjectLinkedOpenHashSet<>();
-  private static final List<ItemStack> stencilTableCrafting = new ObjectArrayList<>();
-  private static final Set<Item> patternItems = new ObjectOpenHashSet<>();
-  private static final Set<Item> castItems = new ObjectOpenHashSet<>();
-  private static Shard shardItem;
-
-  /**
-   * Register a tool, making it known to tinkers' systems.
-   * All toolparts used to craft the tool will be registered as well.
-   */
   public static void registerTool(ToolCore tool) {
-    tools.add(tool);
-
-    for(PartMaterialType pmt : tool.getRequiredComponents()) {
-      for(IToolPart tp : pmt.getPossibleParts()) {
-        registerToolPart(tp);
-      }
-    }
+    ToolRegistry.registerTool(tool);
   }
 
-  public static Set<ToolCore> getTools() {
-    return ImmutableSet.copyOf(tools);
+  public static java.util.Set<ToolCore> getTools() {
+    return ToolRegistry.getTools();
   }
 
-  /**
-   * Used for the sharpening kit. Allows to register a toolpart that is not part of a tool.
-   */
   public static void registerToolPart(IToolPart part) {
-    toolParts.add(part);
-    if(part instanceof Item) {
-      if(part.canBeCrafted()) {
-        addPatternForItem((Item) part);
-      }
-      if(part.canBeCasted()) {
-        addCastForItem((Item) part);
-      }
-    }
+    ToolRegistry.registerToolPart(part);
   }
 
-  public static Set<IToolPart> getToolParts() {
-    return ImmutableSet.copyOf(toolParts);
+  public static java.util.Set<IToolPart> getToolParts() {
+    return ToolRegistry.getToolParts();
   }
 
-  /** Adds a tool to the Crafting UI of both the Tool Station as well as the Tool Forge */
   public static void registerToolCrafting(ToolCore tool) {
-    registerToolStationCrafting(tool);
-    registerToolForgeCrafting(tool);
+    ToolRegistry.registerToolCrafting(tool);
   }
 
-  /** Adds a tool to the Crafting UI of the Tool Station */
   public static void registerToolStationCrafting(ToolCore tool) {
-    if(new ToolStationCraftingRegisterEvent(tool).fire()) {
-      toolStationCrafting.add(tool);
-    } else {
-      log.debug("Registration of tool station recipe " + tool.getRegistryName().toString() + " has been cancelled by event");
-    }
+    ToolRegistry.registerToolStationCrafting(tool);
   }
 
-  public static Set<ToolCore> getToolStationCrafting() {
-    return ImmutableSet.copyOf(toolStationCrafting);
+  public static java.util.Set<ToolCore> getToolStationCrafting() {
+    return ToolRegistry.getToolStationCrafting();
   }
 
-  /** Adds a tool to the Crafting UI of the Tool Forge */
   public static void registerToolForgeCrafting(ToolCore tool) {
-    if(new ToolForgeCraftingRegisterEvent(tool).fire()) {
-      toolForgeCrafting.add(tool);
-    } else {
-      log.debug("Registration of tool forge recipe " + tool.getRegistryName().toString() + " has been cancelled by event");
-    }
+    ToolRegistry.registerToolForgeCrafting(tool);
   }
 
-  public static Set<ToolCore> getToolForgeCrafting() {
-    return ImmutableSet.copyOf(toolForgeCrafting);
+  public static java.util.Set<ToolCore> getToolForgeCrafting() {
+    return ToolRegistry.getToolForgeCrafting();
   }
 
-  /** Adds a new pattern to craft to the stenciltable. NBT sensitive. Has to be a Pattern. */
   public static void registerStencilTableCrafting(ItemStack stencil) {
-    if(!(stencil.getItem() instanceof IPattern)) {
-      log.fatal("Stencil Table Crafting has to be a pattern ({})", stencil);
-      return;
-    }
-    if(new StencilTableCraftingRegisterEvent(stencil).fire()) {
-      stencilTableCrafting.add(stencil);
-    } else {
-      log.debug("Registration of stencil table stencil " + stencil + " has been cancelled by event");
-    }
+    ToolRegistry.registerStencilTableCrafting(stencil);
   }
 
   public static List<ItemStack> getStencilTableCrafting() {
-    return ImmutableList.copyOf(stencilTableCrafting);
+    return ToolRegistry.getStencilTableCrafting();
   }
 
   public static void setShardItem(Shard shard) {
-    if(shard == null) {
-      return;
-    }
-    shardItem = shard;
+    ToolRegistry.setShardItem(shard);
   }
 
   public static Shard getShard() {
-    return shardItem;
+    return ToolRegistry.getShard();
   }
 
   public static ItemStack getShard(Material material) {
-    ItemStack out = material.getShard();
-    if(out.isEmpty()) {
-      out = shardItem.getItemstackWithMaterial(material);
-    }
-    return out;
+    return ToolRegistry.getShard(material);
   }
 
-  /** Registers a pattern for the given item */
   public static void addPatternForItem(Item item) {
-    patternItems.add(item);
+    ToolRegistry.addPatternForItem(item);
   }
 
-  /** Registers a cast for the given item */
   public static void addCastForItem(Item item) {
-    castItems.add(item);
+    ToolRegistry.addCastForItem(item);
   }
 
-  /** All items that have a pattern */
   public static Collection<Item> getPatternItems() {
-    return ImmutableList.copyOf(patternItems);
+    return ToolRegistry.getPatternItems();
   }
 
-  /** All items that have a cast */
   public static Collection<Item> getCastItems() {
-    return ImmutableList.copyOf(castItems);
+    return ToolRegistry.getCastItems();
   }
 
   /*---------------------------------------------------------------------------
-  | Modifiers                                                                 |
+  | MODIFIERS                                                                 |
   ---------------------------------------------------------------------------*/
-  private static final Map<String, IModifier> modifiers = new Object2ObjectOpenHashMap<>();
-  private static final Multimap<Class<? extends EntityLivingBase>, Function<EntityLivingBase,ItemStack>> headDrops = ArrayListMultimap.create();
-  private static final Multimap<Class<? extends EntityLivingBase>, ItemStack> headDropsRaw = ArrayListMultimap.create();
-
   public static void registerModifier(IModifier modifier) {
-    registerModifierAlias(modifier, modifier.getIdentifier());
+    ModifierRegistry.registerModifier(modifier);
   }
 
-  /** Registers an alternate name for a modifier. This is used for multi-level modifiers/traits where multiple exist, but one specific is needed for access */
   public static void registerModifierAlias(IModifier modifier, String alias) {
-    if(modifiers.containsKey(alias)) {
-      log.fatal("Trying to register a modifier with the name " + alias + " but it already is registered");
-      return;
-    }
-    if(new ModifierRegisterEvent(modifier).fire()) {
-      modifiers.put(alias, modifier);
-    }
-    else {
-      log.debug("Registration of modifier " + alias + " has been cancelled by event");
-    }
+    ModifierRegistry.registerModifierAlias(modifier, alias);
   }
 
   public static IModifier getModifier(String identifier) {
-    return modifiers.get(identifier);
+    return ModifierRegistry.getModifier(identifier);
   }
 
   public static Collection<IModifier> getAllModifiers() {
-    return ImmutableList.copyOf(modifiers.values());
+    return ModifierRegistry.getAllModifiers();
   }
 
-  /**
-   * Registers a beheading head drop for all entities that extend the given class
-   * @param clazz  Entity class
-   * @param head   Head that drops from that entity
-   */
   public static void registerHeadDropForAll(Class<? extends EntityLivingBase> clazz, ItemStack head) {
-    for(EntityEntry entry : ForgeRegistries.ENTITIES) {
-      Class<? extends Entity> entityClass = entry.getEntityClass();
-      if(clazz.isAssignableFrom(entityClass)) {
-        registerHeadDrop((Class<? extends EntityLivingBase>) entityClass, head);
-      }
-    }
+    ModifierRegistry.registerHeadDropForAll(clazz, head);
   }
 
-  /**
-   * Registers a beheading head drop for an entity
-   * @param clazz     Entity class
-   * @param callback  Callback function, takes entity as a parameter and returns an item stack
-   */
   public static void registerHeadDrop(Class<? extends EntityLivingBase> clazz, Function<EntityLivingBase,ItemStack> callback) {
-    headDrops.put(clazz, callback);
-    log.info("Registered head drop for {}", clazz.getSimpleName());
+    ModifierRegistry.registerHeadDrop(clazz, callback);
   }
 
-  /**
-   * Registers a beheading head drop for an entity
-   * @param clazz  Entity class
-   * @param head   Head that drops from that entity
-   */
   public static void registerHeadDrop(Class<? extends EntityLivingBase> clazz, ItemStack head) {
-    final ItemStack safeStack = head.copy();
-    registerHeadDrop(clazz, e -> safeStack);
-    headDropsRaw.put(clazz, head);
+    ModifierRegistry.registerHeadDrop(clazz, head);
   }
 
-  /**
-   * Gets the heads that would be dropped by an entity
-   * @param entity  Entity to check
-   * @return  A collection of the entity's head drops
-   */
   public static Collection<ItemStack> getHeadDrops(EntityLivingBase entity) {
-    Collection<ItemStack> drops = new ArrayList<>();
-    for(Map.Entry<Class<? extends EntityLivingBase>, Function<EntityLivingBase, ItemStack>> entry : headDrops.entries()) {
-      if(entry.getKey().isAssignableFrom(entity.getClass())) {
-        ItemStack stack = entry.getValue().apply(entity);
-        if (!stack.isEmpty()) {
-          drops.add(stack.copy());
-        }
-      }
-    }
-    return drops;
+    return ModifierRegistry.getHeadDrops(entity);
   }
 
-  /**
-   * Gets the first head that would be dropped by an entity
-   * @param entity  Entity to check
-   * @return  The entity's head
-   */
   public static ItemStack getHeadDrop(EntityLivingBase entity) {
-    for(Map.Entry<Class<? extends EntityLivingBase>, Function<EntityLivingBase, ItemStack>> entry : headDrops.entries()) {
-      if(entry.getKey().isAssignableFrom(entity.getClass())) {
-        ItemStack stack = entry.getValue().apply(entity);
-        if (!stack.isEmpty()) {
-          return stack.copy();
-        }
-      }
-    }
-    return ItemStack.EMPTY;
+    return ModifierRegistry.getHeadDrop(entity);
   }
 
   public static Map<Class<? extends EntityLivingBase>, Collection<ItemStack>> getAllSeveringRecipes() {
-    return headDropsRaw.asMap();
+    return ModifierRegistry.getAllSeveringRecipes();
   }
 
   /*---------------------------------------------------------------------------
-  | Smeltery                                                                  |
+  | SMELTERY                                                                  |
   ---------------------------------------------------------------------------*/
-  private static List<MeltingRecipe> meltingRegistry = new ObjectArrayList<>();
-  private static List<ICastingRecipe> tableCastRegistry = new ObjectArrayList<>();
-  private static List<ICastingRecipe> basinCastRegistry = new ObjectArrayList<>();
-  private static List<AlloyRecipe> alloyRegistry = new ObjectArrayList<>();
-  private static Map<FluidStack, Integer> smelteryFuels = new Object2IntOpenHashMap<>();
-  private static Map<ResourceLocation, FluidStack> entityMeltingRegistry = new Object2ObjectOpenHashMap<>();
-
-  /** Registers this item with all its metadatas to melt into amount of the given fluid. */
   public static void registerMelting(Item item, Fluid fluid, int amount) {
-    ItemStack stack = new ItemStack(item, 1, OreDictionary.WILDCARD_VALUE);
-    registerMelting(new MeltingRecipe(new RecipeMatch.Item(stack, 1, amount), fluid));
+    SmelteryRegistry.registerMelting(item, fluid, amount);
   }
 
-  /** Registers this block with all its metadatas to melt into amount of the given fluid. */
   public static void registerMelting(Block block, Fluid fluid, int amount) {
-    ItemStack stack = new ItemStack(block, 1, OreDictionary.WILDCARD_VALUE);
-    registerMelting(new MeltingRecipe(new RecipeMatch.Item(stack, 1, amount), fluid));
+    SmelteryRegistry.registerMelting(block, fluid, amount);
   }
 
-  /** Registers this itemstack NBT-SENSITIVE to melt into amount of the given fluid. */
   public static void registerMelting(ItemStack stack, Fluid fluid, int amount) {
-    registerMelting(new MeltingRecipe(new RecipeMatch.ItemCombination(amount, stack), fluid));
+    SmelteryRegistry.registerMelting(stack, fluid, amount);
   }
 
   public static void registerMelting(String oredict, Fluid fluid, int amount) {
-    registerMelting(new MeltingRecipe(new RecipeMatch.Oredict(oredict, 1, amount), fluid));
+    SmelteryRegistry.registerMelting(oredict, fluid, amount);
   }
 
   public static void registerMelting(MeltingRecipe recipe) {
-    if(Arrays.stream(Config.fluidIgnore).anyMatch(f -> f.equals(recipe.output.getFluid().getName()))) {
-      return;
-    }
-    if(new MeltingRegisterEvent(recipe).fire()) {
-      meltingRegistry.add(recipe);
-    }
-    else {
-      try {
-        String input = recipe.input.getInputs().stream().findFirst().map(ItemStack::getUnlocalizedName).orElse("?");
-        log.debug("Registration of melting recipe for " + recipe.getResult().getUnlocalizedName() + " from " + input + " has been cancelled by event");
-      } catch(Exception e) {
-        log.error("Error when logging melting event", e);
-      }
-    }
+    SmelteryRegistry.registerMelting(recipe);
   }
 
   public static MeltingRecipe getMelting(ItemStack stack) {
-    for(MeltingRecipe recipe : meltingRegistry) {
-      if(recipe.matches(stack)) {
-        return recipe;
-      }
-    }
-
-    return null;
+    return SmelteryRegistry.getMelting(stack);
   }
 
   public static List<MeltingRecipe> getAllMeltingRecipies() {
-    return ImmutableList.copyOf(meltingRegistry);
+    return SmelteryRegistry.getAllMeltingRecipies();
   }
 
   public static void registerAlloy(FluidStack result, FluidStack... inputs) {
-    if(result.amount < 1) {
-      log.fatal("Alloy Recipe: Resulting alloy {} has to have an amount ({})", result.getLocalizedName(), result.amount);
-      return;
-    }
-    if(inputs.length < 2) {
-      log.fatal("Alloy Recipe: Alloy for {} must consist of at least 2 liquids", result.getLocalizedName());
-      return;
-    }
-
-    registerAlloy(new AlloyRecipe(result, inputs));
+    SmelteryRegistry.registerAlloy(result, inputs);
   }
 
   public static void registerAlloy(AlloyRecipe recipe) {
-    if(new AlloyRegisterEvent(recipe).fire()) {
-      alloyRegistry.add(recipe);
-    }
-    else {
-      try {
-        String input = recipe.getFluids().stream().map(FluidStack::getUnlocalizedName).collect(Collectors.joining(", "));
-        String output = recipe.getResult().getUnlocalizedName();
-        log.debug("Registration of alloy recipe for " + output + " from [" + input + "] has been cancelled by event");
-      } catch(Exception e) {
-        log.error("Error when logging alloy event", e);
-      }
-    }
+    SmelteryRegistry.registerAlloy(recipe);
   }
 
   public static List<AlloyRecipe> getAlloys() {
-    return ImmutableList.copyOf(alloyRegistry);
+    return SmelteryRegistry.getAlloys();
   }
 
-  /** Registers a casting recipe for casting table */
   public static void registerTableCasting(ItemStack output, ItemStack cast, Fluid fluid, int amount) {
-    if(Arrays.stream(Config.fluidIgnore).anyMatch(f -> f.equals(fluid.getName()))) {
-      return;
-    }
-    RecipeMatch rm = null;
-    if(cast != ItemStack.EMPTY) {
-      rm = RecipeMatch.ofNBT(cast);
-    }
-    registerTableCasting(new CastingRecipe(output, rm, fluid, amount));
+    SmelteryRegistry.registerTableCasting(output, cast, fluid, amount);
   }
 
   public static void registerTableCasting(ICastingRecipe recipe) {
-    if(new TableCastingRegisterEvent(recipe).fire()) {
-      tableCastRegistry.add(recipe);
-    }
-    else {
-      try {
-        String output = Optional.ofNullable(recipe.getResult(ItemStack.EMPTY, FluidRegistry.WATER)).map(ItemStack::getUnlocalizedName).orElse("Unknown");
-        log.debug("Registration of table casting recipe for " + output + " has been cancelled by event");
-      } catch(Exception e) {
-        log.error("Error when logging table casting event", e);
-      }
-    }
+    SmelteryRegistry.registerTableCasting(recipe);
   }
 
   public static ICastingRecipe getTableCasting(ItemStack cast, Fluid fluid) {
-    for(ICastingRecipe recipe : tableCastRegistry) {
-      if(recipe.matches(cast, fluid)) {
-        return recipe;
-      }
-    }
-    return null;
+    return SmelteryRegistry.getTableCasting(cast, fluid);
   }
 
   public static List<ICastingRecipe> getAllTableCastingRecipes() {
-    return ImmutableList.copyOf(tableCastRegistry);
+    return SmelteryRegistry.getAllTableCastingRecipes();
   }
 
-  /** Registers a casting recipe for the casting basin */
   public static void registerBasinCasting(ItemStack output, ItemStack cast, Fluid fluid, int amount) {
-    if(Arrays.stream(Config.fluidIgnore).anyMatch(f -> f.equals(fluid.getName()))) {
-      return;
-    }
-    RecipeMatch rm = null;
-    if(!cast.isEmpty()) {
-      rm = RecipeMatch.ofNBT(cast);
-    }
-    registerBasinCasting(new CastingRecipe(output, rm, fluid, amount));
+    SmelteryRegistry.registerBasinCasting(output, cast, fluid, amount);
   }
 
   public static void registerBasinCasting(ICastingRecipe recipe) {
-    if(new BasinCastingRegisterEvent(recipe).fire()) {
-      basinCastRegistry.add(recipe);
-    }
-    else {
-      try {
-        String output = Optional.ofNullable(recipe.getResult(ItemStack.EMPTY, FluidRegistry.WATER)).map(ItemStack::getUnlocalizedName).orElse("Unknown");
-        log.debug("Registration of basin casting recipe for " + output + " has been cancelled by event");
-      } catch(Exception e) {
-        log.error("Error when logging basin casting event", e);
-      }
-    }
+    SmelteryRegistry.registerBasinCasting(recipe);
   }
 
   public static ICastingRecipe getBasinCasting(ItemStack cast, Fluid fluid) {
-    for(ICastingRecipe recipe : basinCastRegistry) {
-      if(recipe.matches(cast, fluid)) {
-        return recipe;
-      }
-    }
-    return null;
+    return SmelteryRegistry.getBasinCasting(cast, fluid);
   }
 
   public static List<ICastingRecipe> getAllBasinCastingRecipes() {
-    return ImmutableList.copyOf(basinCastRegistry);
+    return SmelteryRegistry.getAllBasinCastingRecipes();
   }
 
-  /**
-   * Registers a liquid to be used as smeltery fuel.
-   * Temperature is derived from fluid temperature.
-   *
-   * @param fluidStack   The fluid. Amount is the minimal increment that is consumed at once.
-   * @param fuelDuration How many ticks the consumtpion of the fluidStack lasts.
-   */
   public static void registerSmelteryFuel(FluidStack fluidStack, int fuelDuration) {
-    if(new SmelteryFuelRegisterEvent(fluidStack, fuelDuration).fire()) {
-      smelteryFuels.put(fluidStack, fuelDuration);
-    }
-    else {
-      try {
-        String input = fluidStack.getUnlocalizedName();
-        log.debug("Registration of smeltery fuel " + input + " has been cancelled by event");
-      } catch(Exception e) {
-        log.error("Error when logging smeltery fuel event", e);
-      }
-    }
+    SmelteryRegistry.registerSmelteryFuel(fluidStack, fuelDuration);
   }
 
-  /** Checks if the given fluidstack can be used as smeltery fuel */
   public static boolean isSmelteryFuel(FluidStack in) {
-    for(Map.Entry<FluidStack, Integer> entry : smelteryFuels.entrySet()) {
-      if(entry.getKey().isFluidEqual(in)) {
-        return true;
-      }
-    }
-
-    return false;
+    return SmelteryRegistry.isSmelteryFuel(in);
   }
 
-  /** Reduces the fluidstack by one increment of the fuel and returns how much fuel duration it gives. */
   public static int consumeSmelteryFuel(FluidStack in) {
-    for(Map.Entry<FluidStack, Integer> entry : smelteryFuels.entrySet()) {
-      if(entry.getKey().isFluidEqual(in)) {
-        FluidStack fuel = entry.getKey();
-        int out = entry.getValue();
-        if(in.amount < fuel.amount) {
-          float coeff = (float) in.amount / (float) fuel.amount;
-          out = Math.round(coeff * in.amount);
-          in.amount = 0;
-        }
-        else {
-          in.amount -= fuel.amount;
-        }
-
-        return out;
-      }
-    }
-
-    return 0;
+    return SmelteryRegistry.consumeSmelteryFuel(in);
   }
 
-  /** Returns all registered smeltery fuels */
   public static Collection<FluidStack> getSmelteryFuels() {
-    return ImmutableSet.copyOf(smelteryFuels.keySet());
+    return SmelteryRegistry.getSmelteryFuels();
   }
 
-  /** Register all entities (and optionally subtypes) from config to melt into the specified fluidstack */
   public static void registerEntityMelting() {
-    for(String entry : Config.entityMelting) {
-      String[] parts = entry.split(";");
-      if(parts.length != 4) {
-        log.error("Invalid entity melting entry: {}", entry);
-        continue;
-      }
-      String entityRL = parts[0];
-      String subtypes = parts[1];
-      String fluidName = parts[2];
-      int amount;
-      try {
-        amount = Integer.parseInt(parts[3]);
-      } catch(NumberFormatException e) {
-        log.error("Invalid fluid amount in entity melting entry: {}", entry);
-        continue;
-      }
-      ResourceLocation entityLocation;
-      try {
-        entityLocation = new ResourceLocation(entityRL);
-        if(!Loader.isModLoaded(entityLocation.getResourceDomain())) {
-          continue;
-        }
-      } catch(Exception e) {
-        log.error("Invalid entity resource location: {}", entityRL);
-        continue;
-      }
-      EntityEntry entityEntry = ForgeRegistries.ENTITIES.getValue(entityLocation);
-      if(entityEntry == null) {
-        log.error("Entity not found for melting: {}", entityRL);
-        continue;
-      }
-      Fluid fluid = FluidRegistry.getFluid(fluidName);
-      if(fluid == null) {
-        log.error("Fluid not found for entity melting: {}", fluidName);
-        continue;
-      }
-      Class<? extends Entity> entityClass = entityEntry.getEntityClass();
-      FluidStack fluidStack = new FluidStack(fluid, amount);
-      if(subtypes.equals("true")) {
-          TinkerRegistry.registerEntityMeltingForAll(entityClass, fluidStack);
-      } else {
-          TinkerRegistry.registerEntityMelting(entityClass, fluidStack);
-      }
-    }
+    SmelteryRegistry.registerEntityMelting();
   }
 
-  /** Register all entities that extend the given class to melt into the specified fluidstack */
   public static void registerEntityMeltingForAll(Class<? extends Entity> clazz, FluidStack liquid) {
-    for(EntityEntry entry : ForgeRegistries.ENTITIES) {
-      Class<? extends Entity> entityClass = entry.getEntityClass();
-      if(clazz.isAssignableFrom(entityClass)) {
-        registerEntityMelting(entityClass, liquid);
-      }
-    }
+    SmelteryRegistry.registerEntityMeltingForAll(clazz, liquid);
   }
 
-  /** Register an entity to melt into the given fluidstack. The fluidstack is returned for 1 heart damage */
   public static void registerEntityMelting(Class<? extends Entity> clazz, FluidStack liquid) {
-    ResourceLocation name = EntityList.getKey(clazz);
-
-    if(name == null) {
-      log.fatal("Entity Melting: Entity {} is not registered in the EntityList", clazz.getSimpleName());
-      return;
-    }
-
-    EntityMeltingRegisterEvent event = new EntityMeltingRegisterEvent(clazz, liquid);
-    if(event.fire()) {
-      entityMeltingRegistry.put(name, event.getNewFluidStack());
-    }
-    else {
-      try {
-        String output = liquid.getUnlocalizedName();
-        log.debug("Registration of entity melting for " + clazz.getName() + " into " + output + " has been cancelled by event");
-      } catch(Exception e) {
-        log.error("Error when logging entity melting event", e);
-      }
-    }
-    log.info("Registered entity melting for {} into {} mB of {}", clazz.getSimpleName(), liquid.amount, liquid.getLocalizedName());
+    SmelteryRegistry.registerEntityMelting(clazz, liquid);
   }
 
   public static FluidStack getMeltingForEntity(Entity entity) {
-    ResourceLocation name = EntityList.getKey(entity);
-    FluidStack fluidStack = entityMeltingRegistry.get(name);
-    // check if the fluid is the correct one to use
-    return Optional.ofNullable(fluidStack)
-                   .map(slimeknights.tconstruct.library.utils.FluidUtil::getValidFluidStackOrNull)
-                   .orElse(null);
+    return SmelteryRegistry.getMeltingForEntity(entity);
   }
 
   public static Map<ResourceLocation, FluidStack> getAllEntityMeltingRecipes() {
-    return ImmutableMap.copyOf(entityMeltingRegistry);
+    return SmelteryRegistry.getAllEntityMeltingRecipes();
   }
 
   /*---------------------------------------------------------------------------
-  | Drying Rack                                                               |
+  | DRYING RACK                                                               |
   ---------------------------------------------------------------------------*/
-  private static List<DryingRecipe> dryingRegistry = new ObjectArrayList<>();
-
-  /**
-   * @return The list of all drying rack recipes
-   */
   public static List<DryingRecipe> getAllDryingRecipes() {
-    return ImmutableList.copyOf(dryingRegistry);
+    return DryingRegistry.getAllDryingRecipes();
   }
 
-  /**
-   * Adds a new drying recipe
-   *
-   * @param input  Input ItemStack
-   * @param output Output ItemStack
-   * @param time   Recipe time in ticks
-   */
   public static void registerDryingRecipe(ItemStack input, ItemStack output, int time) {
-    if(output.isEmpty() || input.isEmpty()) {
-      return;
-    }
-    addDryingRecipe(new DryingRecipe(new RecipeMatch.Item(input, 1), output, time));
+    DryingRegistry.registerDryingRecipe(input, output, time);
   }
 
-  /**
-   * Adds a new drying recipe
-   *
-   * @param input  Input Item
-   * @param output Output ItemStack
-   * @param time   Recipe time in ticks
-   */
   public static void registerDryingRecipe(Item input, ItemStack output, int time) {
-    if(output.isEmpty() || input == null) {
-      return;
-    }
-
-    ItemStack stack = new ItemStack(input, 1, OreDictionary.WILDCARD_VALUE);
-    addDryingRecipe(new DryingRecipe(new RecipeMatch.Item(stack, 1), output, time));
+    DryingRegistry.registerDryingRecipe(input, output, time);
   }
 
-  /**
-   * Adds a new drying recipe
-   *
-   * @param input  Input Item
-   * @param output Output Item
-   * @param time   Recipe time in ticks
-   */
   public static void registerDryingRecipe(Item input, Item output, int time) {
-    if(output == null || input == null) {
-      return;
-    }
-
-    ItemStack stack = new ItemStack(input, 1, OreDictionary.WILDCARD_VALUE);
-    addDryingRecipe(new DryingRecipe(new RecipeMatch.Item(stack, 1), new ItemStack(output), time));
+    DryingRegistry.registerDryingRecipe(input, output, time);
   }
 
-  /**
-   * Adds a new drying recipe
-   *
-   * @param input  Input Block
-   * @param output Output Block
-   * @param time   Recipe time in ticks
-   */
   public static void registerDryingRecipe(Block input, Block output, int time) {
-    if(output == null || input == null) {
-      return;
-    }
-
-    ItemStack stack = new ItemStack(input, 1, OreDictionary.WILDCARD_VALUE);
-    addDryingRecipe(new DryingRecipe(new RecipeMatch.Item(stack, 1), new ItemStack(output), time));
+    DryingRegistry.registerDryingRecipe(input, output, time);
   }
 
-  /**
-   * Adds a new drying recipe
-   *
-   * @param oredict Input ore dictionary entry
-   * @param output  Output ItemStack
-   * @param time    Recipe time in ticks
-   */
   public static void registerDryingRecipe(String oredict, ItemStack output, int time) {
-    if(output.isEmpty() || oredict == null) {
-      return;
-    }
-
-    addDryingRecipe(new DryingRecipe(new RecipeMatch.Oredict(oredict, 1), output, time));
+    DryingRegistry.registerDryingRecipe(oredict, output, time);
   }
 
   public static void addDryingRecipe(DryingRecipe recipe) {
-    if(new DryingRackRegisterEvent(recipe).fire()) {
-      dryingRegistry.add(recipe);
-    }
-    else {
-      try {
-        String input = recipe.input.getInputs().stream().findFirst().map(ItemStack::getUnlocalizedName).orElse("?");
-        String output = recipe.getResult().getUnlocalizedName();
-        log.debug("Registration of drying rack recipe for " + output + " from " + input + " has been cancelled by event");
-      } catch(Exception e) {
-        log.error("Error when logging drying rack event", e);
-      }
-    }
+    DryingRegistry.addDryingRecipe(recipe);
   }
 
-  /**
-   * Gets the drying time for a drying recipe
-   *
-   * @param input Input ItemStack
-   * @return Output drying time, or -1 if no recipe is found
-   */
   public static int getDryingTime(ItemStack input) {
-    for(DryingRecipe r : dryingRegistry) {
-      if(r.matches(input)) {
-        return r.getTime();
-      }
-    }
-
-    return -1;
+    return DryingRegistry.getDryingTime(input);
   }
 
-  /**
-   * Gets the result for a drying recipe
-   *
-   * @param input Input ItemStack
-   * @return Output A copy of the output ItemStack, or Itemstack.EMPTY if no recipe is found
-   */
   public static ItemStack getDryingResult(ItemStack input) {
-    for(DryingRecipe r : dryingRegistry) {
-      if(r.matches(input)) {
-        return r.getResult();
-      }
-    }
-
-    return ItemStack.EMPTY;
+    return DryingRegistry.getDryingResult(input);
   }
 
   /*---------------------------------------------------------------------------
   | MATERIAL INTEGRATION                                                      |
   ---------------------------------------------------------------------------*/
-
-  private static List<MaterialIntegration> materialIntegrations = new ArrayList<>();
-
   public static MaterialIntegration integrate(Material material) {
-    return integrate(new MaterialIntegration(material));
+    return MaterialRegistry.integrate(material);
   }
 
   public static MaterialIntegration integrate(Material material, Fluid fluid) {
-    return integrate(new MaterialIntegration(material, fluid));
+    return MaterialRegistry.integrate(material, fluid);
   }
 
   public static MaterialIntegration integrate(Material material, String oreRequirement) {
-    MaterialIntegration materialIntegration = new MaterialIntegration(oreRequirement, material, null, null);
-    materialIntegration.setRepresentativeItem(oreRequirement);
-    return integrate(materialIntegration);
+    return MaterialRegistry.integrate(material, oreRequirement);
   }
 
   public static MaterialIntegration integrate(Material material, Fluid fluid, String oreSuffix) {
-    return integrate(new MaterialIntegration(material, fluid, oreSuffix));
+    return MaterialRegistry.integrate(material, fluid, oreSuffix);
   }
 
   public static MaterialIntegration integrate(Fluid fluid, String oreSuffix) {
-    return integrate(new MaterialIntegration(null, fluid, oreSuffix));
+    return MaterialRegistry.integrate(fluid, oreSuffix);
   }
 
-  /**
-   * Causes a material to be default-integrated with the provided information.
-   * Includes fluids, recipes and oredict integration
-   *
-   * Can be done during preInit and Init
-   */
   public static MaterialIntegration integrate(MaterialIntegration materialIntegration) {
-    MaterialEvent.IntegrationEvent event = new MaterialEvent.IntegrationEvent(materialIntegration.material, materialIntegration);
-    if(MinecraftForge.EVENT_BUS.post(event)) {
-      // cancelled
-      log.debug("Registration of material integration for material " + materialIntegration.material + " has been cancelled by event");
-    }
-    else {
-      materialIntegrations.add(materialIntegration);
-    }
-
-    return materialIntegration;
+    return MaterialRegistry.integrate(materialIntegration);
   }
 
   public static List<MaterialIntegration> getMaterialIntegrations() {
-    return ImmutableList.copyOf(materialIntegrations);
+    return MaterialRegistry.getMaterialIntegrations();
   }
 
   /*---------------------------------------------------------------------------
-  | Traceability & Internal stuff                                             |
+  | TRACEABILITY                                                              |
   ---------------------------------------------------------------------------*/
-
-  /**
-   * Gets the priority of a mod based on config.
-   * Lower index means higher priority. Returns Integer.MAX_VALUE if mod is not in the priority list.
-   */
-  static int getModPriority(String modId) {
-    for(int i = 0; i < Config.materialPriorities.length; i++) {
-      if(Config.materialPriorities[i].equals(modId)) {
-        return i;
-      }
-    }
-    // mods not in priority list have the lowest priority
-    return Integer.MAX_VALUE;
-  }
-
-  static void putMaterialTrace(String materialIdentifier) {
-    ModContainer activeMod = Loader.instance().activeModContainer();
-    materialRegisteredByMod.put(materialIdentifier, activeMod);
-  }
-
-  static void putStatTrace(String materialIdentifier, IMaterialStats stats, ModContainer trace) {
-    if(!statRegisteredByMod.containsKey(materialIdentifier)) {
-      statRegisteredByMod.put(materialIdentifier, new HashMap<>());
-    }
-    statRegisteredByMod.get(materialIdentifier).put(stats.getIdentifier(), trace);
-  }
-
-  static void putTraitTrace(String materialIdentifier, ITrait trait, ModContainer trace) {
-    if(!traitRegisteredByMod.containsKey(materialIdentifier)) {
-      traitRegisteredByMod.put(materialIdentifier, new HashMap<>());
-    }
-    traitRegisteredByMod.get(materialIdentifier).put(trait.getIdentifier(), trace);
-  }
-
-  public static ModContainer getTrace(Material material) {
-    return materialRegisteredByMod.get(material.identifier);
-  }
-
-  private static void error(String message, Object... params) {
-    throw new TinkerAPIException(String.format(message, params));
+  public static net.minecraftforge.fml.common.ModContainer getTrace(Material material) {
+    return MaterialRegistry.getTrace(material);
   }
 }
