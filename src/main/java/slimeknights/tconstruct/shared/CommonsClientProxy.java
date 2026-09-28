@@ -114,9 +114,9 @@ public class CommonsClientProxy extends ClientProxy {
     registerItemBlockMeta(slabFirewood);
     registerItemBlockMeta(blockSlimeWood);
     registerItemBlockMeta(blockSlimePlanks);
-    registerItemBlockMeta(blockObsidianPane);
-    registerItemBlockMeta(blockSoulGlass);
-    registerItemBlockMeta(blockGoldBars);
+    registerItemModel(blockObsidianPane);
+    registerItemModel(blockSoulGlass);
+    registerItemModel(blockGoldBars);
     registerItemModel(stairsFirewood);
     registerItemModel(stairsNahuatl);
     registerItemModel(stairsBlazewood);

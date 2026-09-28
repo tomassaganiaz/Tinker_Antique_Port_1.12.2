@@ -1,7 +1,7 @@
 ﻿{
     "type": "forge:ore_shapeless",
     "ingredients": [
-        { "item": "tconstruct:slime_planks" },
+        { "item": "tconstruct:slime_planks", "data": 0 },
         { "type": "forge:ore_dict", "ore": "slimeball" }
     ],
     "result": { "item": "tconstruct:materials", "data": 42 }

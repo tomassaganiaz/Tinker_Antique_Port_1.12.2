@@ -73,10 +73,10 @@ public class BattleAxe extends AoeToolCore {
 
   @Override
   public ToolNBT buildTagData(List<Material> materials) {
-    HeadMaterialStats handle = materials.get(0).getStats(MaterialTypes.HEAD);
-    HeadMaterialStats head1 = materials.get(1).getStats(MaterialTypes.HEAD);
-    HeadMaterialStats head2 = materials.get(2).getStats(MaterialTypes.HEAD);
-    HeadMaterialStats binding = materials.get(3).getStats(MaterialTypes.HEAD);
+    HeadMaterialStats handle = materials.get(0).getStatsOrUnknown(MaterialTypes.HEAD);
+    HeadMaterialStats head1 = materials.get(1).getStatsOrUnknown(MaterialTypes.HEAD);
+    HeadMaterialStats head2 = materials.get(2).getStatsOrUnknown(MaterialTypes.HEAD);
+    HeadMaterialStats binding = materials.get(3).getStatsOrUnknown(MaterialTypes.HEAD);
 
     ToolNBT data = new ToolNBT();
 

@@ -46,6 +46,7 @@ public class FluidsClientProxy extends ClientProxy {
     registerFluidModels(TinkerFluids.venom);
     registerFluidModels(TinkerFluids.blood);
     registerFluidModels(TinkerFluids.blazingBlood);
+    registerFluidModels(TinkerFluids.honey);
   }
 
   @SubscribeEvent
