@@ -46,6 +46,7 @@ import slimeknights.tconstruct.gadgets.block.BlockStoneLadder;
 import slimeknights.tconstruct.gadgets.block.BlockStoneTorch;
 import slimeknights.tconstruct.gadgets.block.BlockWoodRail;
 import slimeknights.tconstruct.gadgets.block.BlockWoodRailDropper;
+import slimeknights.tconstruct.gadgets.block.SlimeChannelEventHandler;
 import slimeknights.tconstruct.gadgets.block.BlockWoodenHopper;
 import slimeknights.tconstruct.gadgets.entity.EntityFancyItemFrame;
 import slimeknights.tconstruct.gadgets.entity.EntityThrowball;
@@ -298,7 +299,7 @@ public class TinkerGadgets extends TinkerPulse {
     registerDrying();
 
     // prevents items from despawning in slime channels
-    MinecraftForge.EVENT_BUS.register(BlockSlimeChannel.EventHandler.instance);
+    MinecraftForge.EVENT_BUS.register(SlimeChannelEventHandler.instance);
     MinecraftForge.EVENT_BUS.register(new GadgetEvents());
 
     proxy.postInit();

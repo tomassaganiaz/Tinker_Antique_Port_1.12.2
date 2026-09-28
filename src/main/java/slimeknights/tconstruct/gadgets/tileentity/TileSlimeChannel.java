@@ -11,7 +11,7 @@ import net.minecraft.world.World;
 
 import javax.annotation.Nonnull;
 
-import slimeknights.tconstruct.gadgets.block.BlockSlimeChannel.ChannelDirection;
+import slimeknights.tconstruct.gadgets.block.ChannelDirection;
 
 /**
  * This tile entity is simply an extra data

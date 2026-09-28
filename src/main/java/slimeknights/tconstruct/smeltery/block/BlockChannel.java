@@ -41,7 +41,7 @@ import slimeknights.tconstruct.library.Util;
 import slimeknights.tconstruct.library.smeltery.IFaucetDepth;
 import slimeknights.tconstruct.smeltery.TinkerSmeltery;
 import slimeknights.tconstruct.smeltery.tileentity.TileChannel;
-import slimeknights.tconstruct.smeltery.tileentity.TileChannel.ChannelConnection;
+import slimeknights.tconstruct.smeltery.tileentity.ChannelConnection;
 
 public class BlockChannel extends BlockContainer implements IFaucetDepth {
 

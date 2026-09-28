@@ -18,7 +18,7 @@ import slimeknights.tconstruct.library.client.RenderUtil;
 import slimeknights.tconstruct.library.smeltery.IFaucetDepth;
 import slimeknights.tconstruct.smeltery.block.BlockChannel;
 import slimeknights.tconstruct.smeltery.tileentity.TileChannel;
-import slimeknights.tconstruct.smeltery.tileentity.TileChannel.ChannelConnection;
+import slimeknights.tconstruct.smeltery.tileentity.ChannelConnection;
 
 public class ChannelRenderer extends FastTESR<TileChannel> {
   private static Minecraft mc = Minecraft.getMinecraft();
