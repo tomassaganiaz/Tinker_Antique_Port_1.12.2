@@ -1,5 +1,10 @@
 # Changelog
 
+## 2.13.0.x - 2026-09-28 - Refactor SOLID + Enchantability
+- Refactor SOLID (7 commits): ~10 god classes eliminadas, ~75 clases cohesivas nuevas, API publica intacta via fachadas (TinkerRegistry, ToolHelper, TinkerSmeltery, TinkerMaterials, TinkerFluids, Config, ToolBuilder, BlockSlimeChannel, eventos). AGENTS.md con reglas obligatorias.
+- Limpieza: 10 clases legacy sin uso eliminadas; errores de modelo 125 -> 0.
+- Nuevo modificador Enchantability (receta: manzana de oro encantada): hace la herramienta encantable vanilla (mesa + yunque) pero bloquea modificaciones y reemplazo de partes. Toggle Config.enchantability.
+
 ## 2.13.0.209 — 2026-09-14 — Release final
 - Build SUCCESS 18 tasks, 33s offline. Jar 5.6 MB.
 - Tactical: 11 herramientas restantes (vein/broad/sledge/pickadze/kama/scythe/dagger/sword/cleaver/crossbow/longbow/fishing/javelin/arrow/shuriken/throwing_axe/flint_and_brick/4 staffs/melting_pan/war_pick/battlesign/swasher/minotaur_axe) + templates/crystal/exp_bottle/worktable/scout armor/modifiers/libro/JEI/recetas 100%.

@@ -100,6 +100,7 @@ siguen necesitando la smeltery/foundry). Receta: `recipes/foundry/melter.json`. 
 - TC3 separa los modificadores en **upgrades** y **abilities**. Fork con `FREE_UPGRADES(2)/FREE_ABILITIES(1)` + `FreeUpgrade/AbilityAspect` + `ToolNBT/ArmorNBT` + `ContainerNewToolStation` 4 slots directos + 2 slots `upgrade/ability`.
 - Modificadores portados: **Twin/Spilling/Wetting/Slurping/Shattering/Slippery/Pyroclastic/Chip/Zooming** + **Protection 4 + DoubleJump** ✅ **100%**
 - Mochila de fluidos — via `Spilling`/`Slurping` ✅
+- **Modificador propio del fork — `enchantability`** (no TC3): se craftea con la **manzana de oro encantada** (`golden_apple` meta 1). Hace la herramienta encantable con encantamientos vanilla (mesa de encantar + yunque via `getItemEnchantability`/`isBookEnchantable`), pero **bloquea modificaciones y reemplazo de partes** (`ToolModifyBuilder.tryModifyTool`/`tryReplaceToolParts`). Toggle `Config.enchantability` (categoría `gameplay`).
 
 ### 2.5 Estaciones y fabricación — **Listo 100%**
 
