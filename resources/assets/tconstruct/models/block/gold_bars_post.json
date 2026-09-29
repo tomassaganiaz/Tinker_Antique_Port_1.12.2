@@ -1,0 +1,1 @@
+{ "parent": "block/iron_bars_post", "textures": { "particle": "tconstruct:blocks/gold_bars", "bars": "tconstruct:blocks/gold_bars" } }

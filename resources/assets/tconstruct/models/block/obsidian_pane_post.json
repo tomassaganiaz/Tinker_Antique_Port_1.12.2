@@ -1,0 +1,1 @@
+{ "parent": "block/iron_bars_post", "textures": { "particle": "tconstruct:blocks/obsidian_pane", "bars": "tconstruct:blocks/obsidian_pane" } }

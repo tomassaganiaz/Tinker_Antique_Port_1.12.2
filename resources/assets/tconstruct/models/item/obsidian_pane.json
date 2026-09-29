@@ -1,3 +1,1 @@
-{
-  "parent": "tconstruct:block/obsidian_pane_ns"
-}
+{ "parent": "tconstruct:block/obsidian_pane_post" }
