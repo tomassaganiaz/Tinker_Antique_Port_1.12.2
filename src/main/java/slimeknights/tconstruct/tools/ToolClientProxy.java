@@ -41,6 +41,7 @@ public class ToolClientProxy extends ClientProxy {
   public void registerModels() {
     // blocks
     ModelLoader.setCustomStateMapper(TinkerTools.newToolStation, new StateMap.Builder().ignore(BlockToolTable.TABLES).build());
+    ModelRegisterUtil.registerItemModel(TinkerTools.newToolStation);
     Item tableItem = Item.getItemFromBlock(TinkerTools.toolTables);
     ModelLoader.setCustomModelResourceLocation(tableItem, BlockToolTable.TableTypes.CraftingStation.meta, ToolClientEvents.locCraftingStation);
     ModelLoader.setCustomModelResourceLocation(tableItem, BlockToolTable.TableTypes.StencilTable.meta, ToolClientEvents.locStencilTable);

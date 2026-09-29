@@ -81,7 +81,6 @@ public class TinkerArmor extends AbstractToolPulse {
   public static ArmorCore leggings;
   public static ArmorCore boots;
   public static ItemPlateShield shield;
-  public static ItemPlateShield travelersShield;
   public static ArmorCore slimeHelmet;
   public static ArmorCore slimeChestplate;
   public static ArmorCore slimeLeggings;
@@ -124,7 +123,6 @@ public class TinkerArmor extends AbstractToolPulse {
       if(tool != null) TinkerRegistry.registerTool(tool);
     }
     if(shield != null) TinkerRegistry.registerTool(shield);
-    if(travelersShield != null) TinkerRegistry.registerTool(travelersShield);
     modProtection = regMod(new ModProtection());
     modProtection.addRecipeMatch(new ReinforcementRecipeMatch(
       new ItemStack(slimeknights.tconstruct.shared.TinkerCommons.matReinforcement.getItem(), 1, slimeknights.tconstruct.shared.TinkerCommons.matReinforcement.getMetadata())));
@@ -248,7 +246,6 @@ public class TinkerArmor extends AbstractToolPulse {
     travelersChestplate = registerTool(registry, new ItemArmorPlateChestplate(new PartMaterialType(travelersPlateChestplate, ArmorMaterialStats.TYPE_CHESTPLATE), new PartMaterialType(maille, ArmorMaterialStats.TYPE_MAILLE)), "travelers_chestplate");
     travelersLeggings = registerTool(registry, new ItemArmorPlateLeggings(new PartMaterialType(travelersPlateLeggings, ArmorMaterialStats.TYPE_LEGGINGS), new PartMaterialType(maille, ArmorMaterialStats.TYPE_MAILLE)), "travelers_leggings");
     travelersBoots = registerTool(registry, new ItemArmorPlateBoots(new PartMaterialType(travelersPlateBoots, ArmorMaterialStats.TYPE_BOOTS), new PartMaterialType(maille, ArmorMaterialStats.TYPE_MAILLE)), "travelers_boots");
-    travelersShield = registerTool(registry, new ItemPlateShield(new PartMaterialType(plateShield, ArmorMaterialStats.TYPE_SHIELD)), "travelers_shield");
   }
 
   private void registerArmorMaterialStats() {
@@ -347,7 +344,6 @@ public class TinkerArmor extends AbstractToolPulse {
     java.util.List<slimeknights.tconstruct.library.tools.ToolCore> all = new java.util.ArrayList<>();
     all.addAll(allTools());
     if(shield != null) all.add(shield);
-    if(travelersShield != null) all.add(travelersShield);
     for(slimeknights.tconstruct.library.tools.ToolCore tool : all) {
       TinkerRegistry.registerToolCrafting(tool);
     }

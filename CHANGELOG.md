@@ -4,6 +4,7 @@
 - Refactor SOLID (7 commits): ~10 god classes eliminadas, ~75 clases cohesivas nuevas, API publica intacta via fachadas (TinkerRegistry, ToolHelper, TinkerSmeltery, TinkerMaterials, TinkerFluids, Config, ToolBuilder, BlockSlimeChannel, eventos). AGENTS.md con reglas obligatorias.
 - Limpieza: 10 clases legacy sin uso eliminadas; errores de modelo 125 -> 0.
 - Nuevo modificador Enchantability (receta: manzana de oro encantada): hace la herramienta encantable vanilla (mesa + yunque) pero bloquea modificaciones y reemplazo de partes. Toggle Config.enchantability.
+- Removido `travelers_shield` (duplicado: otro mod del pack lo implementa funcional sin bugs para esta version; bloqueado / ya implementado, N/A). Se mantiene `plate_shield` (`TinkerArmor`) como escudo propio.
 
 ## 2.13.0.209 — 2026-09-14 — Release final
 - Build SUCCESS 18 tasks, 33s offline. Jar 5.6 MB.

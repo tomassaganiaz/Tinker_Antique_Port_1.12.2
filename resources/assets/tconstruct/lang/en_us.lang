@@ -1311,7 +1311,6 @@ modifier.double_jump.desc=Second jump mid-air, soft fall.
 item.tconstruct.plate_shield.name=Plated Shield
 item.tconstruct.plating_shield.name=Shield Plating
 item.tconstruct.maille.name=Maille
-item.tconstruct.travelers_shield.name=Travelers Shield
 gui.jei.foundry.title=Foundry
 gui.jei.melter.title=Melter
 material.netherite.name=Netherite

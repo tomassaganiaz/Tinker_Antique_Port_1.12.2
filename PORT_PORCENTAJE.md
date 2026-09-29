@@ -16,7 +16,7 @@
 | Texturas placeholder | 70% | `scorched` 5 reales +5 recolor, melter_side copia smeltery |
 | **Global TC3** | **95% funcional** | P0 cerrado, P1 pulido pendiente `runClient` validación final |
 
-**Nota Escudos TC3 1.20.1:** `travelers_shield`/`plate_shield`/`slime_wings` (MultilayerArmorItem) portados como `tactical_travelers_shield` etc. **Decisión:** Sistema de escudos 1.20.1 es inferior a Tinker Tactical (Swift/Heavy con parry, ángulo, bloqueo direccional). **Se mantiene Tinker Tactical (Swift/Heavy) y se marca 1.20.1 shields como DEPRECADO** (no se registra en ToolForge, solo referencia en libro para parity, no crafteable).
+**Nota Escudos TC3 1.20.1:** `travelers_shield` **ELIMINADO del fork (2026-09-28)** — duplicación: otro mod del pack ya lo implementa funcional y sin bugs para esta versión de Tinkers Antique (**bloqueado / ya implementado**, N/A). Se mantiene `plate_shield` (`TinkerArmor`, ToolForge) como escudo propio del fork.
 
 ---
 
@@ -35,7 +35,7 @@
 | Armaduras 1.20.1 | 100% | 15 piezas (`scout/plate/slime` + 3 shields/wings) + `hasSlimeWings` planeo, `countPlate` 40% reducción, `countScout` Speed |
 | **Global Tactical** | **98%** | Núcleo 100%, gaps TT2 avanzado (pociones `Imbalance`/`Maraca*`, compat Botania/Thaum, Mixins) como N/A 1.12 |
 
-**Decisión Escudos:** Se conserva **Tinker Tactical** (`SwiftShield` 1.4 speed 0.38 dmg BLOCK rápido, `HeavyShield` 0.85 speed 0.62 dmg BLOCK pesado con `Imbalance` simplificado) como sistema principal. `tactical_travelers_shield`/`tactical_plate_shield`/`tactical_slime_wings` (porte 1.20.1) quedan como **DEPRECADO** (registrados pero no crafteables por `TinkerRegistry`, solo visibles en libro para referencia, no en JEI `armor`).
+**Decisión Escudos:** `travelers_shield` (porte 1.20.1) **ELIMINADO** del fork (duplicado: implementado funcionalmente por otro mod). El escudo propio del fork es `plate_shield` (`TinkerArmor`, ToolForge).
 
 ---
 

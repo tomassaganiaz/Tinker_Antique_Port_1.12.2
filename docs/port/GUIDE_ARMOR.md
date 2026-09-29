@@ -23,6 +23,9 @@ Clases reales en la 1.20.1 (consulta, no modificar):
 - `library/tools/item/armor/DummyArmorMaterial.java` — material de armadura por defecto.
 - `tools/ArmorDefinitions.java` — conjuntos `TRAVELERS`, `PLATE`, `SLIMESUIT` y escudos
   (`TRAVELERS_SHIELD`, `PLATE_SHIELD`), vía `ToolDefinition`.
+  > **Nota fork (2026-09-28):** `TRAVELERS_SHIELD` **no se porta** — duplicado: otro mod del pack
+  > ya lo implementa funcional y sin bugs para esta versión de Tinkers Antique (**bloqueado / ya
+  > implementado**, N/A). El fork solo registra `plate_shield` (`TinkerArmor`, ToolForge).
 - `tools/item/SlimeskullItem.java` y `tools/client/SlimeskullArmorModel.java` — ejemplo
   de armadura con modelo personalizado.
 

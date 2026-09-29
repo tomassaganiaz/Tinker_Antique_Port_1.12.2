@@ -1,5 +1,6 @@
 ﻿{
   "variants": {
-    "normal": { "model": "tconstruct:new_tool_station" }
+    "normal": { "model": "tconstruct:new_tool_station" },
+    "inventory": { "model": "tconstruct:new_tool_station" }
   }
 }

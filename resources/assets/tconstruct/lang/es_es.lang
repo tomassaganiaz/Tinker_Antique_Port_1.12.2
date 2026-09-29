@@ -1194,7 +1194,6 @@ modifier.double_jump.desc=Segundo salto en el aire, caida suave.
 item.tconstruct.plate_shield.name=Escudo de placas
 item.tconstruct.plating_shield.name=Revestimiento de escudo
 item.tconstruct.maille.name=Malla
-item.tconstruct.travelers_shield.name=Escudo de Viajero
 gui.jei.foundry.title=Fundici�n
 gui.jei.melter.title=Fundidor
 material.netherite.name=Netherita
