@@ -49,6 +49,7 @@ import slimeknights.tconstruct.tools.armor.item.ItemArmorPlateBoots;
 import slimeknights.tconstruct.tools.armor.item.ItemArmorPlateChestplate;
 import slimeknights.tconstruct.tools.armor.item.ItemArmorPlateHelmet;
 import slimeknights.tconstruct.tools.armor.item.ItemArmorPlateLeggings;
+import slimeknights.tconstruct.tools.TinkerModifiers;
 import slimeknights.tconstruct.tools.armor.item.ItemPlateShield;
 
 @Pulse(id = TinkerArmor.PulseId, description = "Tinkers Plate Armor")
@@ -164,7 +165,9 @@ public class TinkerArmor extends AbstractToolPulse {
     }
     modRevitalizing.addItem("appleDiamond", 2, 1);
     modRevitalizing.addItem("diamondApple", 2, 1);
-    modShulking = regMod(new ModShulking(), "blockShulker", "shulkerShell");
+    modShulking = TinkerModifiers.modShulking;
+    modShulking.addItem("blockShulker");
+    modShulking.addItem("shulkerShell");
     modKnockbackResistance = regMod(new ModKnockbackResistance(), "blockAnvil", "anvil");
   }
 

@@ -1,13 +1,16 @@
 package slimeknights.tconstruct.foundry;
 
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
+import net.minecraft.client.renderer.block.statemap.StateMap;
 import net.minecraft.item.Item;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 
 import slimeknights.tconstruct.common.ClientProxy;
+import slimeknights.tconstruct.foundry.block.BlockMelter;
 import slimeknights.tconstruct.foundry.tileentity.TileScorchedFoundry;
+import slimeknights.tconstruct.smeltery.block.BlockMultiblockController;
 import slimeknights.tconstruct.smeltery.block.BlockTank;
 import slimeknights.tconstruct.smeltery.client.SmelteryRenderer;
 
@@ -27,6 +30,9 @@ public class FoundryClientProxy extends ClientProxy {
   public void registerModels() {
     // Blocks
     registerItemBlockMeta(TinkerScorched.blockScorched);
+    ModelLoader.setCustomStateMapper(TinkerScorched.alloyer, new StateMap.Builder().ignore(BlockMultiblockController.ACTIVE, BlockMultiblockController.FACING).build());
+    ModelLoader.setCustomStateMapper(TinkerScorched.melter, new StateMap.Builder().ignore(BlockMelter.ACTIVE).build());
+    ModelLoader.setCustomStateMapper(TinkerScorched.heater, new StateMap.Builder().ignore(BlockMelter.ACTIVE).build());
     registerItemModel(TinkerScorched.foundryController);
     registerItemBlockMeta(TinkerScorched.scorchedIO);
     registerItemModel(TinkerScorched.melter);

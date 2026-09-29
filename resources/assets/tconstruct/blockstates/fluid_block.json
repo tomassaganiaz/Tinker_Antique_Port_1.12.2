@@ -132,6 +132,45 @@
         }],
         "scrap": [{
             "custom": { "fluid": "scrap" }
+        }],
+        "constantan": [{
+            "custom": { "fluid": "constantan" }
+        }],
+        "invar": [{
+            "custom": { "fluid": "invar" }
+        }],
+        "pewter": [{
+            "custom": { "fluid": "pewter" }
+        }],
+        "nicrosil": [{
+            "custom": { "fluid": "nicrosil" }
+        }],
+        "darkthread": [{
+            "custom": { "fluid": "darkthread" }
+        }],
+        "jeweledhide": [{
+            "custom": { "fluid": "jeweledhide" }
+        }],
+        "cinderslime": [{
+            "custom": { "fluid": "cinderslime" }
+        }],
+        "slimesteel": [{
+            "custom": { "fluid": "slimesteel" }
+        }],
+        "rosegold": [{
+            "custom": { "fluid": "rosegold" }
+        }],
+        "amethystbronze": [{
+            "custom": { "fluid": "amethystbronze" }
+        }],
+        "queensslime": [{
+            "custom": { "fluid": "queensslime" }
+        }],
+        "hepatizon": [{
+            "custom": { "fluid": "hepatizon" }
+        }],
+        "ichor": [{
+            "custom": { "fluid": "ichor" }
         }]
     }
 }

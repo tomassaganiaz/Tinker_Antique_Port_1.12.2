@@ -2,6 +2,7 @@ package slimeknights.tconstruct.tools;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
+import net.minecraft.client.renderer.block.statemap.StateMap;
 import net.minecraft.client.resources.IReloadableResourceManager;
 import net.minecraft.item.Item;
 import net.minecraft.util.ResourceLocation;
@@ -39,6 +40,7 @@ public class ToolClientProxy extends ClientProxy {
   @Override
   public void registerModels() {
     // blocks
+    ModelLoader.setCustomStateMapper(TinkerTools.newToolStation, new StateMap.Builder().ignore(BlockToolTable.TABLES).build());
     Item tableItem = Item.getItemFromBlock(TinkerTools.toolTables);
     ModelLoader.setCustomModelResourceLocation(tableItem, BlockToolTable.TableTypes.CraftingStation.meta, ToolClientEvents.locCraftingStation);
     ModelLoader.setCustomModelResourceLocation(tableItem, BlockToolTable.TableTypes.StencilTable.meta, ToolClientEvents.locStencilTable);

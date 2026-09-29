@@ -81,7 +81,7 @@ public class TinkerModifiers extends AbstractToolPulse {
   public static Modifier modNecrotic;
   public static Modifier modReinforced;
   public static Modifier modSharpness;
-  public static Modifier modShulking;
+  public static ModShulking modShulking;
   public static Modifier modSilktouch;
   public static Modifier modAutosmelt;
   public static Modifier modWebbed;

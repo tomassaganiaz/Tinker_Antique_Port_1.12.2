@@ -20,11 +20,6 @@
         },
         "extra": {
             "durability": 200
-        },
-        "armor": {
-            "durability": 440,
-            "defense": 3.0,
-            "toughness": 3.0
         }
     }
 }

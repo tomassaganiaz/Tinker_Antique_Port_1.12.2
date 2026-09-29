@@ -1,0 +1,9 @@
+{"parent": "builtin/generated",
+    "textures": {
+        "layer0": "tconstruct:items/armor/slime_plating_helmet"
+    },
+    "offset": {
+        "x": -2,
+        "y": 2
+    }
+}
