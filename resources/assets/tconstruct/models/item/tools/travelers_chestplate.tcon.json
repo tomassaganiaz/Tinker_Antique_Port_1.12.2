@@ -1,7 +1,0 @@
-﻿{
-    "parent": "tconstruct:tool",
-    "textures": {
-        "layer0": "tconstruct:items/armor/travelers_chestplate",
-        "layer1": "tconstruct:items/armor/maille"
-    }
-}

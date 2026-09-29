@@ -1387,10 +1387,6 @@ item.tconstruct.slime_chestplate.name=Slime Chestplate
 item.tconstruct.slime_leggings.name=Slime Leggings
 item.tconstruct.slime_boots.name=Slime Boots
 item.tconstruct.slime_armor_boots.name=Slime Boots
-item.tconstruct.travelers_helmet.name=Travelers Helmet
-item.tconstruct.travelers_chestplate.name=Travelers Chestplate
-item.tconstruct.travelers_leggings.name=Travelers Leggings
-item.tconstruct.travelers_boots.name=Travelers Boots
 
 material.nickel.name=Nickel
 
@@ -1426,8 +1422,4 @@ item.tconstruct.slime_plating_helmet.name=Slime Helmet Plating
 item.tconstruct.slime_plating_chestplate.name=Slime Chestplate Plating
 item.tconstruct.slime_plating_leggings.name=Slime Leggings Plating
 item.tconstruct.slime_plating_boots.name=Slime Boots Plating
-item.tconstruct.travelers_plating_helmet.name=Travelers Helmet Plating
-item.tconstruct.travelers_plating_chestplate.name=Travelers Chestplate Plating
-item.tconstruct.travelers_plating_leggings.name=Travelers Leggings Plating
-item.tconstruct.travelers_plating_boots.name=Travelers Boots Plating
 item.tconstruct.adze_head.name=Adze Head

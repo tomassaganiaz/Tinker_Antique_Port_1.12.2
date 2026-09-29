@@ -113,10 +113,6 @@ public class LayerTinkerArmor implements LayerRenderer<EntityLivingBase> {
     if("slime".equals(set)) {
       subs.add(legs ? "leggings" : "armor");
     }
-    else if("travelers".equals(set)) {
-      subs.add(legs ? "cuirass_leggings" : "cuirass_armor");
-      subs.add(legs ? "metal_leggings" : "metal_armor");
-    }
     else {
       subs.add("plating_" + (legs ? "leggings" : "armor"));
     }
@@ -127,7 +123,6 @@ public class LayerTinkerArmor implements LayerRenderer<EntityLivingBase> {
     String set = "plate";
     String reg = stack.getItem().getRegistryName() != null ? stack.getItem().getRegistryName().getResourcePath() : "";
     if(reg.contains("slime")) set = "slime";
-    else if(reg.contains("travelers")) set = "travelers";
     ResourceLocation fallback = slot == EntityEquipmentSlot.LEGS ? LAYER_2 : LAYER_1;
     String m = textureSlug(mat);
     for(String sub : platingSubs(set, slot)) {

@@ -65,13 +65,13 @@ public class ArmorClientProxy extends CommonProxy {
   }
 
   private void registerArmorPartModels() {
-    for(slimeknights.tconstruct.library.tools.IToolPart part : new slimeknights.tconstruct.library.tools.IToolPart[]{TinkerArmor.plateHelmet, TinkerArmor.plateChestplate, TinkerArmor.plateLeggings, TinkerArmor.plateBoots, TinkerArmor.plateShield, TinkerArmor.maille, TinkerArmor.slimePlateHelmet, TinkerArmor.slimePlateChestplate, TinkerArmor.slimePlateLeggings, TinkerArmor.slimePlateBoots, TinkerArmor.travelersPlateHelmet, TinkerArmor.travelersPlateChestplate, TinkerArmor.travelersPlateLeggings, TinkerArmor.travelersPlateBoots}) {
+    for(slimeknights.tconstruct.library.tools.IToolPart part : new slimeknights.tconstruct.library.tools.IToolPart[]{TinkerArmor.plateHelmet, TinkerArmor.plateChestplate, TinkerArmor.plateLeggings, TinkerArmor.plateBoots, TinkerArmor.plateShield, TinkerArmor.maille, TinkerArmor.slimePlateHelmet, TinkerArmor.slimePlateChestplate, TinkerArmor.slimePlateLeggings, TinkerArmor.slimePlateBoots}) {
       if(part != null) ModelRegisterUtil.registerPartModel((slimeknights.tconstruct.library.tools.ToolPart)part);
     }
   }
 
   private void registerArmorToolModels() {
-    for(slimeknights.tconstruct.library.tools.ToolCore tool : new slimeknights.tconstruct.library.tools.ToolCore[]{TinkerArmor.helmet, TinkerArmor.chestplate, TinkerArmor.leggings, TinkerArmor.boots, (slimeknights.tconstruct.library.tools.ToolCore)TinkerArmor.shield, TinkerArmor.slimeHelmet, TinkerArmor.slimeChestplate, TinkerArmor.slimeLeggings, TinkerArmor.slimeArmorBoots, TinkerArmor.travelersHelmet, TinkerArmor.travelersChestplate, TinkerArmor.travelersLeggings, TinkerArmor.travelersBoots}) {
+    for(slimeknights.tconstruct.library.tools.ToolCore tool : new slimeknights.tconstruct.library.tools.ToolCore[]{TinkerArmor.helmet, TinkerArmor.chestplate, TinkerArmor.leggings, TinkerArmor.boots, (slimeknights.tconstruct.library.tools.ToolCore)TinkerArmor.shield, TinkerArmor.slimeHelmet, TinkerArmor.slimeChestplate, TinkerArmor.slimeLeggings, TinkerArmor.slimeArmorBoots}) {
       if(tool != null) ModelRegisterUtil.registerToolModel(tool);
     }
   }

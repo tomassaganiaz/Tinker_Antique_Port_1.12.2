@@ -71,10 +71,6 @@ public class TinkerArmor extends AbstractToolPulse {
   public static ToolPart slimePlateChestplate;
   public static ToolPart slimePlateLeggings;
   public static ToolPart slimePlateBoots;
-  public static ToolPart travelersPlateHelmet;
-  public static ToolPart travelersPlateChestplate;
-  public static ToolPart travelersPlateLeggings;
-  public static ToolPart travelersPlateBoots;
 
   public static ArmorCore helmet;
   public static ArmorCore chestplate;
@@ -85,10 +81,6 @@ public class TinkerArmor extends AbstractToolPulse {
   public static ArmorCore slimeChestplate;
   public static ArmorCore slimeLeggings;
   public static ArmorCore slimeArmorBoots;
-  public static ArmorCore travelersHelmet;
-  public static ArmorCore travelersChestplate;
-  public static ArmorCore travelersLeggings;
-  public static ArmorCore travelersBoots;
   public static ModProtection modProtection;
   public static ModProjectileProtection modProjectileProtection;
   public static ModBlastProtection modBlastProtection;
@@ -175,10 +167,9 @@ public class TinkerArmor extends AbstractToolPulse {
   }
 
   private static java.util.List<ArmorCore> allTools() {
-    java.util.List<ArmorCore> tools = new java.util.ArrayList<>(13);
+    java.util.List<ArmorCore> tools = new java.util.ArrayList<>(9);
     java.util.Collections.addAll(tools, helmet, chestplate, leggings, boots,
-        slimeHelmet, slimeChestplate, slimeLeggings, slimeArmorBoots,
-        travelersHelmet, travelersChestplate, travelersLeggings, travelersBoots);
+        slimeHelmet, slimeChestplate, slimeLeggings, slimeArmorBoots);
     return tools;
   }
 
@@ -206,10 +197,6 @@ public class TinkerArmor extends AbstractToolPulse {
         {"slime_plating_chestplate", Material.VALUE_Ingot * 8},
         {"slime_plating_leggings", Material.VALUE_Ingot * 7},
         {"slime_plating_boots", Material.VALUE_Ingot * 4},
-        {"travelers_plating_helmet", Material.VALUE_Ingot * 5},
-        {"travelers_plating_chestplate", Material.VALUE_Ingot * 8},
-        {"travelers_plating_leggings", Material.VALUE_Ingot * 7},
-        {"travelers_plating_boots", Material.VALUE_Ingot * 4},
     };
     ToolPart[] out = new ToolPart[parts.length];
     for(int i = 0; i < parts.length; i++) {
@@ -225,10 +212,6 @@ public class TinkerArmor extends AbstractToolPulse {
     slimePlateChestplate = out[7];
     slimePlateLeggings = out[8];
     slimePlateBoots = out[9];
-    travelersPlateHelmet = out[10];
-    travelersPlateChestplate = out[11];
-    travelersPlateLeggings = out[12];
-    travelersPlateBoots = out[13];
   }
 
   @Override
@@ -242,10 +225,6 @@ public class TinkerArmor extends AbstractToolPulse {
     slimeChestplate = registerTool(registry, new ItemArmorPlateChestplate(new PartMaterialType(slimePlateChestplate, ArmorMaterialStats.TYPE_CHESTPLATE), new PartMaterialType(maille, ArmorMaterialStats.TYPE_MAILLE)), "slime_chestplate");
     slimeLeggings = registerTool(registry, new ItemArmorPlateLeggings(new PartMaterialType(slimePlateLeggings, ArmorMaterialStats.TYPE_LEGGINGS), new PartMaterialType(maille, ArmorMaterialStats.TYPE_MAILLE)), "slime_leggings");
     slimeArmorBoots = registerTool(registry, new ItemArmorPlateBoots(new PartMaterialType(slimePlateBoots, ArmorMaterialStats.TYPE_BOOTS), new PartMaterialType(maille, ArmorMaterialStats.TYPE_MAILLE)), "slime_armor_boots");
-    travelersHelmet = registerTool(registry, new ItemArmorPlateHelmet(new PartMaterialType(travelersPlateHelmet, ArmorMaterialStats.TYPE_HELMET), new PartMaterialType(maille, ArmorMaterialStats.TYPE_MAILLE)), "travelers_helmet");
-    travelersChestplate = registerTool(registry, new ItemArmorPlateChestplate(new PartMaterialType(travelersPlateChestplate, ArmorMaterialStats.TYPE_CHESTPLATE), new PartMaterialType(maille, ArmorMaterialStats.TYPE_MAILLE)), "travelers_chestplate");
-    travelersLeggings = registerTool(registry, new ItemArmorPlateLeggings(new PartMaterialType(travelersPlateLeggings, ArmorMaterialStats.TYPE_LEGGINGS), new PartMaterialType(maille, ArmorMaterialStats.TYPE_MAILLE)), "travelers_leggings");
-    travelersBoots = registerTool(registry, new ItemArmorPlateBoots(new PartMaterialType(travelersPlateBoots, ArmorMaterialStats.TYPE_BOOTS), new PartMaterialType(maille, ArmorMaterialStats.TYPE_MAILLE)), "travelers_boots");
   }
 
   private void registerArmorMaterialStats() {

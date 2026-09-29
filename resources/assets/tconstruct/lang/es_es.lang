@@ -1255,10 +1255,6 @@ item.tconstruct.slime_chestplate.name=Peto de Slime
 item.tconstruct.slime_leggings.name=Grebas de Slime
 item.tconstruct.slime_boots.name=Botas de Slime
 item.tconstruct.slime_armor_boots.name=Botas de Slime
-item.tconstruct.travelers_helmet.name=Casco de Viajero
-item.tconstruct.travelers_chestplate.name=Peto de Viajero
-item.tconstruct.travelers_leggings.name=Grebas de Viajero
-item.tconstruct.travelers_boots.name=Botas de Viajero
 
 
 # === Auto-added missing translations (Queen/Hepatizon patch) ===
@@ -1390,8 +1386,4 @@ item.tconstruct.slime_plating_helmet.name=Placa de Casco de Slime
 item.tconstruct.slime_plating_chestplate.name=Placa de Pechera de Slime
 item.tconstruct.slime_plating_leggings.name=Placa de Grebas de Slime
 item.tconstruct.slime_plating_boots.name=Placa de Botas de Slime
-item.tconstruct.travelers_plating_helmet.name=Placa de Casco de Viajero
-item.tconstruct.travelers_plating_chestplate.name=Placa de Pechera de Viajero
-item.tconstruct.travelers_plating_leggings.name=Placa de Grebas de Viajero
-item.tconstruct.travelers_plating_boots.name=Placa de Botas de Viajero
 item.tconstruct.adze_head.name=Cabeza de Azuela
