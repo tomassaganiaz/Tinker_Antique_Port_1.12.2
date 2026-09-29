@@ -1369,3 +1369,9 @@ tile.tconstruct.slime_channel.pink.name=Pink Slime Channel
 tile.tconstruct.slime_congealed.pink.name=Congealed Pink Slime Block
 tile.tconstruct.tooltables.castchest.name=Cast Chest
 tile.tconstruct.wooden_hopper.name=Wooden Hopper
+
+
+# Encantabilidad
+modifier.enchantability.name=Encantabilidad
+modifier.enchantability.desc=Hace la herramienta encantable con encantamientos vanilla.\nUna vez aplicado, la herramienta ya no acepta modificaciones.
+gui.error.enchantability.blocked=Esta herramienta fue hecha encantable y ya no acepta modificaciones!

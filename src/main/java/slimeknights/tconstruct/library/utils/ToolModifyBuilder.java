@@ -39,6 +39,7 @@ import slimeknights.tconstruct.library.tools.ToolCore;
 import slimeknights.tconstruct.library.traits.AbstractTrait;
 import slimeknights.tconstruct.library.traits.ITrait;
 import static slimeknights.tconstruct.library.utils.ToolBuilder.log;
+import slimeknights.tconstruct.tools.modifiers.ModEnchantability;
 import slimeknights.tconstruct.tools.modifiers.ModFortify;
 
 /** 
@@ -100,6 +101,11 @@ ToolModifyBuilder
   public static ItemStack tryModifyTool(NonNullList<ItemStack> input, ItemStack toolStack, boolean removeItems)
       throws TinkerGuiException {
     ItemStack copy = toolStack.copy();
+
+    // Enchantability: una herramienta hecha encantable no acepta mas modificadores
+    if(TinkerUtil.hasModifier(TagUtil.getTagSafe(toolStack), ModEnchantability.ID)) {
+      throw new TinkerGuiException(I18n.translateToLocal("gui.error.enchantability.blocked"));
+    }
 
     // obtain a working copy of the items if the originals shouldn't be modified
     NonNullList<ItemStack> stacks = Util.deepCopyFixedNonNullList(input);

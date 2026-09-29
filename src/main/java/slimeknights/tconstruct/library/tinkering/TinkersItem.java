@@ -490,7 +490,8 @@ public abstract class TinkersItem extends Item implements ITinkerable, IModifyab
 
   @Override
   public boolean isBookEnchantable(ItemStack stack, ItemStack book) {
-    return false;
+    // herramientas con el modificador enchantability aceptan libros encantados en el yunque
+    return TinkerUtil.hasModifier(TagUtil.getTagSafe(stack), "enchantability");
   }
 
   /* NBT loading */

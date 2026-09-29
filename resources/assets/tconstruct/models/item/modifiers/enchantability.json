@@ -1,0 +1,27 @@
+{
+    "textures": {
+        "arrow": "tconstruct:items/modifiers/enchantability",
+        "battleaxe": "tconstruct:items/modifiers/enchantability",
+        "battlesign": "tconstruct:items/modifiers/enchantability",
+        "bolt": "tconstruct:items/modifiers/enchantability",
+        "broadsword": "tconstruct:items/modifiers/enchantability",
+        "cleaver": "tconstruct:items/modifiers/enchantability",
+        "crossbow": "tconstruct:items/modifiers/enchantability",
+        "cutlass": "tconstruct:items/modifiers/enchantability",
+        "excavator": "tconstruct:items/modifiers/enchantability",
+        "frypan": "tconstruct:items/modifiers/enchantability",
+        "hammer": "tconstruct:items/modifiers/enchantability",
+        "hatchet": "tconstruct:items/modifiers/enchantability",
+        "kama": "tconstruct:items/modifiers/enchantability",
+        "longbow": "tconstruct:items/modifiers/enchantability",
+        "longsword": "tconstruct:items/modifiers/enchantability",
+        "lumberaxe": "tconstruct:items/modifiers/enchantability",
+        "mattock": "tconstruct:items/modifiers/enchantability",
+        "pickaxe": "tconstruct:items/modifiers/enchantability",
+        "rapier": "tconstruct:items/modifiers/enchantability",
+        "scythe": "tconstruct:items/modifiers/enchantability",
+        "shortbow": "tconstruct:items/modifiers/enchantability",
+        "shovel": "tconstruct:items/modifiers/enchantability",
+        "shuriken": "tconstruct:items/modifiers/enchantability"
+    }
+}

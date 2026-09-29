@@ -82,6 +82,7 @@ public class TinkerModifiers extends AbstractToolPulse {
   public static Modifier modReinforced;
   public static Modifier modSharpness;
   public static ModShulking modShulking;
+  public static ModEnchantability modEnchantability;
   public static Modifier modSilktouch;
   public static Modifier modAutosmelt;
   public static Modifier modWebbed;
@@ -181,6 +182,9 @@ public class TinkerModifiers extends AbstractToolPulse {
 
     modShulking = registerModifier(new ModShulking());
     modShulking.addItem(Items.CHORUS_FRUIT_POPPED);
+
+    modEnchantability = registerModifier(new ModEnchantability());
+    modEnchantability.addItem(Items.BOOK);
 
     modSilktouch = registerModifier(new ModSilktouch());
     modSilktouch.addItem(TinkerCommons.matSilkyJewel, 1, 1);

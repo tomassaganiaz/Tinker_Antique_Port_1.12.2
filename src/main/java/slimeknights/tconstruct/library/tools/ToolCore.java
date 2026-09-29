@@ -84,6 +84,17 @@ public abstract class ToolCore extends TinkersItem implements IToolStationDispla
   }
 
   @Override
+  public int getItemEnchantability(ItemStack stack) {
+    // herramientas con el modificador enchantability son encantables en la mesa de encantar
+    return TinkerUtil.hasModifier(TagUtil.getTagSafe(stack), "enchantability") ? 10 : 0;
+  }
+
+  @Override
+  public boolean isEnchantable(ItemStack stack) {
+    return super.isEnchantable(stack) || TinkerUtil.hasModifier(TagUtil.getTagSafe(stack), "enchantability");
+  }
+
+  @Override
   public void setDamage(ItemStack stack, int damage) {
     int max = getMaxDamage(stack);
     super.setDamage(stack, Math.min(max, damage));

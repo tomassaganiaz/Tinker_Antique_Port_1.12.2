@@ -1405,3 +1405,9 @@ fluid.tconstruct.cinderslime.name=Molten Cinderslime
  
 material.necronium.name=Necronium 
 material.necronium.prefix=Necronium %s
+
+
+# Enchantability
+modifier.enchantability.name=Enchantability
+modifier.enchantability.desc=Makes the tool enchantable with vanilla enchantments.\nOnce applied, the tool can no longer accept other modifications.
+gui.error.enchantability.blocked=This tool was made enchantable and can no longer accept modifications!
