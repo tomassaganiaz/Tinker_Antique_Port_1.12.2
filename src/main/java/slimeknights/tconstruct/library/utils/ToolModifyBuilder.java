@@ -205,6 +205,11 @@ ToolModifyBuilder
       return ItemStack.EMPTY;
     }
 
+    // Enchantability: una herramienta hecha encantable no acepta reemplazo de partes
+    if(TinkerUtil.hasModifier(TagUtil.getTagSafe(toolStack), ModEnchantability.ID)) {
+      throw new TinkerGuiException(I18n.translateToLocal("gui.error.enchantability.blocked"));
+    }
+
     // we never modify the original. Caller can remove all of them if we return a result
     NonNullList<ItemStack> inputItems = ItemStackList.of(Util.deepCopyFixedNonNullList(toolPartsIn));
     if(!OnToolPartReplacement.fireEvent(inputItems, toolStack)) {

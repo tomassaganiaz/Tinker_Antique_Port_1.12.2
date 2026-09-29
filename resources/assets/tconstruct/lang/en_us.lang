@@ -1409,5 +1409,5 @@ material.necronium.prefix=Necronium %s
 
 # Enchantability
 modifier.enchantability.name=Enchantability
-modifier.enchantability.desc=Applying an enchanted golden apple makes the tool enchantable with vanilla enchantments.\nOnce applied, the tool can no longer accept other modifications.
+modifier.enchantability.desc=Applying an enchanted golden apple makes the tool enchantable with vanilla enchantments.\nOnce applied, the tool can no longer accept other modifications or replacement of its parts.
 gui.error.enchantability.blocked=This tool was made enchantable and can no longer accept modifications!
