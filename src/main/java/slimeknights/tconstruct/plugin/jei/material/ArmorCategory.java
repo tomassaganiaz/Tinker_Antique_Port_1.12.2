@@ -37,14 +37,14 @@ public class ArmorCategory extends AbstractCategory {
                 getHeading("stat.plating_chestplate.name"),
                 getHeading("stat.plating_leggings.name"),
                 getHeading("stat.plating_boots.name"),
-                getHeading("stat.plating_shield.name")
+                getHeading("stat.maille.name")
         };
         String[] types = new String[]{
                 ArmorMaterialStats.TYPE_HELMET,
                 ArmorMaterialStats.TYPE_CHESTPLATE,
                 ArmorMaterialStats.TYPE_LEGGINGS,
                 ArmorMaterialStats.TYPE_BOOTS,
-                ArmorMaterialStats.TYPE_SHIELD
+                ArmorMaterialStats.TYPE_MAILLE
         };
         int index = 0;
         for (String stat : statInfo) {

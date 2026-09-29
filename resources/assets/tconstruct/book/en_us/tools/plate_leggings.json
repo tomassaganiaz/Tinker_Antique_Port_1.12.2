@@ -6,8 +6,9 @@
     {"text": "Forged from 7 plating units."}
   ],
   "properties": [
-    "Leg armor",
-    "Bamboo plating gives Spiky thorns",
-    "Haste (redstone) grants movement speed"
+    "Leg armor, balanced defense/weight",
+    "Material determines durability, defense, toughness and knockback resistance",
+    "Environmental Protection reduces cactus, lightning, drowning and starvation damage",
+    "Modifiers: Protection variants, Haste (redstone grants movement speed)"
   ]
 }

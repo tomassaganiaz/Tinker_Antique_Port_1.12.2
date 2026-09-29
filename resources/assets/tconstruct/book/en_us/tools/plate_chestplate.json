@@ -6,9 +6,9 @@
     {"text": "Requires 8 plating units, forged in the Tool Forge."}
   ],
   "properties": [
-    "Chest armor, highest defense",
-    "Toughness reduces strong hits",
-    "Knockback resistance per material",
-    "Modifiers: Protection variants, Reinforced"
+    "Chest armor, highest defense and the heaviest piece",
+    "Toughness reduces strong hits; knockback resistance per material",
+    "Weight slows movement but adds knockback resistance and hardness",
+    "Modifiers: Protection variants, Strength, Reinforced"
   ]
 }

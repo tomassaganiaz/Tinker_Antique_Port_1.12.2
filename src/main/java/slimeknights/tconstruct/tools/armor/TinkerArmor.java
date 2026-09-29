@@ -45,6 +45,11 @@ import slimeknights.tconstruct.tools.modifiers.ModSpilling;
 import slimeknights.tconstruct.tools.modifiers.ModTwin;
 import slimeknights.tconstruct.tools.modifiers.ModWetting;
 import slimeknights.tconstruct.tools.modifiers.ModZooming;
+import slimeknights.tconstruct.tools.modifiers.ModWings;
+import slimeknights.tconstruct.tools.modifiers.ModRespiration;
+import slimeknights.tconstruct.tools.modifiers.ModAquaAffinity;
+import slimeknights.tconstruct.tools.modifiers.ModDepthStrider;
+import slimeknights.tconstruct.tools.modifiers.ModLongFall;
 import slimeknights.tconstruct.tools.armor.item.ItemArmorPlateBoots;
 import slimeknights.tconstruct.tools.armor.item.ItemArmorPlateChestplate;
 import slimeknights.tconstruct.tools.armor.item.ItemArmorPlateHelmet;
@@ -92,6 +97,11 @@ public class TinkerArmor extends AbstractToolPulse {
   public static ModPyroclastic modPyroclastic;
   public static ModChip modChip;
   public static ModZooming modZooming;
+  public static ModWings modWings;
+  public static ModRespiration modRespiration;
+  public static ModAquaAffinity modAquaAffinity;
+  public static ModDepthStrider modDepthStrider;
+  public static ModLongFall modLongFall;
 
   @SubscribeEvent
   public void registerBlocks(Register<Block> event) {}
@@ -147,6 +157,12 @@ public class TinkerArmor extends AbstractToolPulse {
     modShulking.addItem("blockShulker");
     modShulking.addItem("shulkerShell");
     modKnockbackResistance = regMod(new ModKnockbackResistance(), "blockAnvil", "anvil");
+    // modificadores de armadura portados de 1.20.1 (wings/ELYTRA + utilidades por pieza)
+    modWings = regMod(new ModWings(), "slimeball", "blockSlime", "feather");
+    modRespiration = regMod(new ModRespiration(), "sponge", "blockSponge");
+    modAquaAffinity = regMod(new ModAquaAffinity(), "prismarine_shard", "prismarine_crystals");
+    modDepthStrider = regMod(new ModDepthStrider(), "prismarine_shard");
+    modLongFall = regMod(new ModLongFall(), "feather");
   }
 
   private static <T extends slimeknights.tconstruct.tools.modifiers.ToolModifier> T regMod(T mod, String... items) {
@@ -201,90 +217,99 @@ public class TinkerArmor extends AbstractToolPulse {
 
   private void registerArmorMaterialStats() {
     Object[][] data = {
-      {TinkerMaterials.wood, 5, 1,1,1,1},
-      {TinkerMaterials.stone, 6, 1,2,2,1},
-      {TinkerMaterials.flint, 7, 1,2,2,1},
-      {TinkerMaterials.cactus, 6, 1,1,2,1},
-      {TinkerMaterials.bone, 8, 1,2,2,1},
-      {TinkerMaterials.obsidian, 11, 2,4,5,2},
-      {TinkerMaterials.prismarine, 9, 2,3,4,2},
-      {TinkerMaterials.endstone, 7, 1,2,3,1},
-      {TinkerMaterials.paper, 3, 1,1,1,1},
-      {TinkerMaterials.sponge, 4, 1,1,1,1},
-      {TinkerMaterials.slime, 9, 1,2,3,1},
-      {TinkerMaterials.blueslime, 9, 1,2,3,1},
-      {TinkerMaterials.knightslime, 33, 2,5,7,2, 1f},
-      {TinkerMaterials.magmaslime, 10, 2,3,4,2},
-      {TinkerMaterials.netherrack, 6, 1,1,2,1},
-      {TinkerMaterials.cobalt, 30, 2,5,7,2, 1f},
-      {TinkerMaterials.ardite, 24, 2,4,5,2},
-      {TinkerMaterials.manyullyn, 35, 2,5,7,2, 3f},
-      {TinkerMaterials.firewood, 6, 1,1,2,1},
-      {TinkerMaterials.iron, 15, 2,4,5,2},
-      {TinkerMaterials.pigiron, 23, 1,3,4,1},
-      {TinkerMaterials.steel, 29, 2,5,7,2, 2f},
-      {TinkerMaterials.slimesteel, 40, 2,5,6,2},
-      {TinkerMaterials.cinderslime, 42, 2,5,6,2},
-      {TinkerMaterials.alubrass, 9, 2,3,4,2},
-      {TinkerMaterials.alumite, 28, 2,5,6,2},
-      {TinkerMaterials.copper, 13, 1,2,3,1},
-      {TinkerMaterials.bronze, 28, 2,5,6,2},
-      {TinkerMaterials.lead, 12, 1,3,4,2},
-      {TinkerMaterials.silver, 18, 1,4,5,2},
-      {TinkerMaterials.electrum, 14, 1,3,4,2},
-      {TinkerMaterials.tin, 9, 1,2,2,1},
-      {TinkerMaterials.aluminum, 13, 2,4,6,2},
-      {TinkerMaterials.nickel, 14, 1,3,4,1},
-      {TinkerMaterials.steeleaf, 10, 2,5,7,2},
-      {TinkerMaterials.ironwood, 8, 2,4,5,2},
-      {TinkerMaterials.fiery, 25, 3,6,8,3},
-      {TinkerMaterials.knightmetal, 40, 3,6,8,3, 2f, 0.05f},
-      {TinkerMaterials.kobold, 28, 2,5,7,2},
-      {TinkerMaterials.magnetite, 26, 2,5,6,2},
-      {TinkerMaterials.knightly, 32, 2,5,7,2},
-      {TinkerMaterials.ichor, 22, 2,4,6,2},
-      {TinkerMaterials.ichorskin, 18, 2,4,5,2},
-      {TinkerMaterials.jadeite, 20, 2,5,6,2},
-      {TinkerMaterials.ancienthide, 26, 3,6,8,3},
-      {TinkerMaterials.osmium, 24, 2,5,6,2},
-      {TinkerMaterials.turtle, 18, 2,4,6,2},
-      {TinkerMaterials.nautilus, 16, 2,4,5,2},
-      {TinkerMaterials.searedstone, 14, 1,3,4,2},
-      {TinkerMaterials.scorchedstone, 10, 1,4,5,2},
-      {TinkerMaterials.amethyst, 12, 1,3,4,1},
-      {TinkerMaterials.quartz, 10, 1,2,3,1},
-      {TinkerMaterials.amethystbronze, 28, 2,5,6,2},
-      {TinkerMaterials.rosegold, 9, 1,3,5,2},
-      {TinkerMaterials.hepatizon, 32, 2,5,7,2},
-      {TinkerMaterials.queensslime, 50, 2,5,7,2},
-      {TinkerMaterials.constantan, 25, 1,4,5,2},
-      {TinkerMaterials.invar, 24, 1,3,5,2},
-      {TinkerMaterials.pewter, 16, 2,5,7,2},
-      {TinkerMaterials.nicrosil, 28, 2,5,7,2},
-      {TinkerMaterials.necronium, 18, 2,3,4,2, 0.5f},
-      {TinkerMaterials.blazingbone, 18, 1,3,4,2},
-      {TinkerMaterials.ancient, 25, 2,4,6,2},
-      {TinkerMaterials.netherite, 40, 3,6,8,3, 3f},
-      {TinkerMaterials.bloodbone, 13, 1,2,3,1},
-      {TinkerMaterials.bamboo, 6, 1,2,3,1},
-      {TinkerMaterials.dragonscale, 12, 2,5,6,2, 0.5f},
+      {TinkerMaterials.stone, 6, 1,2,2,1, 0f, 0f, 0.074f, 0.06f, 0.012f, 0f},
+      {TinkerMaterials.obsidian, 11, 2,5,4,2, 0f, 0f, 0.094f, 0.11f, 0.022f, 0f},
+      {TinkerMaterials.knightslime, 33, 3,8,6,3, 2f, 1f, 0.482f, 0.33f, 0.066f, 0.2f},
+      {TinkerMaterials.cobalt, 30, 3,8,6,3, 1f, 0.5f, 0.32f, 0.3f, 0.06f, 0.1f},
+      {TinkerMaterials.ardite, 24, 3,5,6,3, 0.5f, 0.5f, 0.221f, 0.24f, 0.048f, 0.05f},
+      {TinkerMaterials.manyullyn, 35, 3,8,6,3, 3f, 1f, 0.6f, 0.35f, 0.07f, 0.3f},
+      {TinkerMaterials.iron, 15, 3,6,5,3, 0.5f, 0.5f, 0.185f, 0.15f, 0.03f, 0.05f},
+      {TinkerMaterials.gold, 7, 1,4,3,1, 0f, 0f, 0.078f, 0.07f, 0.014f, 0f},
+      {TinkerMaterials.pigiron, 23, 2,5,4,2, 1f, 0.5f, 0.292f, 0.23f, 0.046f, 0.1f},
+      {TinkerMaterials.steel, 29, 3,8,6,3, 2f, 0.5f, 0.466f, 0.29f, 0.058f, 0.2f},
+      {TinkerMaterials.slimesteel, 40, 3,7,6,3, 1f, 0.5f, 0.36f, 0.4f, 0.08f, 0.1f},
+      {TinkerMaterials.cinderslime, 42, 3,8,6,3, 2f, 1f, 0.518f, 0.42f, 0.08f, 0.2f},
+      {TinkerMaterials.alubrass, 9, 2,3,4,2, 0f, 0f, 0.086f, 0.09f, 0.018f, 0f},
+      {TinkerMaterials.alumite, 28, 3,6,7,3, 1f, 0.5f, 0.312f, 0.28f, 0.056f, 0.1f},
+      {TinkerMaterials.copper, 13, 2,4,3,2, 0.5f, 0.5f, 0.177f, 0.13f, 0.026f, 0.05f},
+      {TinkerMaterials.bronze, 28, 3,7,6,3, 1f, 0.5f, 0.312f, 0.28f, 0.056f, 0.1f},
+      {TinkerMaterials.lead, 12, 3,5,4,2, 0.5f, 0.5f, 0.173f, 0.12f, 0.024f, 0.05f},
+      {TinkerMaterials.silver, 18, 3,6,5,2, 0.5f, 0.5f, 0.197f, 0.18f, 0.036f, 0.05f},
+      {TinkerMaterials.electrum, 14, 3,5,4,2, 0.5f, 0.5f, 0.181f, 0.14f, 0.028f, 0.05f},
+      {TinkerMaterials.tin, 9, 1,2,2,1, 0f, 0f, 0.086f, 0.09f, 0.018f, 0f},
+      {TinkerMaterials.aluminum, 13, 3,7,5,3, 0.5f, 0.5f, 0.177f, 0.13f, 0.026f, 0.05f},
+      {TinkerMaterials.nickel, 14, 2,4,5,2, 0.5f, 0.5f, 0.181f, 0.14f, 0.028f, 0.05f},
+      {TinkerMaterials.steeleaf, 10, 3,8,6,3, 1f, 0.5f, 0.24f, 0.1f, 0.02f, 0.1f},
+      {TinkerMaterials.ironwood, 8, 3,5,6,3, 0.5f, 0.5f, 0.157f, 0.08f, 0.016f, 0.05f},
+      {TinkerMaterials.fiery, 25, 4,9,7,4, 2f, 1f, 0.45f, 0.25f, 0.05f, 0.2f},
+      {TinkerMaterials.knightmetal, 20, 3,8,6,3, 2f, 1f, 0.43f, 0.2f, 0.04f, 0.2f},
+      {TinkerMaterials.kobold, 28, 3,6,8,3, 1f, 0.5f, 0.312f, 0.28f, 0.056f, 0.1f},
+      {TinkerMaterials.magnetite, 26, 3,6,7,3, 1f, 0.5f, 0.304f, 0.26f, 0.052f, 0.1f},
+      {TinkerMaterials.knightly, 32, 3,6,8,3, 1f, 0.5f, 0.328f, 0.32f, 0.064f, 0.1f},
+      {TinkerMaterials.jadeite, 20, 3,6,7,3, 0.5f, 0.5f, 0.205f, 0.2f, 0.04f, 0.05f},
+      {TinkerMaterials.osmium, 25, 3,6,4,2, 0.5f, 0.5f, 0.225f, 0.25f, 0.05f, 0.05f},
+      {TinkerMaterials.searedstone, 14, 3,5,4,2, 0.5f, 0.5f, 0.181f, 0.14f, 0.028f, 0.05f},
+      {TinkerMaterials.scorchedstone, 10, 3,6,5,2, 0.5f, 0.5f, 0.165f, 0.1f, 0.02f, 0.05f},
+      {TinkerMaterials.amethyst, 12, 1,3,4,1, 0f, 0f, 0.098f, 0.12f, 0.024f, 0f},
+      {TinkerMaterials.quartz, 10, 1,2,3,1, 0f, 0f, 0.09f, 0.1f, 0.02f, 0f},
+      {TinkerMaterials.amethystbronze, 28, 3,7,6,3, 1f, 0.5f, 0.312f, 0.28f, 0.056f, 0.1f},
+      {TinkerMaterials.rosegold, 9, 2,5,3,1, 0f, 0f, 0.086f, 0.09f, 0.018f, 0f},
+      {TinkerMaterials.hepatizon, 32, 3,8,6,3, 2f, 1f, 0.478f, 0.32f, 0.064f, 0.2f},
+      {TinkerMaterials.queensslime, 50, 3,8,6,3, 2f, 1f, 0.55f, 0.5f, 0.08f, 0.2f},
+      {TinkerMaterials.constantan, 25, 3,6,5,2, 1f, 0.5f, 0.3f, 0.25f, 0.05f, 0.1f},
+      {TinkerMaterials.invar, 24, 3,6,4,2, 1f, 0.5f, 0.296f, 0.24f, 0.048f, 0.1f},
+      {TinkerMaterials.pewter, 16, 3,8,6,3, 1f, 0.5f, 0.264f, 0.16f, 0.032f, 0.1f},
+      {TinkerMaterials.nicrosil, 28, 3,8,6,3, 2f, 1f, 0.462f, 0.28f, 0.056f, 0.2f},
+      {TinkerMaterials.necronium, 18, 3,4,5,3, 1f, 0.5f, 0.272f, 0.18f, 0.036f, 0.1f},
+      {TinkerMaterials.ancient, 25, 3,7,5,3, 2f, 1f, 0.45f, 0.25f, 0.05f, 0.2f},
+      {TinkerMaterials.netherite, 40, 4,7,9,4, 3f, 1f, 0.6f, 0.4f, 0.08f, 0.3f},
+      {TinkerMaterials.dragonscale, 12, 2,5,6,2, 0.5f, 0f, 0.173f, 0.12f, 0.024f, 0.05f},
+      {TinkerMaterials.darkthread, 24, 3,6,5,3, 1f, 0.5f, 0.296f, 0.24f, 0.048f, 0.1f},
+      {TinkerMaterials.jeweledhide, 20, 3,6,5,3, 0.5f, 0.5f, 0.205f, 0.2f, 0.04f, 0.05f},
     };
     for(Object[] d : data) {
       Material m = (Material)d[0];
       int f = (int)d[1];
       float t = d.length > 6 ? (float)d[6] : 0f;
       float k = d.length > 7 ? (float)d[7] : 0f;
-      addMatStats(m, f, (int)d[2], (int)d[3], (int)d[4], (int)d[5], t, k);
+      // stats nuevas opcionales por material (si valen 0 se derivan de la formula)
+      float hardness = d.length > 8 ? (float)d[8] : 0f;
+      float environmental = d.length > 9 ? (float)d[9] : 0f;
+      float weight = d.length > 10 ? (float)d[10] : 0f;
+      float ricochet = d.length > 11 ? (float)d[11] : 0f;
+      addMatStats(m, f, (int)d[2], (int)d[3], (int)d[4], (int)d[5], t, k, hardness, environmental, weight, ricochet);
     }
+    // prioridad final: el data-pack 1.20.1 (data/tconstruct/tinkering/materials/stats/*.json) sobreescribe la tabla
+    try { slimeknights.tconstruct.common.JsonMaterialLoader.loadDataPackStats(); } catch(Exception e) { }
   }
 
-  private void addMatStats(Material mat, int factor, int h, int c, int l, int b, float toughness, float knockback) {
-    TinkerRegistry.addMaterialStats(mat, new ArmorMaterialStats(ArmorMaterialStats.TYPE_HELMET, factor*11, h, toughness, knockback));
-    TinkerRegistry.addMaterialStats(mat, new ArmorMaterialStats(ArmorMaterialStats.TYPE_CHESTPLATE, factor*16, c, toughness, knockback));
-    TinkerRegistry.addMaterialStats(mat, new ArmorMaterialStats(ArmorMaterialStats.TYPE_LEGGINGS, factor*15, l, toughness, knockback));
-    TinkerRegistry.addMaterialStats(mat, new ArmorMaterialStats(ArmorMaterialStats.TYPE_BOOTS, factor*13, b, toughness, knockback));
-    TinkerRegistry.addMaterialStats(mat, new ArmorMaterialStats(ArmorMaterialStats.TYPE_SHIELD, factor*18, 0, toughness, knockback));
-    TinkerRegistry.addMaterialStats(mat, new ArmorMaterialStats(ArmorMaterialStats.TYPE_MAILLE, factor*5, 1, 0, 0));
+  private void addMatStats(Material mat, int factor, int h, int c, int l, int b, float toughness, float knockback,
+                           float hardnessIn, float environmentalIn, float weightIn, float ricochetIn) {
+    // valores base: si el material define uno explicito se usa; si no, se deriva del tier/complejidad
+    float hardnessBase = hardnessIn > 0f ? Math.min(0.9f, hardnessIn) : Math.min(0.60f, 0.05f + toughness * 0.15f + factor * 0.004f);
+    float environmentalBase = environmentalIn > 0f ? Math.min(0.9f, environmentalIn) : Math.min(0.50f, factor * 0.010f);
+    float ricochetBase = ricochetIn > 0f ? Math.min(0.9f, ricochetIn) : Math.min(0.35f, toughness * 0.10f);
+    float weightBase = weightIn > 0f ? weightIn : Math.min(0.08f, factor * 0.0020f);
+    // escalado por cobertura del cuerpo: pechera > pantalon > casco > botas
+    // (factorW = factor de peso; factorS = factor de hardness/environmental/ricochet)
+    addPiece(mat, ArmorMaterialStats.TYPE_HELMET, factor*12, h, toughness, knockback, hardnessBase, environmentalBase, ricochetBase, weightBase, 0.6f, 0.9f);
+    addPiece(mat, ArmorMaterialStats.TYPE_CHESTPLATE, factor*18, c, toughness, knockback, hardnessBase, environmentalBase, ricochetBase, weightBase, 1.6f, 1.4f);
+    addPiece(mat, ArmorMaterialStats.TYPE_LEGGINGS, factor*17, l, toughness, knockback, hardnessBase, environmentalBase, ricochetBase, weightBase, 1.3f, 1.1f);
+    addPiece(mat, ArmorMaterialStats.TYPE_BOOTS, factor*14, b, toughness, knockback, hardnessBase, environmentalBase, ricochetBase, weightBase, 0.5f, 0.6f);
+    // el escudo (TYPE_SHIELD) NO se registra: plate_shield no se porta (otro mod del pack lo implementa)
+    addPiece(mat, ArmorMaterialStats.TYPE_MAILLE, factor*5, 1, 0f, 0f, hardnessBase, environmentalBase, ricochetBase, weightBase, 0.4f, 0.4f);
+  }
+
+  /** Registra la stat de una pieza. El peso aporta 50% a KB y 40% a la dureza; las resistencias escalan por cobertura. */
+  private static void addPiece(Material mat, String type, int dur, int armor, float toughness, float knockback,
+                               float hardnessBase, float environmentalBase, float ricochetBase, float weightBase,
+                               float weightFactor, float statFactor) {
+    float weight = -weightBase * weightFactor;
+    float hardness = Math.min(0.9f, hardnessBase * statFactor + (-weight) * 0.4f);
+    float environmental = Math.min(0.9f, environmentalBase * statFactor);
+    float ricochet = Math.min(0.9f, ricochetBase * statFactor);
+    float kb = Math.min(1f, knockback + (-weight) * 0.5f);
+    TinkerRegistry.addMaterialStats(mat, new ArmorMaterialStats(type, dur, armor, toughness, kb, hardness, environmental, weight, ricochet));
   }
 
   @Override

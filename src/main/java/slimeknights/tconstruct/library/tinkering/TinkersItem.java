@@ -457,7 +457,7 @@ public abstract class TinkersItem extends Item implements ITinkerable, IModifyab
         tooltip.add(Util.translate("tooltip.tool.holdShift"));
         tooltip.add(Util.translate("tooltip.tool.holdCtrl"));
 
-        if(world != null) {
+        if(world != null && showsAttackDamageTooltip()) {
           tooltip.add(TextFormatting.BLUE +
                   I18n.format("attribute.modifier.plus.0",
                           Util.df.format(ToolHelper.getActualDamage(stack, Minecraft.getMinecraft().player)),
@@ -479,6 +479,11 @@ public abstract class TinkersItem extends Item implements ITinkerable, IModifyab
   public void getTooltip(ItemStack stack, List<String> tooltips) {
     // Default tooltip: modifiers
     TooltipBuilder.addModifierTooltips(stack, tooltips);
+  }
+
+  /** Si el tooltip debe mostrar la linea de daño de ataque. Las armaduras lo desactivan. */
+  protected boolean showsAttackDamageTooltip() {
+    return true;
   }
 
   @Nonnull

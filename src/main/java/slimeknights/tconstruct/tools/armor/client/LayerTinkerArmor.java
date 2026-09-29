@@ -25,6 +25,7 @@ public class LayerTinkerArmor implements LayerRenderer<EntityLivingBase> {
   private static final ResourceLocation LAYER_2 = Util.getResource("textures/models/armor/plate_layer_2.png");
   private static final java.util.Map<String, ResourceLocation> TEX_CACHE = new java.util.HashMap<>();
   private static final java.util.Map<String, ResourceLocation> MAILLE_CACHE = new java.util.HashMap<>();
+  private static final java.util.Map<String, ResourceLocation> WINGS_CACHE = new java.util.HashMap<>();
 
   public LayerTinkerArmor(RenderLivingBase<?> renderer) {
     this.renderer = renderer;
@@ -52,6 +53,8 @@ public class LayerTinkerArmor implements LayerRenderer<EntityLivingBase> {
       setModelVisible(model, slot);
       renderPlatingLayer(model, texPlating, matPlating, entity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale);
       if(matMaille != null) renderMailleLayer(model, slot, matMaille, entity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale);
+      // alas (maille_wings) en el peto: solo si tiene la habilidad "wings" (ELYTRA), texturizadas por la maille
+      if(slot == EntityEquipmentSlot.CHEST && matMaille != null && hasWings(stack)) renderWingsLayer(model, matMaille, entity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale);
       
     }
   }
@@ -184,6 +187,45 @@ public class LayerTinkerArmor implements LayerRenderer<EntityLivingBase> {
       if(result == null) result = tryResource(new ResourceLocation(Util.MODID, "textures/tinker_armor/plate/" + mailleSub + ".png"));
     } catch(Exception e) {}
     MAILLE_CACHE.put(key, result);
+    return result;
+  }
+
+  /** True si el stack (peto) tiene la habilidad "wings" (ELYTRA). */
+  private static boolean hasWings(ItemStack stack) {
+    try {
+      return stack.hasTagCompound() && TagUtil.getToolTag(stack).getFloat(slimeknights.tconstruct.library.utils.Tags.WINGS) > 0f;
+    } catch(Exception e) {
+      return false;
+    }
+  }
+
+  private void renderWingsLayer(ModelBiped model, Material mat, EntityLivingBase entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scale) {
+    ResourceLocation texWings = getWingsTexture(mat);
+    if(texWings == null) return;
+    GlStateManager.pushMatrix();
+    GlStateManager.enableBlend();
+    try {
+      Minecraft.getMinecraft().getTextureManager().bindTexture(texWings);
+      GlStateManager.color(1f, 1f, 1f, 1f);
+      model.render(entity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale);
+    } catch(Exception e) {
+    } finally {
+      GlStateManager.color(1f, 1f, 1f, 1f);
+      GlStateManager.disableBlend();
+      GlStateManager.popMatrix();
+    }
+  }
+
+  private ResourceLocation getWingsTexture(Material mat) {
+    String m2 = textureSlug(mat);
+    String key = "maille_wings:" + m2;
+    if(WINGS_CACHE.containsKey(key)) return WINGS_CACHE.get(key);
+    ResourceLocation result = null;
+    try {
+      result = tryResource(new ResourceLocation(Util.MODID, "textures/tinker_armor/plate/maille_wings_tconstruct_" + m2 + ".png"));
+      if(result == null) result = tryResource(new ResourceLocation(Util.MODID, "textures/tinker_armor/plate/maille_wings.png"));
+    } catch(Exception e) {}
+    WINGS_CACHE.put(key, result);
     return result;
   }
 

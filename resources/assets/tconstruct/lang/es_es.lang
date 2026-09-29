@@ -1377,3 +1377,24 @@ item.tconstruct.ingots.hepatizon.name=Lingote de Hepatizon
 item.tconstruct.nuggets.queensslime.name=Pepita de Slime Reina
 item.tconstruct.ingots.queensslime.name=Lingote de Slime Reina
 item.tconstruct.adze_head.name=Cabeza de Azuela
+stat.armor.hardness.name=Solidez
+stat.armor.hardness.desc=Probabilidad de no perder durabilidad al recibir golpes.
+stat.armor.environmental.name=Proteccion ambiental
+stat.armor.environmental.desc=Reduce dano de entorno (cactus, rayo, ahogo, hambre, muros).
+stat.armor.weight.name=Peso
+stat.armor.weight.desc=Cambio de velocidad de movimiento de esta pieza.
+stat.armor.ricochet.name=Rebote
+stat.armor.ricochet.desc=Probabilidad de rebotar los proyectiles entrantes.
+
+stat.maille.name=Maille
+
+modifier.wings.name=Alas
+modifier.wings.desc=Permite planear (estilo elytra) y muestra las alas de maille
+modifier.respiration.name=Respiracion
+modifier.respiration.desc=Respirar bajo el agua con el casco puesto
+modifier.aqua_affinity.name=Afinidad acuatica
+modifier.aqua_affinity.desc=Minar a velocidad normal bajo el agua
+modifier.depth_strider.name=Zancada acuatica
+modifier.depth_strider.desc=Moverse mas rapido en el agua
+modifier.long_fall.name=Caida larga
+modifier.long_fall.desc=Reduce mas el dano por caida (se suma a Caida de pluma)

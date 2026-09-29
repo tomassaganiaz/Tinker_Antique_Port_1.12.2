@@ -1,7 +1,7 @@
-﻿{
+{
     "parent": "builtin/generated",
     "textures": {
-        "layer0": "tconstruct:items/armor/plate_boots"
+        "layer0": "tconstruct:items/parts/plating_boots"
     },
     "offset": {
         "x": -2,

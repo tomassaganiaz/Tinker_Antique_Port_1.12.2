@@ -107,6 +107,23 @@ public class TinkerFluids extends TinkerPulse {
     public static FluidMolten honey;
     public static FluidMolten netherite;
 
+  // metales del fork que no tenian version liquida: se les agrega para poder castera la placa (plating)
+  public static FluidMolten ancient;
+  public static FluidMolten osmium;
+  public static FluidMolten necronium;
+  public static FluidMolten knightmetal;
+  public static FluidMolten knightly;
+  public static FluidMolten fiery;
+  public static FluidMolten ironwood;
+  public static FluidMolten steeleaf;
+  public static FluidMolten kobold;
+  public static FluidMolten magnetite;
+  public static FluidMolten jadeite;
+  public static FluidMolten dragonscale;
+  public static FluidMolten nahuatl;
+  public static FluidMolten blazewood;
+  public static FluidMolten slimeskin;
+
   static {
     setupFluids();
   }
@@ -259,6 +276,41 @@ public class TinkerFluids extends TinkerPulse {
     netherite = FluidFactory.metal("netherite", 0x443a3b);
     netherite.setTemperature(1250);
     netherite.setRarity(EnumRarity.EPIC);
+
+    // metales del fork sin fluido: version liquida (color = color del material)
+    ancient = FluidFactory.metal("ancient", 0x4a4a4a);
+    ancient.setTemperature(800);
+    osmium = FluidFactory.metal("osmium", 0x8aa8b8);
+    osmium.setTemperature(700);
+    necronium = FluidFactory.metal("necronium", 0x1a1a2e);
+    necronium.setTemperature(900);
+    necronium.setRarity(EnumRarity.RARE);
+    knightmetal = FluidFactory.metal("knightmetal", 0x8a7f9e);
+    knightmetal.setTemperature(900);
+    knightmetal.setRarity(EnumRarity.RARE);
+    knightly = FluidFactory.metal("knightly", 0x8a7f9e);
+    knightly.setTemperature(900);
+    fiery = FluidFactory.metal("fiery", 0xd4622a);
+    fiery.setTemperature(850);
+    ironwood = FluidFactory.metal("ironwood", 0x8b6b4a);
+    ironwood.setTemperature(600);
+    steeleaf = FluidFactory.metal("steeleaf", 0x6b8f4a);
+    steeleaf.setTemperature(650);
+    kobold = FluidFactory.metal("kobold", 0x2882d4);
+    kobold.setTemperature(700);
+    magnetite = FluidFactory.metal("magnetite", 0xa7a7a7);
+    magnetite.setTemperature(800);
+    jadeite = FluidFactory.metal("jadeite", 0x38d163);
+    jadeite.setTemperature(900);
+    jadeite.setRarity(EnumRarity.RARE);
+    dragonscale = FluidFactory.metal("dragonscale", 0x2f6f5c);
+    dragonscale.setTemperature(800);
+    nahuatl = FluidFactory.metal("nahuatl", 0xbe6e50);
+    nahuatl.setTemperature(600);
+    blazewood = FluidFactory.metal("blazewood", 0xf09628);
+    blazewood.setTemperature(500);
+    slimeskin = FluidFactory.metal("slimeskin", 0x82c873);
+    slimeskin.setTemperature(500);
   }
 
   @SubscribeEvent

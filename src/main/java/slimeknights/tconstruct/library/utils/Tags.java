@@ -50,6 +50,15 @@ public final class Tags {
   public static final String MAGIC_PROTECTION = "MagicProtection";
   public static final String FEATHER_FALLING = "FeatherFalling";
   public static final String MOVEMENT_SPEED = "MovementSpeed";
+  public static final String HARDNESS = "Hardness";
+  public static final String ENVIRONMENTAL_PROTECTION = "EnvironmentalProtection";
+  public static final String WEIGHT = "ArmorWeight";
+  public static final String RICOCHET = "Ricochet";
+  public static final String WINGS = "Wings";
+  public static final String RESPIRATION = "Respiration";
+  public static final String AQUA_AFFINITY = "AquaAffinity";
+  public static final String DEPTH_STRIDER = "DepthStrider";
+  public static final String LONG_FALL = "LongFall";
 
   // bows
   public static final String DRAWSPEED = "DrawSpeed";

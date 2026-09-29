@@ -24,23 +24,40 @@ public class ArmorMaterialStats extends AbstractMaterialStats {
   public static final String LOC_ToughnessDesc = "stat.armor.toughness.desc";
   public static final String LOC_KnockbackResistanceDesc = "stat.armor.knockbackResistance.desc";
   public static final String LOC_KnockbackResistance = "stat.armor.knockbackResistance.name";
+  public static final String LOC_Hardness = "stat.armor.hardness.name";
+  public static final String LOC_Environmental = "stat.armor.environmental.name";
+  public static final String LOC_Weight = "stat.armor.weight.name";
+  public static final String LOC_Ricochet = "stat.armor.ricochet.name";
+
+  public static final String LOC_HardnessDesc = "stat.armor.hardness.desc";
+  public static final String LOC_EnvironmentalDesc = "stat.armor.environmental.desc";
+  public static final String LOC_WeightDesc = "stat.armor.weight.desc";
+  public static final String LOC_RicochetDesc = "stat.armor.ricochet.desc";
 
   public static final String COLOR_Durability = CustomFontColor.valueToColorCode(1f);
   public static final String COLOR_Defense = CustomFontColor.encodeColor(120, 160, 205);
   public static final String COLOR_Toughness = CustomFontColor.encodeColor(200, 120, 120);
   public static final String COLOR_KnockbackResistance = CustomFontColor.encodeColor(180, 180, 80);
+  public static final String COLOR_Hardness = CustomFontColor.encodeColor(190, 150, 90);
+  public static final String COLOR_Environmental = CustomFontColor.encodeColor(110, 200, 130);
+  public static final String COLOR_Weight = CustomFontColor.encodeColor(160, 160, 190);
+  public static final String COLOR_Ricochet = CustomFontColor.encodeColor(200, 190, 110);
 
   public final int durability;
   public final float defense;
   public final float toughness;
   public final float knockbackResistance;
+  public final float hardness;
+  public final float environmentalProtection;
+  public final float weight;
+  public final float ricochet;
 
   public static int getDurabilityMultiplier(String type) {
-    if(TYPE_HELMET.equals(type)) return 11;
-    if(TYPE_CHESTPLATE.equals(type)) return 16;
-    if(TYPE_LEGGINGS.equals(type)) return 15;
-    if(TYPE_BOOTS.equals(type)) return 13;
-    if(TYPE_SHIELD.equals(type)) return 18;
+    if(TYPE_HELMET.equals(type)) return 12;
+    if(TYPE_CHESTPLATE.equals(type)) return 18;
+    if(TYPE_LEGGINGS.equals(type)) return 17;
+    if(TYPE_BOOTS.equals(type)) return 14;
+    if(TYPE_SHIELD.equals(type)) return 20;
     if(TYPE_MAILLE.equals(type)) return 5;
     return 1;
   }
@@ -50,11 +67,20 @@ public class ArmorMaterialStats extends AbstractMaterialStats {
   }
 
   public ArmorMaterialStats(String type, int durability, float defense, float toughness, float knockbackResistance) {
+    this(type, durability, defense, toughness, knockbackResistance, 0f, 0f, 0f, 0f);
+  }
+
+  public ArmorMaterialStats(String type, int durability, float defense, float toughness, float knockbackResistance,
+                            float hardness, float environmentalProtection, float weight, float ricochet) {
     super(type);
     this.durability = durability;
     this.defense = defense;
     this.toughness = toughness;
     this.knockbackResistance = knockbackResistance;
+    this.hardness = hardness;
+    this.environmentalProtection = environmentalProtection;
+    this.weight = weight;
+    this.ricochet = ricochet;
   }
 
   @Override
@@ -64,6 +90,10 @@ public class ArmorMaterialStats extends AbstractMaterialStats {
     if(defense != 0) info.add(formatDefense(defense));
     if(toughness != 0) info.add(formatToughness(toughness));
     if(knockbackResistance != 0) info.add(formatKnockbackResistance(knockbackResistance));
+    if(hardness != 0) info.add(formatHardness(hardness));
+    if(environmentalProtection != 0) info.add(formatEnvironmental(environmentalProtection));
+    if(weight != 0) info.add(formatWeight(weight));
+    if(ricochet != 0) info.add(formatRicochet(ricochet));
     return info;
   }
 
@@ -74,6 +104,10 @@ public class ArmorMaterialStats extends AbstractMaterialStats {
     if(defense != 0) info.add(Util.translate(LOC_DefenseDesc));
     if(toughness != 0) info.add(Util.translate(LOC_ToughnessDesc));
     if(knockbackResistance != 0) info.add(Util.translate(LOC_KnockbackResistanceDesc));
+    if(hardness != 0) info.add(Util.translate(LOC_HardnessDesc));
+    if(environmentalProtection != 0) info.add(Util.translate(LOC_EnvironmentalDesc));
+    if(weight != 0) info.add(Util.translate(LOC_WeightDesc));
+    if(ricochet != 0) info.add(Util.translate(LOC_RicochetDesc));
     return info;
   }
 
@@ -91,5 +125,21 @@ public class ArmorMaterialStats extends AbstractMaterialStats {
 
   public static String formatKnockbackResistance(float v) {
     return formatNumberPercent(LOC_KnockbackResistance, COLOR_KnockbackResistance, v);
+  }
+
+  public static String formatHardness(float v) {
+    return formatNumberPercent(LOC_Hardness, COLOR_Hardness, v);
+  }
+
+  public static String formatEnvironmental(float v) {
+    return formatNumberPercent(LOC_Environmental, COLOR_Environmental, v);
+  }
+
+  public static String formatWeight(float v) {
+    return formatNumber(LOC_Weight, COLOR_Weight, v);
+  }
+
+  public static String formatRicochet(float v) {
+    return formatNumberPercent(LOC_Ricochet, COLOR_Ricochet, v);
   }
 }

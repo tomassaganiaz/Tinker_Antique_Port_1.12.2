@@ -1411,3 +1411,24 @@ item.tconstruct.ingots.hepatizon.name=Hepatizon Ingot
 item.tconstruct.nuggets.queensslime.name=Queen's Slime Nugget
 item.tconstruct.ingots.queensslime.name=Queen's Slime Ingot
 item.tconstruct.adze_head.name=Adze Head
+stat.armor.hardness.name=Hardness
+stat.armor.hardness.desc=Chance to avoid losing durability when hit.
+stat.armor.environmental.name=Environmental Protection
+stat.armor.environmental.desc=Reduces environmental damage (cactus, lightning, drowning, starvation, walls).
+stat.armor.weight.name=Weight
+stat.armor.weight.desc=Movement speed change from this armor piece.
+stat.armor.ricochet.name=Ricochet
+stat.armor.ricochet.desc=Chance to bounce incoming projectiles back.
+
+stat.maille.name=Maille
+
+modifier.wings.name=Wings
+modifier.wings.desc=Grants elytra-style gliding and shows the maille wings
+modifier.respiration.name=Respiration
+modifier.respiration.desc=Breathe underwater while the helmet is worn
+modifier.aqua_affinity.name=Aqua Affinity
+modifier.aqua_affinity.desc=Mine at normal speed underwater
+modifier.depth_strider.name=Depth Strider
+modifier.depth_strider.desc=Move faster in water
+modifier.long_fall.name=Long Fall
+modifier.long_fall.desc=Further reduces fall damage (stacks with Feather Falling)

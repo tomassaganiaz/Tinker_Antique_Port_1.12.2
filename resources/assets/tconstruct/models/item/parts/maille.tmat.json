@@ -1,7 +1,7 @@
-﻿{
+{
   "parent": "builtin/generated",
   "textures": {
-    "layer0": "tconstruct:items/armor/maille"
+    "layer0": "tconstruct:items/parts/maille"
   },
   "offset": {
     "x": -2,

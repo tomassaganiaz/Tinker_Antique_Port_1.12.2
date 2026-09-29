@@ -86,6 +86,16 @@ public class JsonMaterialLoader {
     log.info("JsonMaterialLoader: processed " + count + " json stats (compat with 1.20.1 data-packs)");
   }
 
+  /** Mapeo de los stat types de 1.20.1 (data-pack) a los tipos de pieza del fork. */
+  private static final java.util.LinkedHashMap<String, String> DATAPACK_ARMOR_TYPES = new java.util.LinkedHashMap<>();
+  static {
+    DATAPACK_ARMOR_TYPES.put("tconstruct:plating_helmet", ArmorMaterialStats.TYPE_HELMET);
+    DATAPACK_ARMOR_TYPES.put("tconstruct:plating_chestplate", ArmorMaterialStats.TYPE_CHESTPLATE);
+    DATAPACK_ARMOR_TYPES.put("tconstruct:plating_leggings", ArmorMaterialStats.TYPE_LEGGINGS);
+    DATAPACK_ARMOR_TYPES.put("tconstruct:plating_boots", ArmorMaterialStats.TYPE_BOOTS);
+    DATAPACK_ARMOR_TYPES.put("tconstruct:maille", ArmorMaterialStats.TYPE_MAILLE);
+  }
+
   public static void loadDataPackStats() {
     // 1.20.1 compat: data/tconstruct/tinkering/materials/stats/*.json
     String base = "data/tconstruct/tinkering/materials/stats/";
@@ -93,8 +103,27 @@ public class JsonMaterialLoader {
     int count = 0;
     for(Material mat : TinkerRegistry.getAllMaterials()) {
       JsonObject json = getJson(base + mat.identifier + ".json", loader);
-      if(json != null && json.has("stats")) count++;
+      if(json == null || !json.has("stats")) continue;
+      JsonObject stats = json.getAsJsonObject("stats");
+      boolean applied = false;
+      for(Map.Entry<String, String> entry : DATAPACK_ARMOR_TYPES.entrySet()) {
+        if(!stats.has(entry.getKey())) continue;
+        String type = entry.getValue();
+        JsonObject a = stats.getAsJsonObject(entry.getKey());
+        int dur = a.has("durability") ? a.get("durability").getAsInt() : 0;
+        float def = a.has("armor") ? a.get("armor").getAsFloat() : 0f;
+        float tough = a.has("toughness") ? a.get("toughness").getAsFloat() : 0f;
+        float kb = a.has("knockback_resistance") ? a.get("knockback_resistance").getAsFloat() : 0f;
+        float hard = a.has("hardness") ? a.get("hardness").getAsFloat() : 0f;
+        float env = a.has("environmental_protection") ? a.get("environmental_protection").getAsFloat() : 0f;
+        float weight = a.has("weight") ? a.get("weight").getAsFloat() : 0f;
+        float rico = a.has("ricochet") ? a.get("ricochet").getAsFloat() : 0f;
+        // el data-pack 1.20.1 manda: reemplaza la stat de esa pieza si ya existia
+        TinkerRegistry.addMaterialStats(mat, new ArmorMaterialStats(type, dur, def, tough, kb, hard, env, weight, rico));
+        applied = true;
+      }
+      if(applied) count++;
     }
-    if(count > 0) log.info("Data-pack stats found: " + count + " (1.20.1 compat)");
+    if(count > 0) log.info("Data-pack stats applied: " + count + " (1.20.1 compat)");
   }
 }

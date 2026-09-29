@@ -2,6 +2,7 @@ package slimeknights.tconstruct.tools.armor.item;
 
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
+import java.util.List;
 import java.util.UUID;
 import javax.annotation.Nonnull;
 import net.minecraft.entity.Entity;
@@ -27,6 +28,7 @@ import slimeknights.tconstruct.library.utils.TagUtil;
 import slimeknights.tconstruct.library.utils.TinkerUtil;
 import slimeknights.tconstruct.library.utils.ToolHelper;
 import slimeknights.tconstruct.library.utils.Tags;
+import slimeknights.tconstruct.library.utils.TooltipBuilder;
 import slimeknights.tconstruct.tools.armor.ArmorNBT;
 
 public abstract class ArmorCore extends ToolCore {
@@ -80,6 +82,61 @@ public abstract class ArmorCore extends ToolCore {
   }
 
   @Override
+  public void getTooltip(ItemStack stack, List<String> tooltips) {
+    if(ToolHelper.isBroken(stack)) {
+      tooltips.add("" + net.minecraft.util.text.TextFormatting.DARK_RED + net.minecraft.util.text.TextFormatting.BOLD + getBrokenTooltip(stack));
+    }
+    addArmorStatTooltips(stack, tooltips);
+    super.getTooltip(stack, tooltips);
+  }
+
+  @Override
+  public List<String> getInformation(ItemStack stack, boolean detailed) {
+    TooltipBuilder info = new TooltipBuilder(stack);
+    List<String> stats = new java.util.ArrayList<>();
+    addArmorStatTooltips(stack, stats);
+    for(String line : stats) {
+      info.add(line);
+    }
+    if(ToolHelper.getFreeModifiers(stack) > 0) {
+      info.addFreeModifiers();
+    }
+    if(detailed) {
+      info.addModifierInfo();
+    }
+    return info.getTooltip();
+  }
+
+  /** Una armadura no muestra daño (es armadura, no un arma). */
+  @Override
+  protected boolean showsAttackDamageTooltip() {
+    return false;
+  }
+
+  /** Stats defensivas de la armadura: durabilidad, defensa, dureza, KB, solidez, ambiental, peso y rebote. */
+  private void addArmorStatTooltips(ItemStack stack, List<String> tips) {
+    if(!stack.hasTagCompound()) {
+      return;
+    }
+    NBTTagCompound tag = TagUtil.getToolTag(stack);
+    tips.add(ArmorMaterialStats.formatDurability(ToolHelper.getCurrentDurability(stack)));
+    float defense = tag.getFloat(Tags.DEFENSE);
+    if(defense > 0) tips.add(ArmorMaterialStats.formatDefense(defense));
+    float toughness = tag.getFloat(Tags.TOUGHNESS);
+    if(toughness > 0) tips.add(ArmorMaterialStats.formatToughness(toughness));
+    float knockback = tag.getFloat(Tags.KNOCKBACK_RESISTANCE);
+    if(knockback > 0) tips.add(ArmorMaterialStats.formatKnockbackResistance(knockback));
+    float hardness = tag.getFloat(Tags.HARDNESS);
+    if(hardness > 0) tips.add(ArmorMaterialStats.formatHardness(hardness));
+    float environmental = tag.getFloat(Tags.ENVIRONMENTAL_PROTECTION);
+    if(environmental > 0) tips.add(ArmorMaterialStats.formatEnvironmental(environmental));
+    float weight = tag.getFloat(Tags.WEIGHT);
+    if(weight != 0) tips.add(ArmorMaterialStats.formatWeight(weight));
+    float ricochet = tag.getFloat(Tags.RICOCHET);
+    if(ricochet > 0) tips.add(ArmorMaterialStats.formatRicochet(ricochet));
+  }
+
+  @Override
   public boolean isValidArmor(ItemStack stack, EntityEquipmentSlot armorType, Entity entity) {
     return armorType == this.armorType;
   }
@@ -97,15 +154,19 @@ public abstract class ArmorCore extends ToolCore {
   @Nonnull
   @Override
   public Multimap<String, AttributeModifier> getAttributeModifiers(@Nonnull EntityEquipmentSlot slot, ItemStack stack) {
-    Multimap<String, AttributeModifier> multimap = super.getAttributeModifiers(slot, stack);
-    int idx = getArmorIndex(slot);
-    if(idx < 0 || slot != this.armorType || ToolHelper.isBroken(stack) || !stack.hasTagCompound()) {
-      return multimap;
+    // la armadura solo otorga atributos en su propio slot; nada de "when in main hand" (daño)
+    if(slot != this.armorType || ToolHelper.isBroken(stack) || !stack.hasTagCompound()) {
+      return HashMultimap.create();
     }
+    int idx = getArmorIndex(slot);
+    if(idx < 0) {
+      return HashMultimap.create();
+    }
+    Multimap<String, AttributeModifier> multimap = HashMultimap.create();
     NBTTagCompound tag = TagUtil.getToolTag(stack);
     float defense = tag.getFloat(Tags.DEFENSE);
     float toughness = tag.getFloat(Tags.TOUGHNESS);
-    float speed = tag.getFloat(Tags.MOVEMENT_SPEED);
+    float speed = tag.getFloat(Tags.MOVEMENT_SPEED) + tag.getFloat(Tags.WEIGHT);
     if(defense > 0) {
       multimap.put(SharedMonsterAttributes.ARMOR.getName(), new AttributeModifier(ARMOR_MODIFIERS[idx], "Armor modifier", defense, 0));
     }

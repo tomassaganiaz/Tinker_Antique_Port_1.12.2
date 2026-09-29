@@ -1,0 +1,32 @@
+{
+    "textures": {
+        "arrow": "tconstruct:items/arrow/mod_netherite",
+        "battleaxe": "tconstruct:items/battleaxe/mod_netherite",
+        "battlesign": "tconstruct:items/battlesign/mod_netherite",
+        "bolt": "tconstruct:items/bolt/mod_netherite",
+        "broadsword": "tconstruct:items/broadsword/mod_netherite",
+        "cleaver": "tconstruct:items/cleaver/mod_netherite",
+        "crossbow": "tconstruct:items/crossbow/mod_netherite",
+        "excavator": "tconstruct:items/excavator/mod_netherite",
+        "frypan": "tconstruct:items/frypan/mod_netherite",
+        "hammer": "tconstruct:items/hammer/mod_netherite",
+        "hatchet": "tconstruct:items/hatchet/mod_netherite",
+        "kama": "tconstruct:items/kama/mod_netherite",
+        "longbow": "tconstruct:items/longbow/mod_netherite",
+        "longbow1": "tconstruct:items/longbow/mod_netherite",
+        "longbow2": "tconstruct:items/longbow/mod_netherite",
+        "longbow3": "tconstruct:items/longbow/mod_netherite",
+        "longsword": "tconstruct:items/longsword/mod_netherite",
+        "lumberaxe": "tconstruct:items/lumberaxe/mod_netherite",
+        "mattock": "tconstruct:items/mattock/mod_netherite",
+        "pickaxe": "tconstruct:items/pickaxe/mod_netherite",
+        "rapier": "tconstruct:items/rapier/mod_netherite",
+        "scythe": "tconstruct:items/scythe/mod_netherite",
+        "shortbow": "tconstruct:items/shortbow/mod_netherite",
+        "shortbow1": "tconstruct:items/shortbow/mod_netherite",
+        "shortbow2": "tconstruct:items/shortbow/mod_netherite",
+        "shortbow3": "tconstruct:items/shortbow/mod_netherite",
+        "shovel": "tconstruct:items/shovel/mod_netherite",
+        "shuriken": "tconstruct:items/shuriken/mod_netherite"
+    }
+}

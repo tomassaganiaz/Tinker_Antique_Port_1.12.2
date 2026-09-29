@@ -6,9 +6,10 @@
     {"text": "Requires 4 plating units, crafted in the Tool Station."}
   ],
   "properties": [
-    "Feet armor",
+    "Feet armor, the lightest piece",
     "Feather Falling reduces fall damage 12% per level",
-    "Double Jump (slime) gives mid-air jump",
-    "Bouncy traits supported"
+    "Double Jump (slime) gives a mid-air jump",
+    "Ricochet gives a chance to bounce arrows back",
+    "Material determines durability, defense, toughness and knockback resistance"
   ]
 }

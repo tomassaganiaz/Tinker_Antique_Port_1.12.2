@@ -733,6 +733,25 @@ public final class TinkerMaterials {
     blood.addTrait(splintering, HEAD);
     blood.addTrait(raging);
 
+    // metales sin fluido: se les agrega su version liquida para poder fundir/castear la placa (plating)
+    linkMolten(ancient, TinkerFluids.ancient);
+    linkMolten(osmium, TinkerFluids.osmium);
+    linkMolten(necronium, TinkerFluids.necronium);
+    linkMolten(knightmetal, TinkerFluids.knightmetal);
+    linkMolten(knightly, TinkerFluids.knightly);
+    linkMolten(fiery, TinkerFluids.fiery);
+    linkMolten(ironwood, TinkerFluids.ironwood);
+    linkMolten(steeleaf, TinkerFluids.steeleaf);
+    linkMolten(kobold, TinkerFluids.kobold);
+    linkMolten(magnetite, TinkerFluids.magnetite);
+    linkMolten(jadeite, TinkerFluids.jadeite);
+    linkMolten(dragonscale, TinkerFluids.dragonscale);
+    linkMolten(nahuatl, TinkerFluids.nahuatl);
+    linkMolten(blazewood, TinkerFluids.blazewood);
+    linkMolten(slimeskin, TinkerFluids.slimeskin);
+    linkMolten(amethyst, TinkerFluids.amethyst);
+    linkMolten(quartz, TinkerFluids.quartz);
+
     // Common Metals
     copper.addCommonItems("Copper");
     copper.addTrait(established);
@@ -885,6 +904,12 @@ public final class TinkerMaterials {
     magma.setCraftable(true); magma.addItemIngot("slimecrystalMagma");
     enderslimeVine.setCraftable(true); safeAdd(enderslimeVine, new ItemStack(TinkerWorld.slimeVinePurple1), Material.VALUE_Ingot, true);
     for(Material m : new Material[]{slimesteel, cinderslime, amethystbronze, rosegold, queensslime, hepatizon, blazingbone, ancient, netherite, scrap, constantan, invar, pewter, nicrosil, necronium, slime, blueslime, knightslime, magmaslime, steel, bronze, copper, tin, aluminum, lead, silver, electrum, nickel, alubrass, alumite, obsidian, searedstone, scorchedstone}) if(m != null && m.hasItems()) m.setVisible();
+  }
+
+  /** Enlaza un fluido a un material para volverlo fundible/casteable (necesario para craftear plating). */
+  private static void linkMolten(Material material, net.minecraftforge.fluids.Fluid fluid) {
+    material.setFluid(fluid);
+    material.setCastable(true);
   }
 
   /**

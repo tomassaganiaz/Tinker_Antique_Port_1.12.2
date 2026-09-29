@@ -1,0 +1,19 @@
+{
+  "title": "Maille",
+  "text": [
+    {
+      "text": "Maille is the inner chain layer of plate armor. Each plated piece can be built with a maille part on top of the plating, adding extra protection."
+    },
+    {
+      "text": "\n"
+    },
+    {
+      "text": "The maille only contributes part of its stats: defense, toughness, knockback resistance, hardness, environmental protection, weight and ricochet are added at 50%, and durability at 25%.",
+      "paragraph": true
+    },
+    {
+      "text": "Light materials (leather, vine, slime) make a light maille; heavy metals make a heavier, tougher one. Choose the maille to tune the final weight and resistances of your armor.",
+      "paragraph": true
+    }
+  ]
+}

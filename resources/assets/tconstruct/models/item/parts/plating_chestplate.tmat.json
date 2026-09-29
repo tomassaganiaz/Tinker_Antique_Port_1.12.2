@@ -1,7 +1,7 @@
-﻿{
+{
     "parent": "builtin/generated",
     "textures": {
-        "layer0": "tconstruct:items/armor/plate_chestplate"
+        "layer0": "tconstruct:items/parts/plating_chestplate"
     },
     "offset": {
         "x": -2,

@@ -27,6 +27,6 @@ public final class Reference {
         ARMOR_TYPES.add(slimeknights.tconstruct.library.materials.ArmorMaterialStats.TYPE_CHESTPLATE);
         ARMOR_TYPES.add(slimeknights.tconstruct.library.materials.ArmorMaterialStats.TYPE_LEGGINGS);
         ARMOR_TYPES.add(slimeknights.tconstruct.library.materials.ArmorMaterialStats.TYPE_BOOTS);
-        ARMOR_TYPES.add(slimeknights.tconstruct.library.materials.ArmorMaterialStats.TYPE_SHIELD);
+        ARMOR_TYPES.add(slimeknights.tconstruct.library.materials.ArmorMaterialStats.TYPE_MAILLE);
     }
 }

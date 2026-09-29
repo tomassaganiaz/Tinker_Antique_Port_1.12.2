@@ -46,6 +46,8 @@ public class ArmorEventHandler {
     EntityPlayer p = (EntityPlayer) event.getEntity();
     DamageSource src = event.getSource();
     float red = 0f;
+    float hardness = 0f;
+    float ricochet = 0f;
     int thornsLvl = 0;
     int strengthLvl = 0;
     int shulkingLvl = 0;
@@ -59,7 +61,10 @@ public class ArmorEventHandler {
       if(src.isMagicDamage()) red += tag.getFloat(Tags.MAGIC_PROTECTION) * 0.10f;
       if(src.isProjectile()) red += tag.getFloat(Tags.PROJECTILE_PROTECTION) * 0.10f;
       if(src.isExplosion()) red += tag.getFloat(Tags.BLAST_PROTECTION) * 0.10f;
-      if("fall".equals(src.getDamageType())) red += tag.getFloat(Tags.FEATHER_FALLING) * 0.12f;
+      if("fall".equals(src.getDamageType())) red += (tag.getFloat(Tags.FEATHER_FALLING) * 0.12f + tag.getFloat(Tags.LONG_FALL) * 0.08f);
+      if(isEnvironmentalDamage(src)) red += tag.getFloat(Tags.ENVIRONMENTAL_PROTECTION) * 0.15f;
+      hardness += tag.getFloat(Tags.HARDNESS);
+      ricochet = Math.max(ricochet, tag.getFloat(Tags.RICOCHET));
       net.minecraft.nbt.NBTTagList mods = TagUtil.getModifiersTagList(s);
       for(int i=0;i<mods.tagCount();i++) {
         net.minecraft.nbt.NBTTagCompound mtag = mods.getCompoundTagAt(i);
@@ -105,17 +110,49 @@ public class ArmorEventHandler {
       int duration = strengthLvl * 5 * 20;
       p.addPotionEffect(new net.minecraft.potion.PotionEffect(net.minecraft.init.MobEffects.STRENGTH, duration, 0, false, true));
     }
+    // ricochet: chance de rebotar el proyectil en vez de recibir el golpe
+    if(!event.isCanceled() && src.isProjectile() && ricochet > 0 && p.getRNG().nextFloat() < Math.min(1f, ricochet)) {
+      if(src.getImmediateSource() instanceof net.minecraft.entity.projectile.EntityArrow) {
+        net.minecraft.entity.projectile.EntityArrow arrow = (net.minecraft.entity.projectile.EntityArrow) src.getImmediateSource();
+        arrow.motionX = -arrow.motionX;
+        arrow.motionY = -arrow.motionY;
+        arrow.motionZ = -arrow.motionZ;
+      }
+      event.setCanceled(true);
+      return;
+    }
     if(red > 0) event.setAmount(event.getAmount() * (1f - Math.min(0.8f, red)));
     // vanilla only damages instanceof ItemArmor, so Tinker armor would never wear down: damage one random piece per hit
     if(!event.isCanceled() && event.getAmount() > 0 && !src.isUnblockable()) {
-      java.util.List<ItemStack> wearable = new java.util.ArrayList<>();
-      for(ItemStack s : p.getArmorInventoryList()) {
-        if(s.getItem() instanceof ArmorCore && s.hasTagCompound()) wearable.add(s);
+      // hardness reduce la chance de desgastar una pieza
+      float durResistance = Math.min(0.9f, hardness);
+      if(p.getRNG().nextFloat() >= durResistance) {
+        java.util.List<ItemStack> wearable = new java.util.ArrayList<>();
+        for(ItemStack s : p.getArmorInventoryList()) {
+          if(s.getItem() instanceof ArmorCore && s.hasTagCompound()) wearable.add(s);
+        }
+        if(!wearable.isEmpty()) {
+          ItemStack damaged = wearable.get(p.getRNG().nextInt(wearable.size()));
+          slimeknights.tconstruct.library.utils.ToolHelper.damageTool(damaged, 1, p);
+        }
       }
-      if(!wearable.isEmpty()) {
-        ItemStack damaged = wearable.get(p.getRNG().nextInt(wearable.size()));
-        slimeknights.tconstruct.library.utils.ToolHelper.damageTool(damaged, 1, p);
-      }
+    }
+  }
+
+  /** Daño de entorno: cactus, rayo, ahogo, hambre, choque con muro, etc. (no cubierto por las protecciones existentes).
+   *  OJO: no incluir "fall" — ya lo cubre Feather Falling (evita doble conteo). */
+  private static boolean isEnvironmentalDamage(DamageSource source) {
+    String type = source.getDamageType();
+    return "cactus".equals(type) || "lightningBolt".equals(type) || "drown".equals(type)
+        || "starve".equals(type) || "flyIntoWall".equals(type) || "inWall".equals(type)
+        || "hotFloor".equals(type) || "outOfWorld".equals(type);
+  }
+
+  /** Reaplica un efecto de poción si esta por expirar (usado por Respiration/Aqua Affinity/Depth Strider). */
+  private static void ensureEffect(EntityPlayer p, net.minecraft.potion.Potion potion, int duration, int amplifier) {
+    net.minecraft.potion.PotionEffect current = p.getActivePotionEffect(potion);
+    if(current == null || current.getDuration() < 40) {
+      p.addPotionEffect(new net.minecraft.potion.PotionEffect(potion, duration, amplifier, false, false));
     }
   }
 
@@ -152,6 +189,28 @@ public class ArmorEventHandler {
         slimeknights.tconstruct.library.modifiers.ModifierNBT data = slimeknights.tconstruct.library.modifiers.ModifierNBT.readTag(mods.getCompoundTagAt(i));
         if("revitalizing".equals(data.identifier)) total += data.level == 0 ? 1 : data.level;
       }
+    }
+    // respiration / aqua affinity / depth strider / wings
+    boolean resp = false, aqua = false, wings = false;
+    float depth = 0f;
+    for(ItemStack s : p.getArmorInventoryList()) {
+      if(!(s.getItem() instanceof ArmorCore) || !s.hasTagCompound()
+          || slimeknights.tconstruct.library.utils.ToolHelper.isBroken(s)) continue;
+      NBTTagCompound tag = TagUtil.getToolTag(s);
+      if(tag.getFloat(Tags.RESPIRATION) > 0) resp = true;
+      if(tag.getFloat(Tags.AQUA_AFFINITY) > 0) aqua = true;
+      depth += tag.getFloat(Tags.DEPTH_STRIDER);
+      if(tag.getFloat(Tags.WINGS) > 0) wings = true;
+    }
+    if(p.isInWater()) {
+      if(resp) ensureEffect(p, net.minecraft.init.MobEffects.WATER_BREATHING, 200, 0);
+      if(aqua) ensureEffect(p, net.minecraft.init.MobEffects.HASTE, 200, 0);
+      if(depth > 0) ensureEffect(p, net.minecraft.init.MobEffects.SPEED, 60, 0);
+    }
+    // wings (ELYTRA): planeo simplificado (slow-fall) mientras se cae
+    if(wings && !p.onGround && !p.isInWater() && !p.capabilities.isFlying && !p.isElytraFlying() && p.motionY < 0) {
+      p.fallDistance = 0f;
+      p.motionY = Math.max(p.motionY, -0.35);
     }
     IAttributeInstance maxHealth = p.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH);
     AttributeModifier mod = maxHealth.getModifier(REVITALIZING_UUID);

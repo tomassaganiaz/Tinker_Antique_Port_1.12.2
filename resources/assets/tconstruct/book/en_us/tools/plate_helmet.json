@@ -7,8 +7,9 @@
   ],
   "properties": [
     "Head armor",
-    "Material determines defense and toughness",
-    "Supports modifiers: Protection, Feather Falling, Double Jump",
+    "Material determines durability, defense, toughness and knockback resistance",
+    "Stats: Hardness (less durability loss), Environmental Protection, Weight and Ricochet",
+    "Supports modifiers: Protection variants, Feather Falling, Double Jump",
     "Repairable with plating material"
   ]
 }
