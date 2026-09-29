@@ -25,8 +25,8 @@ import slimeknights.tconstruct.library.utils.ToolBuilder;
 
 public class ModLuck extends ModifierTrait {
 
-  protected static final int baseCount = 60;
-  protected static final int maxLevel = 3;
+  static final int baseCount = 60;
+  static final int maxLevel = 3;
 
   // we have a bit of redundancy going on here with the luckAspect and the trait class
   private final LuckAspect aspect;
@@ -138,25 +138,4 @@ public class ModLuck extends ModifierTrait {
     return tooltip;
   }
 
-  public static class LuckAspect extends MultiAspect {
-
-    public LuckAspect(IModifier parent) {
-      super(parent, 0x5a82e2, maxLevel, baseCount, 1);
-
-      freeModifierAspect = new FreeFirstModifierAspect(parent, 1);
-    }
-
-    @Override
-    protected int getMaxForLevel(int level) {
-      return (countPerLevel * level * (level + 1)) / 2; // sum(n)
-    }
-
-    public int getLevel(int current) {
-      int i = 0;
-      while(current >= getMaxForLevel(i + 1)) {
-        i++;
-      }
-      return i;
-    }
-  }
 }

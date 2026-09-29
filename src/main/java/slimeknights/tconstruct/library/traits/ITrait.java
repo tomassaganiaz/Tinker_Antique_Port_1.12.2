@@ -17,6 +17,7 @@ import net.minecraftforge.event.world.BlockEvent;
 
 import javax.annotation.Nonnull;
 
+import slimeknights.tconstruct.library.events.OnRepair;
 import slimeknights.tconstruct.library.modifiers.IToolMod;
 
 /**

@@ -31,6 +31,7 @@ import slimeknights.tconstruct.library.materials.MaterialTypes;
 import slimeknights.tconstruct.library.tinkering.PartMaterialType;
 import slimeknights.tconstruct.library.tools.ToolNBT;
 import slimeknights.tconstruct.library.utils.ToolHelper;
+import slimeknights.tconstruct.library.events.ExtraBlockBreak;
 import slimeknights.tconstruct.tools.TinkerTools;
 
 public class Scythe extends Kama {
@@ -108,7 +109,7 @@ public class Scythe extends Kama {
     }
 
     // increase the size based on the AOE stuffs
-    TinkerToolEvent.ExtraBlockBreak event = TinkerToolEvent.ExtraBlockBreak.fireEvent(stack, player, player.getEntityWorld().getBlockState(target.getPosition()), 3, 3, 3, -1);
+    ExtraBlockBreak event = ExtraBlockBreak.fireEvent(stack, player, player.getEntityWorld().getBlockState(target.getPosition()), 3, 3, 3, -1);
     if(event.isCanceled()) {
       return false;
     }
@@ -134,7 +135,7 @@ public class Scythe extends Kama {
     return hit;
   }
 
-  private List<Entity> getAoeEntities(EntityPlayer player, Entity target, TinkerToolEvent.ExtraBlockBreak event) {
+  private List<Entity> getAoeEntities(EntityPlayer player, Entity target, ExtraBlockBreak event) {
     int width = (event.width - 1) / 2;
     int height = (event.height - 1) / 2;
     AxisAlignedBB box = target.getEntityBoundingBox().grow(width, height, width);
@@ -153,7 +154,7 @@ public class Scythe extends Kama {
     }
 
     // increase the size based on the AOE stuffs
-    TinkerToolEvent.ExtraBlockBreak event = TinkerToolEvent.ExtraBlockBreak.fireEvent(stack, player, player.getEntityWorld().getBlockState(target.getPosition()), 3, 3, 3, -1);
+    ExtraBlockBreak event = ExtraBlockBreak.fireEvent(stack, player, player.getEntityWorld().getBlockState(target.getPosition()), 3, 3, 3, -1);
     if(event.isCanceled()) {
       return false;
     }

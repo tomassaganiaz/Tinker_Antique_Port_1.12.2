@@ -31,6 +31,7 @@ import slimeknights.tconstruct.shared.inventory.InventoryCraftingPersistent;
 import slimeknights.tconstruct.tools.common.block.BlockToolTable;
 import slimeknights.tconstruct.tools.common.client.GuiPartBuilder;
 import slimeknights.tconstruct.tools.common.tileentity.TilePartBuilder;
+import slimeknights.tconstruct.library.events.ToolPartCraftingEvent;
 import slimeknights.tconstruct.tools.common.tileentity.TilePatternChest;
 
 public class ContainerPartBuilder extends ContainerTinkerStation<TilePartBuilder> implements IContainerCraftingCustom {
@@ -130,7 +131,7 @@ public class ContainerPartBuilder extends ContainerTinkerStation<TilePartBuilder
       try {
         toolPart = ToolBuilder.tryBuildToolPart(patternSlot.getStack(), ListUtil.getListFrom(input1.getStack(), input2.getStack()), false);
         if(toolPart != null && !toolPart.get(0).isEmpty()) {
-          TinkerCraftingEvent.ToolPartCraftingEvent.fireEvent(toolPart.get(0), player);
+          ToolPartCraftingEvent.fireEvent(toolPart.get(0), player);
         }
       } catch(TinkerGuiException e) {
         toolPart = null;

@@ -14,6 +14,8 @@ import slimeknights.tconstruct.library.events.TinkerToolEvent;
 import slimeknights.tconstruct.library.traits.AbstractProjectileTrait;
 import slimeknights.tconstruct.library.utils.TagUtil;
 import slimeknights.tconstruct.library.utils.TinkerUtil;
+import slimeknights.tconstruct.library.events.OnBowShoot;
+import slimeknights.tconstruct.library.events.OnLaunch;
 import slimeknights.tconstruct.tools.ranged.TinkerRangedWeapons;
 
 public class TraitEndspeed extends AbstractProjectileTrait {
@@ -27,7 +29,7 @@ public class TraitEndspeed extends AbstractProjectileTrait {
 
 
   @SubscribeEvent
-  public void onBowShooting(TinkerToolEvent.OnBowShoot event) {
+  public void onBowShooting(OnBowShoot event) {
     if(TinkerUtil.hasTrait(TagUtil.getTagSafe(event.ammo), this.getModifierIdentifier())) {
       event.setBaseInaccuracy(event.getBaseInaccuracy()*2f/3f);
     }

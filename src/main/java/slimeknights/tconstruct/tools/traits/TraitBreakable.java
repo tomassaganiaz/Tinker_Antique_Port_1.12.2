@@ -7,6 +7,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import slimeknights.tconstruct.library.events.ProjectileEvent;
 import slimeknights.tconstruct.library.traits.AbstractTrait;
 import slimeknights.tconstruct.library.utils.TagUtil;
+import slimeknights.tconstruct.library.events.OnHitBlock;
 import slimeknights.tconstruct.library.utils.TinkerUtil;
 
 public class TraitBreakable extends AbstractTrait {
@@ -20,7 +21,7 @@ public class TraitBreakable extends AbstractTrait {
   }
 
   @SubscribeEvent
-  public void onHitBlock(ProjectileEvent.OnHitBlock event) {
+  public void onHitBlock(OnHitBlock event) {
     if(event.projectile != null && !event.projectile.getEntityWorld().isRemote) {
 
       ItemStack itemStack = event.projectile.tinkerProjectile.getItemStack();

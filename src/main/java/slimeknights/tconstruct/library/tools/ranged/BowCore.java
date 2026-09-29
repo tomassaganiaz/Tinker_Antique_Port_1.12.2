@@ -45,6 +45,8 @@ import slimeknights.tconstruct.library.tools.ProjectileLauncherNBT;
 import slimeknights.tconstruct.library.utils.AmmoHelper;
 import slimeknights.tconstruct.library.utils.TagUtil;
 import slimeknights.tconstruct.library.utils.ToolHelper;
+import slimeknights.tconstruct.library.events.OnBowShoot;
+import slimeknights.tconstruct.library.events.OnLaunch;
 import slimeknights.tconstruct.tools.ranged.TinkerRangedWeapons;
 
 public abstract class BowCore extends ProjectileLauncherCore implements IAmmoUser, ILauncher {
@@ -190,7 +192,7 @@ public abstract class BowCore extends ProjectileLauncherCore implements IAmmoUse
     power *= ProjectileLauncherNBT.from(bow).range;
 
     if(!worldIn.isRemote) {
-      TinkerToolEvent.OnBowShoot event = TinkerToolEvent.OnBowShoot.fireEvent(bow, ammoIn, player, useTime, baseInaccuracy());
+      OnBowShoot event = OnBowShoot.fireEvent(bow, ammoIn, player, useTime, baseInaccuracy());
 
       // copied because consumeAmmo can delete vanilla stacks
       ItemStack ammoStackToShoot = ammoIn.copy();
@@ -206,7 +208,7 @@ public abstract class BowCore extends ProjectileLauncherCore implements IAmmoUse
         }
         EntityArrow projectile = getProjectileEntity(ammoStackToShoot, bow, worldIn, player, power, inaccuracy, progress*progress, usedAmmo);
 
-        if(projectile != null && ProjectileEvent.OnLaunch.fireEvent(projectile, bow, player)) {
+        if(projectile != null && OnLaunch.fireEvent(projectile, bow, player)) {
           if(progress >= 1f) {
             projectile.setIsCritical(true);
           }

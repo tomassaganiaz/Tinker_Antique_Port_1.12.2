@@ -33,6 +33,7 @@ import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.common.TinkerNetwork;
 import slimeknights.tconstruct.library.events.TinkerToolEvent;
 import slimeknights.tconstruct.library.tools.ToolCore;
+import slimeknights.tconstruct.library.events.ExtraBlockBreak;
 import slimeknights.tconstruct.tools.TinkerModifiers;
 
 /** 
@@ -152,7 +153,7 @@ ToolMiningHelper
     }
 
     // fire event
-    TinkerToolEvent.ExtraBlockBreak event = TinkerToolEvent.ExtraBlockBreak.fireEvent(stack, player, state, width, height, depth, distance);
+    ExtraBlockBreak event = ExtraBlockBreak.fireEvent(stack, player, state, width, height, depth, distance);
     if(event.isCanceled()) {
       return ImmutableList.of();
     }

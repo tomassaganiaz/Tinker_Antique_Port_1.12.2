@@ -308,7 +308,7 @@ public class BlockSlimeChannel extends EnumBlock<SlimeType> implements ITileEnti
       EnumFacing side = state.getValue(SIDE);
 
       // only apply movement if the entity is within the liquid
-      if(entityAABB.intersects(getBounds(state, world, pos).offset(pos))) {
+      if(entityAABB.intersects(SlimeChannelShapes.getBounds(state, world, pos).offset(pos))) {
         inBounds = true; // tell the other bounding box not to reduce gravity again
         // no drowining in slime channels
         if(entity.isEntityAlive()) {
@@ -337,7 +337,7 @@ public class BlockSlimeChannel extends EnumBlock<SlimeType> implements ITileEnti
 
       // apply additional movement based on the "connected" bounding box
       ChannelConnected connected = state.getValue(CONNECTED);
-      if(connected == ChannelConnected.OUTER && entityAABB.intersects(getSecondaryBounds(state).offset(pos))) {
+      if(connected == ChannelConnected.OUTER && entityAABB.intersects(SlimeChannelShapes.getSecondaryBounds(state).offset(pos))) {
         // only run this if not already in bounds above
         // mainly to remove redundancy, but it does have an effect with the fall speed
         if(!inBounds) {
@@ -382,12 +382,12 @@ public class BlockSlimeChannel extends EnumBlock<SlimeType> implements ITileEnti
 
     // main bounding box
     state = state.getActualState(world, pos); // connected properties
-    if(entityAABB.intersects(getBounds(state, world, pos).offset(pos))) {
+    if(entityAABB.intersects(SlimeChannelShapes.getBounds(state, world, pos).offset(pos))) {
       return Boolean.TRUE;
     }
     // extra box used on sideways channels
     else if(state.getValue(CONNECTED) == ChannelConnected.OUTER
-            && entityAABB.intersects(getSecondaryBounds(state).offset(pos))) {
+            && entityAABB.intersects(SlimeChannelShapes.getSecondaryBounds(state).offset(pos))) {
       return Boolean.TRUE;
     }
 
@@ -419,47 +419,6 @@ public class BlockSlimeChannel extends EnumBlock<SlimeType> implements ITileEnti
     }
   }
 
-  /* Bounds */
-  // Block hitbox and main location for motion
-  private static final ImmutableMap<EnumFacing, AxisAlignedBB> BOUNDS;
-  // "quarter slab" bounds on bottom used for location checks on connected blocks
-  private static final ImmutableMap<EnumFacing, AxisAlignedBB> LOWER_BOUNDS;
-  // "quarter slab" bounds on side for sideways connected
-  private static final ImmutableMap<EnumFacing, AxisAlignedBB> SIDE_BOUNDS;
-  // "quarter slab" bounds on top for bottom outer connected
-  private static final ImmutableMap<EnumFacing, AxisAlignedBB> UPPER_BOUNDS;
-
-  static {
-    ImmutableMap.Builder<EnumFacing, AxisAlignedBB> builder = ImmutableMap.builder();
-    builder.put(EnumFacing.UP, new AxisAlignedBB(0, 0.5, 0, 1, 1, 1));
-    builder.put(EnumFacing.DOWN, new AxisAlignedBB(0, 0, 0, 1, 0.5, 1));
-    builder.put(EnumFacing.NORTH, new AxisAlignedBB(0, 0, 0, 1, 1, 0.5));
-    builder.put(EnumFacing.SOUTH, new AxisAlignedBB(0, 0, 0.5, 1, 1, 1));
-    builder.put(EnumFacing.WEST, new AxisAlignedBB(0, 0, 0, 0.5, 1, 1));
-    builder.put(EnumFacing.EAST, new AxisAlignedBB(0.5, 0, 0, 1, 1, 1));
-    BOUNDS = builder.build();
-
-    builder = ImmutableMap.builder();
-    builder.put(EnumFacing.NORTH, new AxisAlignedBB(0, 0, 0, 1, 0.5, 0.5));
-    builder.put(EnumFacing.SOUTH, new AxisAlignedBB(0, 0, 0.5, 1, 0.5, 1));
-    builder.put(EnumFacing.WEST, new AxisAlignedBB(0, 0, 0, 0.5, 0.5, 1));
-    builder.put(EnumFacing.EAST, new AxisAlignedBB(0.5, 0, 0, 1, 0.5, 1));
-    LOWER_BOUNDS = builder.build();
-
-    builder = ImmutableMap.builder();
-    builder.put(EnumFacing.NORTH, new AxisAlignedBB(0, 0, 0, 0.5, 1, 0.5));
-    builder.put(EnumFacing.SOUTH, new AxisAlignedBB(0.5, 0, 0.5, 1, 1, 1));
-    builder.put(EnumFacing.WEST, new AxisAlignedBB(0, 0, 0.5, 0.5, 1, 1));
-    builder.put(EnumFacing.EAST, new AxisAlignedBB(0.5, 0, 0, 1, 1, 0.5));
-    SIDE_BOUNDS = builder.build();
-
-    builder = ImmutableMap.builder();
-    builder.put(EnumFacing.NORTH, new AxisAlignedBB(0, 0.5, 0, 1, 1, 0.5));
-    builder.put(EnumFacing.SOUTH, new AxisAlignedBB(0, 0.5, 0.5, 1, 1, 1));
-    builder.put(EnumFacing.WEST, new AxisAlignedBB(0, 0.5, 0, 0.5, 1, 1));
-    builder.put(EnumFacing.EAST, new AxisAlignedBB(0.5, 0.5, 0, 1, 1, 1));
-    UPPER_BOUNDS = builder.build();
-  }
 
   @Override
   public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, IBlockAccess worldIn, BlockPos pos) {
@@ -469,7 +428,7 @@ public class BlockSlimeChannel extends EnumBlock<SlimeType> implements ITileEnti
   @Nonnull
   @Override
   public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
-    return getBounds(state.getActualState(source, pos), source, pos);
+    return SlimeChannelShapes.getBounds(state.getActualState(source, pos), source, pos);
   }
 
   /**
@@ -477,66 +436,6 @@ public class BlockSlimeChannel extends EnumBlock<SlimeType> implements ITileEnti
    * <br>
    * Makes sure you pas the actual state into this or it won't take connections into account
    */
-  private AxisAlignedBB getBounds(IBlockState state, IBlockAccess source, BlockPos pos) {
-    EnumFacing side = state.getValue(SIDE);
-    EnumFacing facing = state.getValue(DIRECTION).getFacing();
-    ChannelConnected connected = state.getValue(CONNECTED);
-
-    // diagonals return null above, and cannot have such connections anyways
-    if(connected == ChannelConnected.INNER && facing != null) {
-      if(side == EnumFacing.DOWN) {
-        return LOWER_BOUNDS.get(facing);
-      }
-      else if(side == EnumFacing.UP) {
-        return UPPER_BOUNDS.get(facing);
-      }
-      else {
-        switch(facing) {
-          case NORTH:
-            return UPPER_BOUNDS.get(side);
-          case SOUTH:
-            return LOWER_BOUNDS.get(side);
-          case WEST:
-            return SIDE_BOUNDS.get(side);
-          case EAST:
-            return SIDE_BOUNDS.get(side.rotateY());
-        }
-      }
-    }
-    return BOUNDS.get(side);
-  }
-
-  private AxisAlignedBB getSecondaryBounds(IBlockState state) {
-    EnumFacing side = state.getValue(SIDE);
-    EnumFacing facing = state.getValue(DIRECTION).getFacing();
-
-    // this just prevents a NPE in the case of an invalid state
-    // as a block will never be connected and diagonal except in debug
-    if(facing == null) {
-      return FULL_BLOCK_AABB;
-    }
-
-    if(side == EnumFacing.DOWN) {
-      return UPPER_BOUNDS.get(facing.getOpposite());
-    }
-    else if(side == EnumFacing.UP) {
-      return LOWER_BOUNDS.get(facing.getOpposite());
-    }
-    else {
-      switch(facing) {
-        case NORTH:
-          return LOWER_BOUNDS.get(side.getOpposite());
-        case SOUTH:
-          return UPPER_BOUNDS.get(side.getOpposite());
-        case WEST:
-          return SIDE_BOUNDS.get(side.getOpposite());
-        case EAST:
-          return SIDE_BOUNDS.get(side.rotateYCCW());
-        default:
-          return FULL_BLOCK_AABB;
-      }
-    }
-  }
 
   /* Misc */
 
@@ -560,12 +459,7 @@ public class BlockSlimeChannel extends EnumBlock<SlimeType> implements ITileEnti
   @Override
   @Deprecated
   public BlockFaceShape getBlockFaceShape(IBlockAccess world, IBlockState state, BlockPos pos, EnumFacing face) {
-    state = state.getActualState(world, pos);
-    EnumFacing side = state.getValue(SIDE);
-    if(hasFullSide(face.getOpposite(), side, state.getValue(DIRECTION).getFlow(side), state.getValue(CONNECTED))) {
-      return BlockFaceShape.SOLID;
-    }
-    return BlockFaceShape.UNDEFINED;
+    return SlimeChannelShapes.getBlockFaceShape(world, state, pos, face);
   }
 
   @SuppressWarnings("deprecation")
@@ -612,10 +506,10 @@ public class BlockSlimeChannel extends EnumBlock<SlimeType> implements ITileEnti
       // if its inner, we have a half face
       if(connected == ChannelConnected.INNER) {
         // so ask with the half being our direction
-        return !hasHalfSide(flow, face, offsetSide, offsetFlow, offsetConnected);
+        return !SlimeChannelShapes.hasHalfSide(flow, face, offsetSide, offsetFlow, offsetConnected);
       }
       // otherwise we have a full one
-      return !hasFullSide(face, offsetSide, offsetFlow, offsetConnected);
+      return !SlimeChannelShapes.hasFullSide(face, offsetSide, offsetFlow, offsetConnected);
     }
 
     // the other channel is "above" of ours
@@ -623,7 +517,7 @@ public class BlockSlimeChannel extends EnumBlock<SlimeType> implements ITileEnti
       // outer state has one half face
       if(connected == ChannelConnected.OUTER) {
         // though the half is opposite the direction now
-        return !hasHalfSide(flow.getOpposite(), face, offsetSide, offsetFlow, offsetConnected);
+        return !SlimeChannelShapes.hasHalfSide(flow.getOpposite(), face, offsetSide, offsetFlow, offsetConnected);
       }
       // if its not the outer face, it really doesn't matter as no faces are here to hide
       return true;
@@ -632,7 +526,7 @@ public class BlockSlimeChannel extends EnumBlock<SlimeType> implements ITileEnti
     // the other channel is in front of where we flow to
     if(face == flow) {
       // in this case, the face is always there, so just send a generic half side
-      return !hasHalfSide(side, face, offsetSide, offsetFlow, offsetConnected);
+      return !SlimeChannelShapes.hasHalfSide(side, face, offsetSide, offsetFlow, offsetConnected);
     }
 
     // the other channel is behind us
@@ -644,10 +538,10 @@ public class BlockSlimeChannel extends EnumBlock<SlimeType> implements ITileEnti
           return true;
         // outer means a full face
         case OUTER:
-          return !hasFullSide(face, offsetSide, offsetFlow, offsetConnected);
+          return !SlimeChannelShapes.hasFullSide(face, offsetSide, offsetFlow, offsetConnected);
         // none means half face
         case NONE:
-          return !hasHalfSide(side, face, offsetSide, offsetFlow, offsetConnected);
+          return !SlimeChannelShapes.hasHalfSide(side, face, offsetSide, offsetFlow, offsetConnected);
       }
     }
 
@@ -655,11 +549,11 @@ public class BlockSlimeChannel extends EnumBlock<SlimeType> implements ITileEnti
     switch(connected) {
       // easiest version, means we have a half face like above
       case NONE:
-        return !hasHalfSide(side, face, offsetSide, offsetFlow, offsetConnected);
+        return !SlimeChannelShapes.hasHalfSide(side, face, offsetSide, offsetFlow, offsetConnected);
       // outer means we have a stair shape with a hole opposite the side in the direction
       case OUTER:
         // if we have a full side, then definatelly
-        if(hasFullSide(face, offsetSide, offsetFlow, offsetConnected)) {
+        if(SlimeChannelShapes.hasFullSide(face, offsetSide, offsetFlow, offsetConnected)) {
           return false;
         }
         // if its the same shape, there is a possibility
@@ -699,63 +593,5 @@ public class BlockSlimeChannel extends EnumBlock<SlimeType> implements ITileEnti
     return true;
   }
 
-  private static boolean hasFullSide(EnumFacing orginFace, EnumFacing side, EnumFacing flow, ChannelConnected connected) {
-    // back, full unless we are the inner corner
-    if(orginFace == side.getOpposite() && connected != ChannelConnected.INNER) {
-      return true;
-    }
-    // back side face, full if we are connected
-    return orginFace == flow && connected == ChannelConnected.OUTER;
-  }
 
-  private static boolean hasHalfSide(EnumFacing orginHalf, EnumFacing orginFace, EnumFacing side, EnumFacing flow, ChannelConnected connected) {
-    // if we are on the same side as the half face
-    if(side == orginHalf) {
-      // make sure inner connections face the same direction
-      if(connected == ChannelConnected.INNER) {
-        // the direction is opposite the face of the half
-        return flow == orginFace.getOpposite();
-      }
-      // both outer and none have this face solid
-      return true;
-    }
-
-    // pressed up against this, basically the same as above only switched half and direction
-    if(side == orginFace.getOpposite()) {
-      // inner connection must be on the same half as the direction its going
-      if(connected == ChannelConnected.INNER) {
-        return flow == orginHalf;
-      }
-      // both outer and none have this face solid
-      return true;
-    }
-
-    // opposite side of the block
-    if(side == orginFace) {
-      // it must face the opposite of the half and be connected outer
-      return connected == ChannelConnected.OUTER && flow == orginHalf.getOpposite();
-    }
-
-    // there are three remaining directions, but their only chance is if they have the outer chance
-    if(connected == ChannelConnected.OUTER) {
-      // if its facing away, it has a full face here
-      if(flow == orginFace) {
-        return true;
-      }
-      // if the channel is opposite the half, the only valid facing is the one handled above
-      if(side == orginHalf.getOpposite()) {
-        return false;
-      }
-      // otherwise there is an additional valid facing, going the opposite direction of the half leading to "stairs"
-      return flow == orginHalf.getOpposite();
-    }
-
-    return false;
-  }
-
-  /* Helpers */
-
-  /**
-   * Stores the direction of the channel, though relative to the side
-   */
 }

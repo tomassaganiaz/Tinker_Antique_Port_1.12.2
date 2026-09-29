@@ -7,6 +7,7 @@ import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
 
+import slimeknights.tconstruct.library.events.OnLaunch;
 import slimeknights.tconstruct.library.entity.EntityProjectileBase;
 
 /** Traits that probive extra interactions for projectiles */

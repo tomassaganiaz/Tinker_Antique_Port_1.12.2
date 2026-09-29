@@ -42,6 +42,8 @@ import slimeknights.tconstruct.library.utils.AmmoHelper;
 import slimeknights.tconstruct.library.utils.TagUtil;
 import slimeknights.tconstruct.library.utils.Tags;
 import slimeknights.tconstruct.library.utils.ToolHelper;
+import slimeknights.tconstruct.library.events.OnHitBlock;
+import slimeknights.tconstruct.library.events.OnLaunch;
 import slimeknights.tconstruct.tools.modifiers.ModReinforced;
 
 import javax.annotation.Nonnull;
@@ -179,7 +181,7 @@ public abstract class EntityProjectileBase extends EntityArrow implements IEntit
 
     playHitBlockSound(speed, iblockstate);
 
-    ProjectileEvent.OnHitBlock.fireEvent(this, speed, blockpos, iblockstate);
+    OnHitBlock.fireEvent(this, speed, blockpos, iblockstate);
 
     this.inGround = true;
     this.arrowShake = 7;

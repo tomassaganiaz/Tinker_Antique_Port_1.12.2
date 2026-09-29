@@ -33,13 +33,14 @@ import slimeknights.tconstruct.library.tools.ToolCore;
 import slimeknights.tconstruct.library.utils.TagUtil;
 import slimeknights.tconstruct.shared.TinkerCommons;
 import slimeknights.tconstruct.tools.harvest.TinkerHarvestTools;
+import slimeknights.tconstruct.library.events.ExtraBlockBreak;
 import slimeknights.tconstruct.tools.modifiers.ModMendingMoss;
 
 public class ToolEvents {
 
   // Extra width/height modifier management
   @SubscribeEvent
-  public void onExtraBlockBreak(TinkerToolEvent.ExtraBlockBreak event) {
+  public void onExtraBlockBreak(ExtraBlockBreak event) {
     if(TinkerModifiers.modHarvestWidth == null || TinkerModifiers.modHarvestHeight == null) {
       return;
     }

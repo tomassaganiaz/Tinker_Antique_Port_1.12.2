@@ -11,6 +11,7 @@ import slimeknights.tconstruct.common.config.Config;
 import slimeknights.tconstruct.library.events.TinkerToolEvent;
 import slimeknights.tconstruct.library.traits.ITrait;
 import slimeknights.tconstruct.tools.common.network.ToolBreakAnimationPacket;
+import slimeknights.tconstruct.library.events.OnRepair;
 import slimeknights.tconstruct.tools.modifiers.ModReinforced;
 
 /** 
@@ -109,7 +110,7 @@ ToolDurabilityHelper
   public static void repairTool(ItemStack stack, int amount, EntityLivingBase entity) {
     unbreakTool(stack);
 
-    TinkerToolEvent.OnRepair.fireEvent(stack, amount);
+    OnRepair.fireEvent(stack, amount);
 
     healTool(stack, amount, entity);
   }

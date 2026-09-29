@@ -21,6 +21,7 @@ import slimeknights.tconstruct.library.modifiers.ModifierAspect;
 import slimeknights.tconstruct.library.modifiers.ModifierNBT;
 import slimeknights.tconstruct.library.utils.TagUtil;
 import slimeknights.tconstruct.library.modifiers.SingleAspect;
+import slimeknights.tconstruct.library.events.OnRepair;
 import slimeknights.tconstruct.library.utils.TinkerUtil;
 
 // Trait and modifier in one! Useful because modifiers are saved as traits

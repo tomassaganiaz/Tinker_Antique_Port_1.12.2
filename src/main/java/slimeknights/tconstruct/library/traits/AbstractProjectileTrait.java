@@ -8,6 +8,7 @@ import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
 
+import slimeknights.tconstruct.library.events.OnLaunch;
 import slimeknights.tconstruct.library.entity.EntityProjectileBase;
 
 public abstract class AbstractProjectileTrait extends AbstractTrait implements IProjectileTrait {

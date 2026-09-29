@@ -47,6 +47,7 @@ import slimeknights.tconstruct.library.utils.Tags;
 import slimeknights.tconstruct.library.utils.TinkerUtil;
 import slimeknights.tconstruct.library.utils.ToolBuilder;
 import slimeknights.tconstruct.library.utils.ToolHelper;
+import slimeknights.tconstruct.library.events.OnItemBuilding;
 import slimeknights.tconstruct.library.utils.TooltipBuilder;
 
 /**
@@ -188,7 +189,7 @@ public abstract class TinkersItem extends Item implements ITinkerable, IModifyab
     addMaterialTraits(basetag, materials);
 
     // fire toolbuilding event
-    TinkerEvent.OnItemBuilding.fireEvent(basetag, ImmutableList.copyOf(materials), this);
+    OnItemBuilding.fireEvent(basetag, ImmutableList.copyOf(materials), this);
 
     return basetag;
   }

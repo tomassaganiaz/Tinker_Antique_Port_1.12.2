@@ -27,6 +27,10 @@ import slimeknights.tconstruct.library.materials.IMaterialStats;
 import slimeknights.tconstruct.library.materials.Material;
 import slimeknights.tconstruct.library.materials.MaterialTypes;
 import slimeknights.tconstruct.library.materials.ProjectileMaterialStats;
+import slimeknights.tconstruct.library.events.IntegrationEvent;
+import slimeknights.tconstruct.library.events.MaterialRegisterEvent;
+import slimeknights.tconstruct.library.events.StatRegisterEvent;
+import slimeknights.tconstruct.library.events.TraitRegisterEvent;
 import slimeknights.tconstruct.library.traits.ITrait;
 
 import static slimeknights.tconstruct.library.TinkerRegistry.log;
@@ -98,7 +102,7 @@ public final class MaterialRegistry {
       }
     }
 
-    MaterialEvent.MaterialRegisterEvent event = new MaterialEvent.MaterialRegisterEvent(material);
+    MaterialRegisterEvent event = new MaterialRegisterEvent(material);
 
     if(MinecraftForge.EVENT_BUS.post(event)) {
       // event cancelled
@@ -203,7 +207,7 @@ public final class MaterialRegistry {
       return;
     }
 
-    MaterialEvent.StatRegisterEvent<?> event = new MaterialEvent.StatRegisterEvent<>(material, stats);
+    StatRegisterEvent<?> event = new StatRegisterEvent<>(material, stats);
     MinecraftForge.EVENT_BUS.post(event);
 
     // overridden stats from event
@@ -262,7 +266,7 @@ public final class MaterialRegistry {
       return false;
     }
 
-    MaterialEvent.TraitRegisterEvent<?> event = new MaterialEvent.TraitRegisterEvent<>(material, trait);
+    TraitRegisterEvent<?> event = new TraitRegisterEvent<>(material, trait);
     if(MinecraftForge.EVENT_BUS.post(event)) {
       // cancelled
       log.trace("Trait {} on {} cancelled by event", trait.getIdentifier(), material.getIdentifier());
@@ -301,7 +305,7 @@ public final class MaterialRegistry {
   }
 
   public static MaterialIntegration integrate(MaterialIntegration materialIntegration) {
-    MaterialEvent.IntegrationEvent event = new MaterialEvent.IntegrationEvent(materialIntegration.material, materialIntegration);
+    IntegrationEvent event = new IntegrationEvent(materialIntegration.material, materialIntegration);
     if(MinecraftForge.EVENT_BUS.post(event)) {
       // cancelled
       log.debug("Registration of material integration for material " + materialIntegration.material + " has been cancelled by event");

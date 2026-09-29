@@ -12,6 +12,7 @@ import java.util.stream.Collectors;
 
 import slimeknights.tconstruct.library.events.TinkerEvent;
 import slimeknights.tconstruct.tools.TinkerTools;
+import slimeknights.tconstruct.library.events.OnToolPartReplacement;
 import slimeknights.tconstruct.tools.ranged.item.BoltCore;
 
 
@@ -19,7 +20,7 @@ import slimeknights.tconstruct.tools.ranged.item.BoltCore;
 public class RangedEvents {
 
   @SubscribeEvent
-  public static void onToolPartReplacement(TinkerEvent.OnToolPartReplacement event) {
+  public static void onToolPartReplacement(OnToolPartReplacement event) {
     if(event.toolStack.getItem() == TinkerRangedWeapons.bolt) {
       List<ItemStack> extraParts = event.replacementParts.stream()
                                                          .filter(Objects::nonNull)

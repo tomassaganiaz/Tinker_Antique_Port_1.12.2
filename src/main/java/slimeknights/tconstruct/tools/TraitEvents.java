@@ -17,6 +17,7 @@ import slimeknights.tconstruct.library.events.TinkerToolEvent;
 import slimeknights.tconstruct.library.tools.DualToolHarvestUtils;
 import slimeknights.tconstruct.library.tools.ToolCore;
 import slimeknights.tconstruct.library.utils.TinkerUtil;
+import slimeknights.tconstruct.library.events.OnRepair;
 import slimeknights.tconstruct.library.utils.ToolHelper;
 
 public class TraitEvents {
@@ -94,7 +95,7 @@ public class TraitEvents {
   }
 
   @SubscribeEvent
-  public void onRepair(TinkerToolEvent.OnRepair event) {
+  public void onRepair(OnRepair event) {
     ItemStack tool = event.itemStack;
 
     TinkerUtil.getTraitsOrdered(tool).forEach(trait -> trait.onRepair(tool, event.amount));

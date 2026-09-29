@@ -39,6 +39,9 @@ import slimeknights.tconstruct.library.utils.ToolBuilder;
 import slimeknights.tconstruct.tools.common.client.GuiToolStation;
 import slimeknights.tconstruct.tools.common.network.ToolStationSelectionPacket;
 import slimeknights.tconstruct.tools.common.network.ToolStationTextPacket;
+import slimeknights.tconstruct.library.events.ToolCraftingEvent;
+import slimeknights.tconstruct.library.events.ToolModifyEvent;
+import slimeknights.tconstruct.library.events.ToolPartReplaceEvent;
 import slimeknights.tconstruct.tools.common.tileentity.TileToolStation;
 
 // also tool forge
@@ -407,7 +410,7 @@ public class ContainerToolStation extends ContainerTinkerStation<TileToolStation
     NonNullList<ItemStack> inputs = getInputs();
     ItemStack result = ToolBuilder.tryReplaceToolParts(tool, inputs, remove);
     if(!result.isEmpty()) {
-      TinkerCraftingEvent.ToolPartReplaceEvent.fireEvent(result, player, inputs);
+      ToolPartReplaceEvent.fireEvent(result, player, inputs);
     }
     return result;
   }
@@ -422,7 +425,7 @@ public class ContainerToolStation extends ContainerTinkerStation<TileToolStation
 
     ItemStack result = ToolBuilder.tryModifyTool(getInputs(), modifyable, remove);
     if(!result.isEmpty()) {
-      TinkerCraftingEvent.ToolModifyEvent.fireEvent(result, player, modifyable.copy());
+      ToolModifyEvent.fireEvent(result, player, modifyable.copy());
     }
     return result;
   }
@@ -459,7 +462,7 @@ public class ContainerToolStation extends ContainerTinkerStation<TileToolStation
       if (tile.isDeconstructing()) {
         result = tile.getDeconstructingStack();
       } else {
-        TinkerCraftingEvent.ToolCraftingEvent.fireEvent(result, player, input);
+        ToolCraftingEvent.fireEvent(result, player, input);
       }
     }
     return result;

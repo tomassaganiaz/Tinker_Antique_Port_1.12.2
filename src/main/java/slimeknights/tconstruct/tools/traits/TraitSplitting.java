@@ -6,6 +6,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import slimeknights.tconstruct.library.events.TinkerToolEvent;
 import slimeknights.tconstruct.library.traits.AbstractTrait;
 import slimeknights.tconstruct.library.utils.TagUtil;
+import slimeknights.tconstruct.library.events.OnBowShoot;
 import slimeknights.tconstruct.library.utils.TinkerUtil;
 
 public class TraitSplitting extends AbstractTrait {
@@ -19,7 +20,7 @@ public class TraitSplitting extends AbstractTrait {
   }
 
   @SubscribeEvent
-  public void onBowShooting(TinkerToolEvent.OnBowShoot event) {
+  public void onBowShooting(OnBowShoot event) {
     if(TinkerUtil.hasTrait(TagUtil.getTagSafe(event.ammo), this.getModifierIdentifier()) && random.nextFloat() < DOUBLESHOT_CHANCE) {
       event.setProjectileCount(2);
       event.setConsumeAmmoPerProjectile(false);

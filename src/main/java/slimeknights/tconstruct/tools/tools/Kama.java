@@ -42,6 +42,7 @@ import slimeknights.tconstruct.library.tinkering.PartMaterialType;
 import slimeknights.tconstruct.library.tools.AoeToolCore;
 import slimeknights.tconstruct.library.tools.ToolNBT;
 import slimeknights.tconstruct.library.utils.ToolHelper;
+import slimeknights.tconstruct.library.events.OnScytheHarvest;
 import slimeknights.tconstruct.tools.TinkerTools;
 
 public class Kama extends AoeToolCore {
@@ -183,7 +184,7 @@ public class Kama extends AoeToolCore {
       canHarvest = false;
     }
 
-    TinkerToolEvent.OnScytheHarvest event = TinkerToolEvent.OnScytheHarvest.fireEvent(stack, player, world, pos, state, canHarvest);
+    OnScytheHarvest event = OnScytheHarvest.fireEvent(stack, player, world, pos, state, canHarvest);
 
     // can't harvest
     if(event.isCanceled()) {

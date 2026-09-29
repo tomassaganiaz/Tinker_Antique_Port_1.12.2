@@ -15,6 +15,8 @@ import net.minecraft.world.World;
 import slimeknights.tconstruct.library.events.TinkerToolEvent;
 import slimeknights.tconstruct.library.tinkering.Category;
 import slimeknights.tconstruct.library.tinkering.PartMaterialType;
+import slimeknights.tconstruct.library.events.OnMattockHoe;
+import slimeknights.tconstruct.library.events.OnShovelMakePath;
 import slimeknights.tconstruct.library.utils.ToolHelper;
 
 public abstract class AoeToolCore extends TinkerToolCore implements IAoeTool {
@@ -43,7 +45,7 @@ public abstract class AoeToolCore extends TinkerToolCore implements IAoeTool {
 
     EnumActionResult result = Items.DIAMOND_SHOVEL.onItemUse(player, world, pos, hand, facing, hitX, hitY, hitZ);
     if(result == EnumActionResult.SUCCESS) {
-      TinkerToolEvent.OnShovelMakePath.fireEvent(stack, player, world, pos);
+      OnShovelMakePath.fireEvent(stack, player, world, pos);
     }
 
     // only do the AOE path if the selected block is grass or grass path
@@ -62,7 +64,7 @@ public abstract class AoeToolCore extends TinkerToolCore implements IAoeTool {
         }
 
         if(aoeResult == EnumActionResult.SUCCESS) {
-          TinkerToolEvent.OnShovelMakePath.fireEvent(stack, player, world, aoePos);
+          OnShovelMakePath.fireEvent(stack, player, world, aoePos);
         }
       }
     }
@@ -89,7 +91,7 @@ public abstract class AoeToolCore extends TinkerToolCore implements IAoeTool {
     }
 
     if(ret == EnumActionResult.SUCCESS) {
-      TinkerToolEvent.OnMattockHoe.fireEvent(stack, player, world, pos);
+      OnMattockHoe.fireEvent(stack, player, world, pos);
     }
 
     return ret;
