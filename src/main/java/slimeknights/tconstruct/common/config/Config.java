@@ -41,6 +41,7 @@ public final class Config {
   public static boolean steelAlloy = true;
   public static boolean claycasts = true;
   public static boolean castableBricks = true;
+  public static boolean enchantability = true;
   public static boolean leatherDryingRecipe = true;
   public static boolean gravelFlintRecipe = true;
   public static double oreToIngotRatio = 2;

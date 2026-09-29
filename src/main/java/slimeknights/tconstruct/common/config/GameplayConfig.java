@@ -43,6 +43,14 @@ public final class GameplayConfig {
       castableBricks = prop.getBoolean();
       prop.setRequiresMcRestart(true);
 
+      prop = configFile.get(cat, "enchantability", enchantability);
+      prop.setComment("Enables the Enchantability modifier (makes tools vanilla-enchantable but blocks further modifications).");
+      enchantability = prop.getBoolean();
+      prop.setRequiresMcRestart(true);
+      prop.setComment("Allows the creation of bricks from molten clay.");
+      castableBricks = prop.getBoolean();
+      prop.setRequiresMcRestart(true);
+
       prop = configFile.get(cat, "autosmeltFortuneInteraction", autosmeltlapis);
       prop.setComment("Fortune increases drops after harvesting a block with autosmelt.");
       autosmeltlapis = prop.getBoolean();
