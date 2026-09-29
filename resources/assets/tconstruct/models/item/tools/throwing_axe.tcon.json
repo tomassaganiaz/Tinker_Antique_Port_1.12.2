@@ -1,7 +1,0 @@
-{
-    "textures": {
-        "layer0": "tconstruct:items/hatchet/head",
-        "layer1": "tconstruct:items/arrow/shaft",
-        "broken1": "tconstruct:items/hatchet/broken_head"
-    }
-}

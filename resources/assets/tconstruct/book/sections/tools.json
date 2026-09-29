@@ -138,10 +138,5 @@
     "name": "plate_boots",
     "type": "tool",
     "data": "tools/plate_boots.json"
-  },
-  {
-    "name": "plate_shield",
-    "type": "tool",
-    "data": "tools/plate_shield.json"
   }
 ]

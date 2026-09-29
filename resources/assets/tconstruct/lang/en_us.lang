@@ -460,7 +460,6 @@ item.tconstruct.frypan.name=Frypan
 item.tconstruct.battlesign.name=Battlesign
 item.tconstruct.dagger.name=Dagger
 item.tconstruct.minotaur_axe.name=Minotaur Axe
-item.tconstruct.flint_and_brick.name=Flint and Brick
 item.tconstruct.broadsword.name=Broadsword
 item.tconstruct.longsword.name=Longsword
 item.tconstruct.rapier.name=Rapier
@@ -479,7 +478,6 @@ item.tconstruct.arrow.name=Arrow
 item.tconstruct.bolt.name=Bolt
 
 item.tconstruct.shuriken.name=Shuriken
-item.tconstruct.throwing_axe.name=Throwing Axe
 
 # Tool Parts
 item.tconstruct.shard.name=Shard
@@ -1308,8 +1306,6 @@ modifier.blast_protection.name=Blast Protection
 modifier.blast_protection.desc=Extra armor vs explosions.
 modifier.double_jump.name=Double Jump
 modifier.double_jump.desc=Second jump mid-air, soft fall.
-item.tconstruct.plate_shield.name=Plated Shield
-item.tconstruct.plating_shield.name=Shield Plating
 item.tconstruct.maille.name=Maille
 gui.jei.foundry.title=Foundry
 gui.jei.melter.title=Melter
@@ -1382,11 +1378,7 @@ material.jeweled_hide.name=Jeweled Hide
 material.dragon_scale.name=Dragon Scale
 material.cheese_ingot.name=Cheese Ingot
 material.cheese_ingot_wet.name=Wet Cheese Ingot
-item.tconstruct.slime_helmet.name=Slime Helmet
-item.tconstruct.slime_chestplate.name=Slime Chestplate
-item.tconstruct.slime_leggings.name=Slime Leggings
 item.tconstruct.slime_boots.name=Slime Boots
-item.tconstruct.slime_armor_boots.name=Slime Boots
 
 material.nickel.name=Nickel
 
@@ -1418,8 +1410,4 @@ item.tconstruct.nuggets.hepatizon.name=Hepatizon Nugget
 item.tconstruct.ingots.hepatizon.name=Hepatizon Ingot
 item.tconstruct.nuggets.queensslime.name=Queen's Slime Nugget
 item.tconstruct.ingots.queensslime.name=Queen's Slime Ingot
-item.tconstruct.slime_plating_helmet.name=Slime Helmet Plating
-item.tconstruct.slime_plating_chestplate.name=Slime Chestplate Plating
-item.tconstruct.slime_plating_leggings.name=Slime Leggings Plating
-item.tconstruct.slime_plating_boots.name=Slime Boots Plating
 item.tconstruct.adze_head.name=Adze Head

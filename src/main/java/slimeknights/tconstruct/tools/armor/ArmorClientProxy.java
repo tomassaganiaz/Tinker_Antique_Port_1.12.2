@@ -65,13 +65,13 @@ public class ArmorClientProxy extends CommonProxy {
   }
 
   private void registerArmorPartModels() {
-    for(slimeknights.tconstruct.library.tools.IToolPart part : new slimeknights.tconstruct.library.tools.IToolPart[]{TinkerArmor.plateHelmet, TinkerArmor.plateChestplate, TinkerArmor.plateLeggings, TinkerArmor.plateBoots, TinkerArmor.plateShield, TinkerArmor.maille, TinkerArmor.slimePlateHelmet, TinkerArmor.slimePlateChestplate, TinkerArmor.slimePlateLeggings, TinkerArmor.slimePlateBoots}) {
+    for(slimeknights.tconstruct.library.tools.IToolPart part : new slimeknights.tconstruct.library.tools.IToolPart[]{TinkerArmor.plateHelmet, TinkerArmor.plateChestplate, TinkerArmor.plateLeggings, TinkerArmor.plateBoots, TinkerArmor.maille}) {
       if(part != null) ModelRegisterUtil.registerPartModel((slimeknights.tconstruct.library.tools.ToolPart)part);
     }
   }
 
   private void registerArmorToolModels() {
-    for(slimeknights.tconstruct.library.tools.ToolCore tool : new slimeknights.tconstruct.library.tools.ToolCore[]{TinkerArmor.helmet, TinkerArmor.chestplate, TinkerArmor.leggings, TinkerArmor.boots, (slimeknights.tconstruct.library.tools.ToolCore)TinkerArmor.shield, TinkerArmor.slimeHelmet, TinkerArmor.slimeChestplate, TinkerArmor.slimeLeggings, TinkerArmor.slimeArmorBoots}) {
+    for(slimeknights.tconstruct.library.tools.ToolCore tool : new slimeknights.tconstruct.library.tools.ToolCore[]{TinkerArmor.helmet, TinkerArmor.chestplate, TinkerArmor.leggings, TinkerArmor.boots}) {
       if(tool != null) ModelRegisterUtil.registerToolModel(tool);
     }
   }

@@ -109,20 +109,13 @@ public class LayerTinkerArmor implements LayerRenderer<EntityLivingBase> {
 
   private static java.util.List<String> platingSubs(String set, EntityEquipmentSlot slot) {
     boolean legs = slot == EntityEquipmentSlot.LEGS;
-    java.util.List<String> subs = new java.util.ArrayList<>(2);
-    if("slime".equals(set)) {
-      subs.add(legs ? "leggings" : "armor");
-    }
-    else {
-      subs.add("plating_" + (legs ? "leggings" : "armor"));
-    }
+    java.util.List<String> subs = new java.util.ArrayList<>(1);
+    subs.add("plating_" + (legs ? "leggings" : "armor"));
     return subs;
   }
 
   public static ResourceLocation getArmorTextureForSet(EntityEquipmentSlot slot, Material mat, ItemStack stack) {
     String set = "plate";
-    String reg = stack.getItem().getRegistryName() != null ? stack.getItem().getRegistryName().getResourcePath() : "";
-    if(reg.contains("slime")) set = "slime";
     ResourceLocation fallback = slot == EntityEquipmentSlot.LEGS ? LAYER_2 : LAYER_1;
     String m = textureSlug(mat);
     for(String sub : platingSubs(set, slot)) {

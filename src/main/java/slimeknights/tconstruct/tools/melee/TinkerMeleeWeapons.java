@@ -26,7 +26,6 @@ import slimeknights.tconstruct.tools.melee.item.BattleSign;
 import slimeknights.tconstruct.tools.melee.item.BroadSword;
 import slimeknights.tconstruct.tools.melee.item.Cleaver;
 import slimeknights.tconstruct.tools.melee.item.Dagger;
-import slimeknights.tconstruct.tools.melee.item.FlintAndBrick;
 import slimeknights.tconstruct.tools.melee.item.FryPan;
 import slimeknights.tconstruct.tools.melee.item.LongSword;
 import slimeknights.tconstruct.tools.melee.item.MinotaurAxe;
@@ -56,7 +55,6 @@ public class TinkerMeleeWeapons extends AbstractToolPulse {
   public static ToolCore cleaver;
   public static ToolCore battleAxe;
   public static ToolCore minotaurAxe;
-  public static ToolCore flintAndBrick;
 
   @Override
   @SubscribeEvent
@@ -88,7 +86,6 @@ public class TinkerMeleeWeapons extends AbstractToolPulse {
     cleaver = registerTool(registry, new Cleaver(), "cleaver");
     //battleAxe = registerTool(new BattleAxe(), "battleaxe");
     minotaurAxe = registerTool(registry, new MinotaurAxe(), "minotaur_axe");
-    flintAndBrick = registerTool(registry, new FlintAndBrick(), "flint_and_brick");
   }
 
   // INITIALIZATION
@@ -110,7 +107,6 @@ public class TinkerMeleeWeapons extends AbstractToolPulse {
 
     TinkerRegistry.registerToolForgeCrafting(cleaver);
     TinkerRegistry.registerToolForgeCrafting(minotaurAxe);
-    TinkerRegistry.registerToolCrafting(flintAndBrick);
     //TinkerRegistry.registerToolForgeCrafting(battleAxe);
   }
 

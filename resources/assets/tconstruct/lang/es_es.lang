@@ -1191,8 +1191,6 @@ modifier.blast_protection.name=Protecci�n contra explosiones
 modifier.blast_protection.desc=Armadura extra vs explosiones.
 modifier.double_jump.name=Doble Salto
 modifier.double_jump.desc=Segundo salto en el aire, caida suave.
-item.tconstruct.plate_shield.name=Escudo de placas
-item.tconstruct.plating_shield.name=Revestimiento de escudo
 item.tconstruct.maille.name=Malla
 gui.jei.foundry.title=Fundici�n
 gui.jei.melter.title=Fundidor
@@ -1250,11 +1248,7 @@ item.tconstruct.materials.slimeskin.name=Piel de Slime
 material.slime_skin.name=Piel de Slime
 material.jeweled_hide.name=Piel Enjoyada
 material.dragon_scale.name=Escama de Drag�n
-item.tconstruct.slime_helmet.name=Casco de Slime
-item.tconstruct.slime_chestplate.name=Peto de Slime
-item.tconstruct.slime_leggings.name=Grebas de Slime
 item.tconstruct.slime_boots.name=Botas de Slime
-item.tconstruct.slime_armor_boots.name=Botas de Slime
 
 
 # === Auto-added missing translations (Queen/Hepatizon patch) ===
@@ -1382,8 +1376,4 @@ item.tconstruct.nuggets.hepatizon.name=Pepita de Hepatizon
 item.tconstruct.ingots.hepatizon.name=Lingote de Hepatizon
 item.tconstruct.nuggets.queensslime.name=Pepita de Slime Reina
 item.tconstruct.ingots.queensslime.name=Lingote de Slime Reina
-item.tconstruct.slime_plating_helmet.name=Placa de Casco de Slime
-item.tconstruct.slime_plating_chestplate.name=Placa de Pechera de Slime
-item.tconstruct.slime_plating_leggings.name=Placa de Grebas de Slime
-item.tconstruct.slime_plating_boots.name=Placa de Botas de Slime
 item.tconstruct.adze_head.name=Cabeza de Azuela

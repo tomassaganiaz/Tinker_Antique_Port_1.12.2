@@ -14,5 +14,4 @@ public interface EntityIDs {
   int ARROW = 10;
   int BOLT = 11;
   int SHURIKEN = 12;
-  int THROWINGAXE = 13;
 }

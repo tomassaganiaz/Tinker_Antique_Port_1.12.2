@@ -22,8 +22,7 @@ public class ArmorDispenserBehavior extends BehaviorDefaultDispenseItem {
 
   private static java.util.List<ArmorCore> allArmor() {
     java.util.List<ArmorCore> tools = new java.util.ArrayList<>();
-    java.util.Collections.addAll(tools, TinkerArmor.helmet, TinkerArmor.chestplate, TinkerArmor.leggings, TinkerArmor.boots,
-        TinkerArmor.slimeHelmet, TinkerArmor.slimeChestplate, TinkerArmor.slimeLeggings, TinkerArmor.slimeArmorBoots);
+    java.util.Collections.addAll(tools, TinkerArmor.helmet, TinkerArmor.chestplate, TinkerArmor.leggings, TinkerArmor.boots);
     return tools;
   }
 

@@ -16,7 +16,7 @@
 | Texturas placeholder | 70% | `scorched` 5 reales +5 recolor, melter_side copia smeltery |
 | **Global TC3** | **95% funcional** | P0 cerrado, P1 pulido pendiente `runClient` validación final |
 
-**Nota Travelers (TC3 1.20.1):** `travelers_shield` + set `travelers_helmet`/`travelers_chestplate`/`travelers_leggings`/`travelers_boots` (+ partes `travelers_plating_*`) **ELIMINADOS del fork (2026-09-28)** — duplicación: otro mod del pack los implementa funcional y sin bugs para esta versión de Tinkers Antique (**bloqueado / ya implementado**, N/A). Se mantienen `plate_*` y `slime_*` + `plate_shield` (`TinkerArmor`) como armaduras/escudo propios del fork.
+**Nota duplicados (TC3 1.20.1) [2026-09-28]:** sets **Travelers** (`travelers_shield` + `travelers_helmet`/`chestplate`/`leggings`/`boots` + partes `travelers_plating_*`) y **Slime armor** (`slime_helmet`/`slime_chestplate`/`slime_leggings`/`slime_armor_boots` + partes `slime_plating_*`), junto con `plate_shield`, `throwing_axe` y `flint_and_brick`, **ELIMINADOS del fork** — duplicación: otro mod del pack los implementa funcional y sin bugs para esta versión de Tinkers Antique (**bloqueado / ya implementado**, N/A). Se mantiene `plate_*` (`TinkerArmor`) como armadura propia del fork.
 
 ---
 

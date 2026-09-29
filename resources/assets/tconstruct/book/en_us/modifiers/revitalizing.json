@@ -12,7 +12,6 @@
     "Recipe: 2x Diamond Apple (TinkerSmeltery.diamond_apple) per level in Tool Forge"
   ],
   "demoTool": [
-    "tconstruct:plate_chestplate",
-    "tconstruct:slime_chestplate"
+    "tconstruct:plate_chestplate"
   ]
 }

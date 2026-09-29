@@ -28,7 +28,7 @@ Complementa al resto de guías:
 
 | Área | Estado | Trabajo principal |
 |------|--------|-------------------|
-| Armadura de placas + escudos | **Listo (100%)** | `ArmorCore` 5 piezas + `LayerTinkerArmor` + JEI + libro. Set **Travelers** (`travelers_*` + `travelers_shield`) **no se porta** (duplicado: otro mod lo implementa funcional; bloqueado/N-A) |
+| Armadura de placas + escudos | **Listo (100%)** | `ArmorCore` 5 piezas + `LayerTinkerArmor` + JEI + libro. Sets **Travelers** (`travelers_*` + `travelers_shield`) y **Slime armor** (`slime_helmet/chestplate/leggings/armor_boots`), + `plate_shield`, `throwing_axe` y `flint_and_brick` **no se portan** (duplicados: otro mod los implementa funcional; bloqueado/N-A) |
 | Melter (horno de fusión 1x1) | **Listo** | `BlockMelter`/`TileMelter`/GUI; Tier4 limitado |
 | Netherite / Amatista como material | **Listo (100%)** | `netherite` material completo 1250°C + `amethyst` armor |
 | Modificadores nuevos de TC3 | **Listo 100%** | Twin/Spilling/Wetting/Slurping/Shattering/Slippery/Pyroclastic/Chip/Zooming + Protection 4 + DoubleJump |

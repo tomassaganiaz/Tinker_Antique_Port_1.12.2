@@ -50,7 +50,6 @@ import slimeknights.tconstruct.tools.armor.item.ItemArmorPlateChestplate;
 import slimeknights.tconstruct.tools.armor.item.ItemArmorPlateHelmet;
 import slimeknights.tconstruct.tools.armor.item.ItemArmorPlateLeggings;
 import slimeknights.tconstruct.tools.TinkerModifiers;
-import slimeknights.tconstruct.tools.armor.item.ItemPlateShield;
 
 @Pulse(id = TinkerArmor.PulseId, description = "Tinkers Plate Armor")
 public class TinkerArmor extends AbstractToolPulse {
@@ -65,22 +64,12 @@ public class TinkerArmor extends AbstractToolPulse {
   public static ToolPart plateChestplate;
   public static ToolPart plateLeggings;
   public static ToolPart plateBoots;
-  public static ToolPart plateShield;
   public static ToolPart maille;
-  public static ToolPart slimePlateHelmet;
-  public static ToolPart slimePlateChestplate;
-  public static ToolPart slimePlateLeggings;
-  public static ToolPart slimePlateBoots;
 
   public static ArmorCore helmet;
   public static ArmorCore chestplate;
   public static ArmorCore leggings;
   public static ArmorCore boots;
-  public static ItemPlateShield shield;
-  public static ArmorCore slimeHelmet;
-  public static ArmorCore slimeChestplate;
-  public static ArmorCore slimeLeggings;
-  public static ArmorCore slimeArmorBoots;
   public static ModProtection modProtection;
   public static ModProjectileProtection modProjectileProtection;
   public static ModBlastProtection modBlastProtection;
@@ -114,7 +103,6 @@ public class TinkerArmor extends AbstractToolPulse {
     for(ArmorCore tool : allTools()) {
       if(tool != null) TinkerRegistry.registerTool(tool);
     }
-    if(shield != null) TinkerRegistry.registerTool(shield);
     modProtection = regMod(new ModProtection());
     modProtection.addRecipeMatch(new ReinforcementRecipeMatch(
       new ItemStack(slimeknights.tconstruct.shared.TinkerCommons.matReinforcement.getItem(), 1, slimeknights.tconstruct.shared.TinkerCommons.matReinforcement.getMetadata())));
@@ -167,9 +155,8 @@ public class TinkerArmor extends AbstractToolPulse {
   }
 
   private static java.util.List<ArmorCore> allTools() {
-    java.util.List<ArmorCore> tools = new java.util.ArrayList<>(9);
-    java.util.Collections.addAll(tools, helmet, chestplate, leggings, boots,
-        slimeHelmet, slimeChestplate, slimeLeggings, slimeArmorBoots);
+    java.util.List<ArmorCore> tools = new java.util.ArrayList<>(4);
+    java.util.Collections.addAll(tools, helmet, chestplate, leggings, boots);
     return tools;
   }
 
@@ -191,12 +178,7 @@ public class TinkerArmor extends AbstractToolPulse {
         {"plating_chestplate", Material.VALUE_Ingot * 8},
         {"plating_leggings", Material.VALUE_Ingot * 7},
         {"plating_boots", Material.VALUE_Ingot * 4},
-        {"plating_shield", Material.VALUE_Ingot * 6},
         {"maille", Material.VALUE_Ingot * 2},
-        {"slime_plating_helmet", Material.VALUE_Ingot * 5},
-        {"slime_plating_chestplate", Material.VALUE_Ingot * 8},
-        {"slime_plating_leggings", Material.VALUE_Ingot * 7},
-        {"slime_plating_boots", Material.VALUE_Ingot * 4},
     };
     ToolPart[] out = new ToolPart[parts.length];
     for(int i = 0; i < parts.length; i++) {
@@ -206,12 +188,7 @@ public class TinkerArmor extends AbstractToolPulse {
     plateChestplate = out[1];
     plateLeggings = out[2];
     plateBoots = out[3];
-    plateShield = out[4];
-    maille = out[5];
-    slimePlateHelmet = out[6];
-    slimePlateChestplate = out[7];
-    slimePlateLeggings = out[8];
-    slimePlateBoots = out[9];
+    maille = out[4];
   }
 
   @Override
@@ -220,11 +197,6 @@ public class TinkerArmor extends AbstractToolPulse {
     chestplate = registerTool(registry, new ItemArmorPlateChestplate(new PartMaterialType(plateChestplate, ArmorMaterialStats.TYPE_CHESTPLATE), new PartMaterialType(maille, ArmorMaterialStats.TYPE_MAILLE)), "plate_chestplate");
     leggings = registerTool(registry, new ItemArmorPlateLeggings(new PartMaterialType(plateLeggings, ArmorMaterialStats.TYPE_LEGGINGS), new PartMaterialType(maille, ArmorMaterialStats.TYPE_MAILLE)), "plate_leggings");
     boots = registerTool(registry, new ItemArmorPlateBoots(new PartMaterialType(plateBoots, ArmorMaterialStats.TYPE_BOOTS), new PartMaterialType(maille, ArmorMaterialStats.TYPE_MAILLE)), "plate_boots");
-    shield = registerTool(registry, new ItemPlateShield(new PartMaterialType(plateShield, ArmorMaterialStats.TYPE_SHIELD)), "plate_shield");
-    slimeHelmet = registerTool(registry, new ItemArmorPlateHelmet(new PartMaterialType(slimePlateHelmet, ArmorMaterialStats.TYPE_HELMET), new PartMaterialType(maille, ArmorMaterialStats.TYPE_MAILLE)), "slime_helmet");
-    slimeChestplate = registerTool(registry, new ItemArmorPlateChestplate(new PartMaterialType(slimePlateChestplate, ArmorMaterialStats.TYPE_CHESTPLATE), new PartMaterialType(maille, ArmorMaterialStats.TYPE_MAILLE)), "slime_chestplate");
-    slimeLeggings = registerTool(registry, new ItemArmorPlateLeggings(new PartMaterialType(slimePlateLeggings, ArmorMaterialStats.TYPE_LEGGINGS), new PartMaterialType(maille, ArmorMaterialStats.TYPE_MAILLE)), "slime_leggings");
-    slimeArmorBoots = registerTool(registry, new ItemArmorPlateBoots(new PartMaterialType(slimePlateBoots, ArmorMaterialStats.TYPE_BOOTS), new PartMaterialType(maille, ArmorMaterialStats.TYPE_MAILLE)), "slime_armor_boots");
   }
 
   private void registerArmorMaterialStats() {
@@ -322,7 +294,6 @@ public class TinkerArmor extends AbstractToolPulse {
     proxy.init();
     java.util.List<slimeknights.tconstruct.library.tools.ToolCore> all = new java.util.ArrayList<>();
     all.addAll(allTools());
-    if(shield != null) all.add(shield);
     for(slimeknights.tconstruct.library.tools.ToolCore tool : all) {
       TinkerRegistry.registerToolCrafting(tool);
     }
