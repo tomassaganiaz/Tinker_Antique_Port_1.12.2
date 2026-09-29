@@ -33,6 +33,13 @@
         "dragon_scale": [{ "textures": { "layer0": "tconstruct:items/materials/dragon_scale" }}],
         "cheese_ingot_wet": [{ "textures": { "layer0": "tconstruct:items/materials/cheese_ingot_wet" }}],
         "cheese_ingot": [{ "textures": { "layer0": "tconstruct:items/materials/cheese_ingot" }}],
-        "creative_modifier": [{ "textures": { "layer0": "tconstruct:items/skull_char_gold" }}]
+        "creative_modifier": [{ "textures": { "layer0": "tconstruct:items/skull_char_gold" }}],
+        "ichor_skin": [{ "textures": { "layer0": "tconstruct:items/materials/ichor_skin" }}],
+        "jadeite": [{ "textures": { "layer0": "tconstruct:items/materials/jadeite" }}],
+        "ancient_hide": [{ "textures": { "layer0": "tconstruct:items/materials/ancient_hide" }}],
+        "osmium_ingot": [{ "textures": { "layer0": "tconstruct:items/materials/osmium_ingot" }}],
+        "treated_wood": [{ "textures": { "layer0": "tconstruct:items/materials/treated_wood" }}],
+        "plated_slimewood": [{ "textures": { "layer0": "tconstruct:items/materials/plated_slimewood" }}],
+        "slimewood": [{ "textures": { "layer0": "tconstruct:items/materials/slimewood" }}]
     }
 }

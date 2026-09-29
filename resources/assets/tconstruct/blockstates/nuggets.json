@@ -15,6 +15,8 @@
         "slimesteel": [{ "textures":  { "layer0":  "tconstruct:items/materials/nugget_slimesteel" }}],
         "amethystbronze": [{ "textures":  { "layer0":  "tconstruct:items/materials/nugget_amethystbronze" }}],
         "rosegold": [{ "textures":  { "layer0":  "tconstruct:items/materials/nugget_rosegold" }}],
-        "cinderslime": [{ "textures":  { "layer0":  "tconstruct:items/materials/nugget_cinderslime" }}]
+        "cinderslime": [{ "textures":  { "layer0":  "tconstruct:items/materials/nugget_cinderslime" }}],
+        "queensslime": [{ "textures": { "layer0": "tconstruct:items/materials/nugget_queensslime" }}],
+        "hepatizon": [{ "textures": { "layer0": "tconstruct:items/materials/nugget_hepatizon" }}]
     }
 }

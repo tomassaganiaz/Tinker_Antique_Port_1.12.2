@@ -1,7 +1,6 @@
 {
     "textures": {
         "layer0": "tconstruct:items/frypan/head",
-        "layer1": "tconstruct:items/broadsword/handle",
-        "broken1": "tconstruct:items/frypan/broken_head"
+        "broken0": "tconstruct:items/frypan/broken_head"
     }
 }

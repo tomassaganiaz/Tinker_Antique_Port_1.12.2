@@ -5,9 +5,10 @@
     },
     "variants": {
         "active": {
-            "true": { "model": "tconstruct:block/melter_active" },
-            "false": { "model": "tconstruct:block/melter" }
+            "true": { "model": "tconstruct:melter_active" },
+            "false": { "model": "tconstruct:melter" }
         },
-        "inventory": { "model": "tconstruct:block/melter" }
+        "normal": { "model": "tconstruct:melter" },
+        "inventory": { "model": "tconstruct:melter" }
     }
 }
