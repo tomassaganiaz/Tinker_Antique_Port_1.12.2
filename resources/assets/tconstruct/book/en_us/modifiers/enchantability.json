@@ -2,7 +2,7 @@
   "modifier": "enchantability",
   "text": [
     {
-      "text": "Applying a book to a tool makes it enchantable with vanilla enchantments, both at an enchanting table and with enchanted books on an anvil."
+      "text": "Applying an enchanted golden apple to a tool makes it enchantable with vanilla enchantments, both at an enchanting table and with enchanted books on an anvil."
     },
     { "text": "\n" },
     { "text": "Once applied, the tool can no longer accept other modifiers, so apply it last!" }

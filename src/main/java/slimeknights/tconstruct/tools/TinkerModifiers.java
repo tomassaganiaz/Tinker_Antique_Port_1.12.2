@@ -184,7 +184,7 @@ public class TinkerModifiers extends AbstractToolPulse {
     modShulking.addItem(Items.CHORUS_FRUIT_POPPED);
 
     modEnchantability = registerModifier(new ModEnchantability());
-    modEnchantability.addItem(Items.BOOK);
+    modEnchantability.addItem(new ItemStack(Items.GOLDEN_APPLE, 1, 1), 1, 1);
 
     modSilktouch = registerModifier(new ModSilktouch());
     modSilktouch.addItem(TinkerCommons.matSilkyJewel, 1, 1);
